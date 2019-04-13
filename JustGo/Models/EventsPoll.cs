@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JustGo.View.Models
+namespace JustGo.Models
 {
     public class EventsPoll
     {
