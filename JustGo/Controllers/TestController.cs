@@ -10,6 +10,7 @@ namespace JustGo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class TestController
     {
         private const string TargetUrl = "https://kudago.com/public-api/v1.4/events/?" +
