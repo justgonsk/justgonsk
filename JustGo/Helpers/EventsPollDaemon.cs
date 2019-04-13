@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using JustGo.View.Models;
 
@@ -17,15 +18,25 @@ namespace JustGo.Helpers
             this.targetUrl = targetUrl;
             this.timespan = timespan;
             this.httpClient = HttpClientFactory.Create();
-            var events = GetEvents().Result;
+        }
 
-            foreach (var e in events)
+        public async void MainCycle()
+        {
+            while(true)
             {
-                Console.WriteLine(e);
+                var eventsPoll = await GetEventsFromTarget();
+                PutEventsInDatabase(eventsPoll);
+                Thread.Sleep(timespan);
             }
         }
 
-        public async Task<IEnumerable<Event>> GetEvents()
+        public void PutEventsInDatabase(EventsPoll eventsPoll)
+        {
+            // занести события в нашу базу
+            throw new NotImplementedException();
+        }
+
+        public async Task<EventsPoll> GetEventsFromTarget()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, targetUrl);
             //request.Headers.Add("Accept", "application/vnd.github.v3+json");
@@ -35,7 +46,7 @@ namespace JustGo.Helpers
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsAsync<IEnumerable<Event>>();
+                return await response.Content.ReadAsAsync<EventsPoll>();
             }
             else
             {

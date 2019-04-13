@@ -16,10 +16,6 @@ namespace JustGo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var eventsPollDaemon = new EventsPollDaemon("https://kudago.com/public-api/v1.4/events/?" +
-                "location=nsk&expand=dates&fields=dates,title,short_title," +
-                "place,description,categories,images&actual_since=1554508800",
-                Constants.EventsPollDaemonTimespan);
             return new string[] { "value1", "value2" };
         }
 
