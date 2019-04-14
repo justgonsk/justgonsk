@@ -22,8 +22,8 @@ namespace JustGo.Controllers
         public ActionResult<EventsPoll> Get()
         {
             var events = GetEventsFromTarget();
-            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            HttpContext.Response.Headers.Add("Access-Control-Allow-Methods", "GET,OPTIONS");
+            //HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            //HttpContext.Response.Headers.Add("Access-Control-Allow-Methods", "GET,OPTIONS");
             return events.Result;
         }
 
@@ -31,8 +31,6 @@ namespace JustGo.Controllers
         {
             var httpClient = HttpClientFactory.Create();
             var request = new HttpRequestMessage(HttpMethod.Get, TargetUrl);
-            //request.Headers.Add("Accept", "application/vnd.github.v3+json");
-            //request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
 
             var response = await httpClient.SendAsync(request);
 
