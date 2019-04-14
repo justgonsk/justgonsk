@@ -27,6 +27,15 @@ namespace JustGo.Controllers
             return events.Result;
         }
 
+        [HttpOptions]
+        [EnableCors]
+        public ActionResult GetOptions()
+        {
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Methods", "GET,OPTIONS");
+            return Ok();
+        }
+
         public async Task<EventsPoll> GetEventsFromTarget()
         {
             var httpClient = HttpClientFactory.Create();
