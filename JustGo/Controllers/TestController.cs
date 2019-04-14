@@ -11,7 +11,7 @@ namespace JustGo.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors]
-    public class TestController
+    public class TestController : ControllerBase
     {
         private const string TargetUrl = "https://kudago.com/public-api/v1.4/events/?" +
         	"location=nsk&expand=dates&fields=dates,title,short_title,place,description,categories," +
@@ -22,6 +22,8 @@ namespace JustGo.Controllers
         public ActionResult<EventsPoll> Get()
         {
             var events = GetEventsFromTarget();
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            HttpContext.Response.Headers.Add("Control-Allow-Method", "GET");
             return events.Result;
         }
 
