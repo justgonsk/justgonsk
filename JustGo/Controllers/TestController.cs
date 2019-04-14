@@ -23,7 +23,7 @@ namespace JustGo.Controllers
         {
             var events = GetEventsFromTarget();
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            HttpContext.Response.Headers.Add("Control-Allow-Method", "GET");
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Methods", "GET,OPTIONS");
             return events.Result;
         }
 
