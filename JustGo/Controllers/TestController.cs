@@ -10,7 +10,7 @@ namespace JustGo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors]
+    //[EnableCors]
     public class TestController : ControllerBase
     {
         private const string TargetUrl = "https://kudago.com/public-api/v1.4/events/?" +
@@ -18,7 +18,7 @@ namespace JustGo.Controllers
         	"images&actual_since=1554508800";
 
         [HttpGet]
-        [EnableCors]
+        //[EnableCors]
         public ActionResult<EventsPoll> Get()
         {
             var events = GetEventsFromTarget();
