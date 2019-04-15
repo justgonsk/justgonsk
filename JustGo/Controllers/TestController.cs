@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using JustGo.Helpers;
+using JustGo.ServerConfigs;
 using JustGo.View.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -12,21 +14,23 @@ namespace JustGo.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private const string TargetUrl = "https://kudago.com/public-api/v1.4/events/?" +
-        	"location=nsk&expand=dates&fields=dates,title,short_title,place,description,categories," +
-        	"images&actual_since=1554508800";
-
         [HttpGet]
-        public ActionResult<EventsPoll> Get()
+        public async Task<EventsPoll> Get()
         {
-            var events = GetEventsFromTarget();
-            return events.Result;
+            var events = GetEventsFromTarget().Result;
+
+            foreach (var e in events.Results)
+            {
+                e.Place = await Utilities.GetPlaceById(e.Place.Id);
+            }
+
+            return events;
         }
 
         public async Task<EventsPoll> GetEventsFromTarget()
         {
             var httpClient = HttpClientFactory.Create();
-            var request = new HttpRequestMessage(HttpMethod.Get, TargetUrl);
+            var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventPollUrl);
 
             var response = await httpClient.SendAsync(request);
 
