@@ -14,6 +14,7 @@ namespace JustGo.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private HttpClient httpClient = HttpClientFactory.Create();
         [HttpGet]
         public async Task<EventsPoll> Get()
         {
@@ -27,9 +28,26 @@ namespace JustGo.Controllers
             return events;
         }
 
+        [HttpGet("{id}")]
+        public async Task<Event> GetEvent(int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventDetailsUrl + id);
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsAsync<Event>();
+                result.Place = await Utilities.GetPlaceById(result.Place.Id);
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<EventsPoll> GetEventsFromTarget()
         {
-            var httpClient = HttpClientFactory.Create();
             var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventPollUrl);
 
             var response = await httpClient.SendAsync(request);
