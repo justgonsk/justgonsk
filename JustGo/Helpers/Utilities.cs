@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using JustGo.Extern.Models;
 using JustGo.Models;
 using JustGo.ServerConfigs;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace JustGo.Helpers
 {
     public static class Utilities
     {
-        public static Dictionary<long, Place> PlacesInfoCache { get; } = new Dictionary<long, Place>();
+        public static Dictionary<long, KudagoPlace> PlacesInfoCache { get; } = new Dictionary<long, KudagoPlace>();
 
         public static JsonSerializerSettings SnakeCaseSettings { get; } = new JsonSerializerSettings
         {
@@ -99,13 +100,13 @@ namespace JustGo.Helpers
             return (start, end);
         }
 
-        public static async Task<Place> GetPlaceById(long placeId)
+        public static async Task<KudagoPlace> GetPlaceById(long placeId)
         {
             if (!PlacesInfoCache.ContainsKey(placeId))
             {
                 var body = await ParseResponseFromUrl(string.Format(Constants.PlaceDetailsUrlPattern, placeId));
 
-                var place = body.ToObject<Place>();
+                var place = body.ToObject<KudagoPlace>();
 
                 PlacesInfoCache[placeId] = place;
 
