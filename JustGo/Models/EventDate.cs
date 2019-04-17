@@ -8,6 +8,9 @@ namespace JustGo.Models
         public DateTime? End_Date { get; set; }
         public DateTime? End_Time { get; set; }
 
+        public long Start { get; set; }
+        public long End { get; set; }
+
         public bool Is_Continuous { get; set; }
         public bool Is_Endless { get; set; }
         public bool Is_Startless { get; set; }
