@@ -4,7 +4,14 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace JustGo.Helpers
 {
-    //это нужно, чтобы не нагромождать логику контроллеров блоками try/catch
+    /// <summary>
+    /// Атрибут фильтра, отлавливающий все исключения и отправляющий в ответе ошибку.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// В реальном приложении не очень круто отправлять stacktrace
+    /// Здесь это сделано в диагностических целях
+    /// </remarks>
     internal class StubExceptionFilterAttribute : ExceptionFilterAttribute
     {
         public override async Task OnExceptionAsync(ExceptionContext context)
