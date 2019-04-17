@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using JustGo.Helpers;
+using JustGo.Models;
 using JustGo.ServerConfigs;
 using JustGo.View.Models;
 using Microsoft.AspNetCore.Cors;
@@ -15,10 +16,25 @@ namespace JustGo.Controllers
     public class TestController : ControllerBase
     {
         private HttpClient httpClient = HttpClientFactory.Create();
+
         [HttpGet]
-        public async Task<EventsPoll> Get()
+        public async Task<View.Models.EventsPoll> Get()
         {
             var events = GetEventsFromTarget().Result;
+            var query = Request.Query;
+
+            if (query.ContainsKey(Constants.CategoriesKey))
+            {
+                var filter = new EventsFilter();
+                var categories = query[Constants.CategoriesKey].ToString().Split(',');
+
+                foreach (var category in categories)
+                {
+                    filter.Categories.Add(category);
+                }
+
+                events.FilterBy(filter);
+            }
 
             foreach (var e in events.Results)
             {
@@ -29,14 +45,14 @@ namespace JustGo.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Event> GetEvent(int id)
+        public async Task<View.Models.Event> GetEvent(int id)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventDetailsUrl + id);
             var response = await httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadAsAsync<Event>();
+                var result = await response.Content.ReadAsAsync<View.Models.Event>();
                 result.Place = await Utilities.GetPlaceById(result.Place.Id);
                 return result;
             }
@@ -46,7 +62,7 @@ namespace JustGo.Controllers
             }
         }
 
-        public async Task<EventsPoll> GetEventsFromTarget()
+        public async Task<View.Models.EventsPoll> GetEventsFromTarget()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventPollUrl);
 
@@ -54,7 +70,7 @@ namespace JustGo.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsAsync<EventsPoll>();
+                return await response.Content.ReadAsAsync<View.Models.EventsPoll>();
             }
             else
             {

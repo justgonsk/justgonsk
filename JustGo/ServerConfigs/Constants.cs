@@ -13,5 +13,7 @@
             "https://kudago.com/public-api/v1.4/places/{0}/?lang=&fields=id,title,address,coords&expand=";
 
         public const int EventsPollDaemonTimespan = 600000;
+
+        public const string CategoriesKey = "categories";
     }
 }

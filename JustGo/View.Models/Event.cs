@@ -15,5 +15,23 @@ namespace JustGo.View.Models
         public List<string> Tags { get; set; }
         public List<Image_Model> Images { get; set; }
         public List<EventDate> Dates { get; set; }
+
+        public bool HasCategories(List<string> categories)
+        {
+            if (categories == null)
+            {
+                throw new ArgumentNullException(nameof(categories));
+            }
+
+            foreach (var category in categories)
+            {
+                if (!this.Categories.Contains(category))
+                {
+                    return false; // если нет хотя бы одной категории
+                }
+            }
+
+            return true;
+        }
     }
 }
