@@ -11,14 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JustGo.Contexts
 {
-    public class EventContext : DbContext
+    public class MainContext : DbContext
     {
         public DbSet<Event> Events { set; get; }
         public DbSet<Place> Places { set; get; }
         public DbSet<Category> Categories { set; get; }
+        public DbSet<EventCategory> EventCategories { set; get; }
+        public DbSet<EventTag> EventTags { set; get; }
         public DbSet<Tag> Tags { set; get; }
 
-        public EventContext(DbContextOptions<EventContext> options)
+        public MainContext(DbContextOptions<MainContext> options)
             : base(options)
         {
             Debugger.Launch();

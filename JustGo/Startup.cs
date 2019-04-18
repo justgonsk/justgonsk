@@ -33,7 +33,7 @@ namespace JustGo
             services.AddCors();
             services.AddHttpClient();
 
-            services.AddDbContext<EventContext>(options =>
+            services.AddDbContext<MainContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("LocalEventContext"));
             });

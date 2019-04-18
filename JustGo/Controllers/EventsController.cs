@@ -14,9 +14,9 @@ namespace JustGo.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly EventContext _context;
+        private readonly MainContext _context;
 
-        public EventsController(EventContext context)
+        public EventsController(MainContext context)
         {
             _context = context;
         }
