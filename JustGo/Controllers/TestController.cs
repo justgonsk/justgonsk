@@ -19,7 +19,7 @@ namespace JustGo.Controllers
         private HttpClient httpClient = HttpClientFactory.Create();
 
         [HttpGet]
-        public async Task<EventsPoll> Get()
+        public async Task<Poll<KudagoEvent>> Get()
         {
             var events = GetEventsFromTarget().Result;
             var query = Request.Query;
@@ -33,8 +33,6 @@ namespace JustGo.Controllers
                 {
                     filter.Categories.Add(category);
                 }
-
-                events.FilterBy(filter);
             }
 
             foreach (var e in events.Results)
@@ -46,7 +44,7 @@ namespace JustGo.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<EventViewModel> GetEvent(int id)
+        public async Task<KudagoEvent> GetEvent(int id)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventDetailsUrl + id);
             var response = await httpClient.SendAsync(request);
@@ -63,7 +61,7 @@ namespace JustGo.Controllers
             }
         }
 
-        public async Task<EventsPoll> GetEventsFromTarget()
+        public async Task<Poll<KudagoEvent>> GetEventsFromTarget()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventPollUrl);
 
@@ -71,7 +69,7 @@ namespace JustGo.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsAsync<EventsPoll>();
+                return await response.Content.ReadAsAsync<Poll<KudagoEvent>>();
             }
             else
             {

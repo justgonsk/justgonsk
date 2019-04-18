@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Data;
+using JustGo.Interfaces;
+using JustGo.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,6 +45,9 @@ namespace JustGo
 
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddScoped<IEventsRepository, DbEventsRepository>();
+            services.AddScoped<IPlacesRepository, DbPlacesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

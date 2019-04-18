@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using JustGo.Extern.Models;
 using JustGo.View.Models;
 
 namespace JustGo.Helpers
@@ -22,7 +23,7 @@ namespace JustGo.Helpers
 
         public async void MainCycle()
         {
-            while(true)
+            while (true)
             {
                 var eventsPoll = await GetEventsFromTarget();
                 PutEventsInDatabase(eventsPoll);
@@ -30,13 +31,13 @@ namespace JustGo.Helpers
             }
         }
 
-        public void PutEventsInDatabase(EventsPoll eventsPoll)
+        public void PutEventsInDatabase(Poll<KudagoEvent> eventsPoll)
         {
             // занести события в нашу базу
             throw new NotImplementedException();
         }
 
-        public async Task<EventsPoll> GetEventsFromTarget()
+        public async Task<Poll<KudagoEvent>> GetEventsFromTarget()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, targetUrl);
             //request.Headers.Add("Accept", "application/vnd.github.v3+json");
@@ -46,7 +47,7 @@ namespace JustGo.Helpers
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsAsync<EventsPoll>();
+                return await response.Content.ReadAsAsync<Poll<KudagoEvent>>();
             }
             else
             {
