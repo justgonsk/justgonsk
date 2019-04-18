@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JustGo.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20190418080620_Initial")]
+    [Migration("20190418193315_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace JustGo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("JustGo.Helpers.EventsKeyMapping", b =>
+            modelBuilder.Entity("JustGo.Data.EventsKeyMapping", b =>
                 {
                     b.Property<int>("KudagoId");
 
@@ -34,7 +34,7 @@ namespace JustGo.Migrations
                     b.ToTable("EventsKeyMappings");
                 });
 
-            modelBuilder.Entity("JustGo.Helpers.PlacesKeyMapping", b =>
+            modelBuilder.Entity("JustGo.Data.PlacesKeyMapping", b =>
                 {
                     b.Property<int>("KudagoId");
 
@@ -155,7 +155,7 @@ namespace JustGo.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("JustGo.Helpers.EventsKeyMapping", b =>
+            modelBuilder.Entity("JustGo.Data.EventsKeyMapping", b =>
                 {
                     b.HasOne("JustGo.Models.Event", "Event")
                         .WithMany()
@@ -163,7 +163,7 @@ namespace JustGo.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("JustGo.Helpers.PlacesKeyMapping", b =>
+            modelBuilder.Entity("JustGo.Data.PlacesKeyMapping", b =>
                 {
                     b.HasOne("JustGo.Models.Place", "Place")
                         .WithMany()
@@ -182,12 +182,12 @@ namespace JustGo.Migrations
             modelBuilder.Entity("JustGo.Models.EventCategory", b =>
                 {
                     b.HasOne("JustGo.Models.Category", "Category")
-                        .WithMany("Events")
+                        .WithMany("EventCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("JustGo.Models.Event", "Event")
-                        .WithMany("Categories")
+                        .WithMany("EventCategories")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -203,12 +203,12 @@ namespace JustGo.Migrations
             modelBuilder.Entity("JustGo.Models.EventTag", b =>
                 {
                     b.HasOne("JustGo.Models.Event", "Event")
-                        .WithMany("Tags")
+                        .WithMany("EventTags")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("JustGo.Models.Tag", "Tag")
-                        .WithMany("Events")
+                        .WithMany("EventTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
