@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Device.Location;
 using JustGo.Helpers;
 using JustGo.View.Models;
@@ -18,6 +19,9 @@ namespace JustGo.Models
 
         public Coordinates Coordinates { get; set; }
 
+        /// <summary>
+        /// Навигационное свойство к событиям в этом месте
+        /// </summary>
         public ICollection<Event> Events { get; set; }
 
         public PlaceViewModel ConvertToViewModel()

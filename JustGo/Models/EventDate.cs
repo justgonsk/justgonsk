@@ -7,6 +7,16 @@ namespace JustGo.Models
     public class EventDate : IValidatableObject
     {
         /// <summary>
+        /// Навигационное свойство Event и внешний ключ EventId
+        /// </summary>
+        public Event Event { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство Event и внешний ключ EventId
+        /// </summary>
+        public int EventId { get; set; }
+
+        /// <summary>
         /// Момент начала. Должно быть указано всегда
         /// </summary>
         [Required]
@@ -42,7 +52,10 @@ namespace JustGo.Models
             if (eventDate.End.HasValue && eventDate.End < eventDate.Start)
             {
                 yield return new ValidationResult("Дата начала должна быть раньше даты конца!",
-                    new[] { nameof(Start), nameof(End) });
+                    new[]
+                    {
+                        nameof(Start), nameof(End)
+                    });
             }
         }
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using JustGo.Helpers;
 using JustGo.View.Models;
@@ -23,12 +25,20 @@ namespace JustGo.Models
         /// </summary>
         public int PlaceId { get; set; }
 
+        [Required]
         public string Title { get; set; }
+
         public string ShortTitle { get; set; }
+
+        [Required]
         public string Description { get; set; }
-        public ICollection<string> Categories { get; set; }
-        public ICollection<string> Tags { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
+
+        public ICollection<Tag> Tags { get; set; }
+
         public ICollection<ImageModel> Images { get; set; }
+
         public ICollection<EventDate> Dates { get; set; }
 
         public bool IsSingle => Dates.Count == 1;
@@ -70,8 +80,8 @@ namespace JustGo.Models
                 Description = Description,
                 Dates = new List<EventDate>(Dates),
                 Images = new List<ImageModel>(Images),
-                Categories = new List<string>(Categories),
-                Tags = new List<string>(Tags),
+                Categories = Categories.Select(category => category.Name).ToList(),
+                Tags = Tags.Select(tag => tag.Name).ToList(),
                 Place = Place.ConvertToViewModel()
             };
         }
