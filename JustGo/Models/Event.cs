@@ -33,9 +33,9 @@ namespace JustGo.Models
         [Required]
         public string Description { get; set; }
 
-        public ICollection<Category> Categories { get; set; }
+        public ICollection<EventCategory> Categories { get; set; }
 
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<EventTag> Tags { get; set; }
 
         public ICollection<ImageModel> Images { get; set; }
 
@@ -80,8 +80,8 @@ namespace JustGo.Models
                 Description = Description,
                 Dates = new List<EventDate>(Dates),
                 Images = new List<ImageModel>(Images),
-                Categories = Categories.Select(category => category.Name).ToList(),
-                Tags = Tags.Select(tag => tag.Name).ToList(),
+                Categories = Categories.Select(eventCat => eventCat.Category.Name).ToList(),
+                Tags = Tags.Select(eventTag => eventTag.Tag.Name).ToList(),
                 Place = Place.ConvertToViewModel()
             };
         }

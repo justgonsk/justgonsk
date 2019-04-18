@@ -28,7 +28,8 @@ namespace JustGo.Contexts
         public MainContext(DbContextOptions<MainContext> options)
             : base(options)
         {
-            Debugger.Launch();
+            //раскомментировать, если нужно продебажить код создания файлов миграций, исполняемый самой студией
+            //Debugger.Launch();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

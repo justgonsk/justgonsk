@@ -14,7 +14,9 @@ namespace JustGo.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string Title { get; set; }
+
         public string Address { get; set; }
 
         public Coordinates Coordinates { get; set; }
