@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using JustGo.Models;
+using Newtonsoft.Json;
 
 namespace JustGo.View.Models
 {
@@ -9,9 +10,10 @@ namespace JustGo.View.Models
     {
         public int? Id { get; set; }
 
-        [Required, MinLength(3), MaxLength(30)]
+        [Required, MinLength(3), MaxLength(300)]
         public string Title { get; set; }
 
+        [JsonProperty("short_title")]
         public string ShortTitle { get; set; }
 
         [Required, MinLength(3), MaxLength(10000)]

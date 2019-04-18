@@ -13,10 +13,8 @@ namespace JustGo.View.Models
         /// </summary>
         public int? Id { get; set; }
 
-        [Required]
         public string Title { get; set; }
 
-        [Required]
         public string Address { get; set; }
 
         [JsonProperty("coords")]

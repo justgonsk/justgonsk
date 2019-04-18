@@ -8,6 +8,7 @@ namespace JustGo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [StubExceptionFilter]
     public class PlacesController : Controller
     {
         private readonly IPlacesRepository placesRepository;
@@ -43,7 +44,20 @@ namespace JustGo.Controllers
             return Ok(place);
         }
 
-        // POST: api/Places
+        /* POST: api/Places
+
+        json:
+        {
+            "title": "шоколадная лавка Marie Chérie",
+            "address": "ул. Гороховая, д. 55.",
+            "coords": {
+                "lat": 59.9264890000002,
+                "lon": 30.32464199999989
+                }
+        }
+}
+        */
+
         [HttpPost]
         public async Task<ActionResult<PlaceViewModel>> AddPlaceAsync([FromBody] PlaceViewModel eventViewModel)
         {
@@ -55,10 +69,21 @@ namespace JustGo.Controllers
             var place = await placesRepository.AddAsync(eventViewModel);
 
             return CreatedAtAction(actionName: nameof(GetPlaceAsync),
-                routeValues: new { id = place.Id }, value: eventViewModel);
+                routeValues: new { id = place.Id }, value: place.ToViewModel());
         }
 
-        // PUT: api/Places/5
+        /* PUT: api/Places/32
+
+        json:
+        "title": "шоколадная лавка Marie Chérie",
+        "address": "ул. Гороховая, д. 55.",
+        "coords": {
+            "lat": 59.9264890000002,
+            "lon": 30.32464199999989
+            }
+        ]
+        */
+
         [HttpPut("{id}")]
         public async Task<ActionResult<PlaceViewModel>> UpdatePlaceAsync([FromRoute] int id, [FromBody] PlaceViewModel eventViewModel)
         {

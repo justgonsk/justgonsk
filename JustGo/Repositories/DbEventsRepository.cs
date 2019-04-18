@@ -36,7 +36,7 @@ namespace JustGo.Repositories
 
         public async Task<Event> AddAsync(EventViewModel viewModel)
         {
-            var newEvent = viewModel.ToModel();
+            var newEvent = new Event();
 
             await AssignProperties(newEvent, viewModel);
 

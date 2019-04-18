@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace JustGo.Models
 {
@@ -9,11 +10,13 @@ namespace JustGo.Models
         /// <summary>
         /// Навигационное свойство Event и внешний ключ EventId
         /// </summary>
+        [JsonIgnore]
         public Event Event { get; set; }
 
         /// <summary>
         /// Навигационное свойство Event и внешний ключ EventId
         /// </summary>
+        [JsonIgnore]
         public int EventId { get; set; }
 
         /// <summary>
@@ -34,6 +37,7 @@ namespace JustGo.Models
         /// Если End указано, то событие завершилось в момент End.
         /// Если End не указано, то событие завершилось в момент Start.
         /// </summary>
+        [JsonIgnore]
         public DateTime ActualEnd => End ?? Start;
 
         /// <summary>

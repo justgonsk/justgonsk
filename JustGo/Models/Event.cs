@@ -6,6 +6,7 @@ using System.Linq;
 using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.View.Models;
+using Newtonsoft.Json;
 
 namespace JustGo.Models
 {
