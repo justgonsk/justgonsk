@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace JustGo.Models
 {
@@ -8,5 +9,19 @@ namespace JustGo.Models
 
         [Required]
         public string Name { get; set; }
+
+        public ICollection<Event> Events { get; set; }
+    }
+
+    /// <summary>
+    /// Связующая таблица для реализации отношения "many-to-many" между сущностями "<see cref="Models.Event"/> и "<see cref="Models.Tag"/>"
+    /// </summary>
+    public class EventTag
+    {
+        public int EventId { get; set; }
+        public int TagId { get; set; }
+
+        public Event Event { get; set; }
+        public Tag Tag { get; set; }
     }
 }

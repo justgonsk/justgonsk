@@ -1,24 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using JustGo.Helpers;
-using Microsoft.EntityFrameworkCore;
 using JustGo.Models;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore;
 
 namespace JustGo.Contexts
 {
+    /// <summary>
+    /// Главный контекст, служит для построения базы данных с помощью миграций.
+    /// По этой причине должен содержать ссылки на все DbSet'ы, по которым
+    /// будут строиться таблицы
+    /// </summary>
     public class MainContext : DbContext
     {
         public DbSet<Event> Events { set; get; }
         public DbSet<Place> Places { set; get; }
         public DbSet<Category> Categories { set; get; }
+        public DbSet<Tag> Tags { set; get; }
+
         public DbSet<EventCategory> EventCategories { set; get; }
         public DbSet<EventTag> EventTags { set; get; }
-        public DbSet<Tag> Tags { set; get; }
+
+        public DbSet<EventsKeyMapping> EventsKeyMappings { set; get; }
+        public DbSet<PlacesKeyMapping> PlacesKeyMappings { set; get; }
 
         public MainContext(DbContextOptions<MainContext> options)
             : base(options)
@@ -46,6 +51,9 @@ namespace JustGo.Contexts
             modelBuilder.Entity<Place>().OwnsOne(place => place.Coordinates);
 
             modelBuilder.Entity<EventDate>().ToTable("EventDates").HasKey(date => new { date.EventId, date.Start });
+
+            modelBuilder.Entity<EventCategory>().HasKey(ec => new { ec.EventId, ec.CategoryId });
+            modelBuilder.Entity<EventTag>().HasKey(et => new { et.EventId, et.TagId });
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace JustGo.Helpers
+﻿using JustGo.Models;
+
+namespace JustGo.Helpers
 {
     /// <summary>
     /// Отображает ключи событий kudago на ключи в нашей базе
@@ -7,6 +9,8 @@
     {
         public int KudagoId { get; set; }
         public int OurId { get; set; }
+
+        public Event Event { get; set; }
     }
 
     /// <summary>
@@ -16,5 +20,7 @@
     {
         public int KudagoId { get; set; }
         public int OurId { get; set; }
+
+        public Place Place { get; set; }
     }
 }
