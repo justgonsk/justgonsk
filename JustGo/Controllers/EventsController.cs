@@ -1,43 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Data;
+using JustGo.Helpers;
+using JustGo.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JustGo.Models;
+using JustGo.View.Models;
 
 namespace JustGo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class EventsController : Controller
     {
-        private readonly MainContext _context;
+        private readonly IEventsRepository eventsRepository;
 
-        public EventsController(MainContext context)
+        public EventsController(IEventsRepository eventsRepository)
         {
-            _context = context;
+            this.eventsRepository = eventsRepository;
         }
 
-        // GET: api/Events
+        /* GET: api/Events/?offset=2&count=35
+
+        json:
+
+         "tags": [
+            "шоу (развлечения)",
+            "мультимедиа",
+            "культура и искусство",
+            "красиво"
+        ],
+
+          "categories": [
+                "exhibition",
+                "show"
+        ],
+
+           "places": [
+                12705,
+                302,
+                24
+        ]
+
+             */
+
         [HttpGet]
-        public IEnumerable<Event> GetEvent()
+        public Poll<EventViewModel> GetEventPoll([FromBody] EventsFilter filter,
+            [FromQuery] int? offset, [FromQuery] int? count)
         {
-            return _context.Events;
+            return eventsRepository.GetEventPoll(filter, offset, count);
         }
 
-        // GET: api/Events/5
+        // GET: api/Events/2903
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetEvent([FromRoute] int id)
+        public async Task<IActionResult> GetEventAsync([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var @event = await _context.Events.FindAsync(id);
+            var @event = await eventsRepository.FindAsync(id);
 
             if (@event == null)
             {
@@ -47,80 +73,62 @@ namespace JustGo.Controllers
             return Ok(@event);
         }
 
-        // PUT: api/Events/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent([FromRoute] int id, [FromBody] Event @event)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != @event.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(@event).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EventExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> PostEvent([FromBody] Event @event)
+        public async Task<ActionResult<EventViewModel>> AddEventAsync([FromBody] EventViewModel eventViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Events.Add(@event);
-            await _context.SaveChangesAsync();
+            var @event = await eventsRepository.AddAsync(eventViewModel);
 
-            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
+            return CreatedAtAction(actionName: nameof(GetEventAsync),
+                routeValues: new { id = @event.Id }, value: eventViewModel);
         }
 
-        // DELETE: api/Events/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent([FromRoute] int id)
+        // PUT: api/Events/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<EventViewModel>> UpdateEventAsync([FromRoute] int id, [FromBody] EventViewModel eventViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            if (!EventExists(id))
             {
                 return NotFound();
             }
 
-            _context.Events.Remove(@event);
-            await _context.SaveChangesAsync();
+            var @event = await eventsRepository.UpdateAsync(id, eventViewModel);
+
+            return @event.ToViewModel();
+        }
+
+        // DELETE: api/Events/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEventAsync([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!EventExists(id))
+            {
+                return NotFound();
+            }
+
+            var @event = await eventsRepository.DeleteAsync(id);
 
             return Ok(@event);
         }
 
         private bool EventExists(int id)
         {
-            return _context.Events.Any(e => e.Id == id);
+            return eventsRepository.FindAsync(id).Result != null;
         }
     }
 }
