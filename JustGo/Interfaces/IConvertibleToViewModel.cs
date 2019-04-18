@@ -2,6 +2,6 @@
 {
     public interface IConvertibleToViewModel<out TViewModel>
     {
-        TViewModel ConvertToViewModel();
+        TViewModel ToViewModel();
     }
 }
