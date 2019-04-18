@@ -10,7 +10,7 @@ namespace JustGo.Models
         [Required]
         public string Name { get; set; }
 
-        public ICollection<EventCategory> Events { get; set; }
+        public ICollection<EventCategory> EventCategories { get; set; }
     }
 
     /// <summary>

@@ -34,9 +34,9 @@ namespace JustGo.Models
         [Required]
         public string Description { get; set; }
 
-        public ICollection<EventCategory> Categories { get; set; }
+        public ICollection<EventCategory> EventCategories { get; set; }
 
-        public ICollection<EventTag> Tags { get; set; }
+        public ICollection<EventTag> EventTags { get; set; }
 
         public ICollection<ImageModel> Images { get; set; }
 
@@ -72,18 +72,19 @@ namespace JustGo.Models
             }
         }
 
-        public EventViewModel ConvertToViewModel()
+        public EventViewModel ToViewModel()
         {
             return new EventViewModel
             {
+                Id = Id,
                 Title = Title,
                 ShortTitle = ShortTitle,
                 Description = Description,
                 Dates = new List<EventDate>(Dates),
                 Images = new List<ImageModel>(Images),
-                Categories = Categories.Select(eventCat => eventCat.Category.Name).ToList(),
-                Tags = Tags.Select(eventTag => eventTag.Tag.Name).ToList(),
-                Place = Place.ConvertToViewModel()
+                Categories = EventCategories.Select(eventCat => eventCat.Category.Name).ToList(),
+                Tags = EventTags.Select(eventTag => eventTag.Tag.Name).ToList(),
+                Place = Place.ToViewModel()
             };
         }
     }

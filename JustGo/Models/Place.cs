@@ -27,10 +27,11 @@ namespace JustGo.Models
         /// </summary>
         public ICollection<Event> Events { get; set; }
 
-        public PlaceViewModel ConvertToViewModel()
+        public PlaceViewModel ToViewModel()
         {
             return new PlaceViewModel
             {
+                Id = Id,
                 Title = Title,
                 Address = Address,
                 Coordinates = new Coordinates
