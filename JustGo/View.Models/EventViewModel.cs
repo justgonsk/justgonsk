@@ -5,8 +5,10 @@ using JustGo.Models;
 
 namespace JustGo.View.Models
 {
-    public class EventViewModel
+    public class EventViewModel : IConvertibleToModel<Event>
     {
+        public int? Id { get; set; }
+
         [Required, MinLength(3), MaxLength(30)]
         public string Title { get; set; }
 
@@ -22,22 +24,16 @@ namespace JustGo.View.Models
 
         public List<EventDate> Dates { get; set; }
 
-        public bool HasCategories(List<string> categories)
+        public Event ToModel()
         {
-            if (categories == null)
+            return new Event
             {
-                throw new ArgumentNullException(nameof(categories));
-            }
-
-            foreach (var category in categories)
-            {
-                if (!this.Categories.Contains(category))
-                {
-                    return false; // если нет хотя бы одной категории
-                }
-            }
-
-            return true;
+                Title = Title,
+                ShortTitle = ShortTitle,
+                Description = Description,
+                Dates = new List<EventDate>(Dates),
+                Images = new List<ImageModel>(Images)
+            };
         }
     }
 }

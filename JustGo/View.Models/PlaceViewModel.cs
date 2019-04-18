@@ -1,11 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using JustGo.Models;
 using Newtonsoft.Json;
 
 namespace JustGo.View.Models
 {
-    public class PlaceViewModel
+    public class PlaceViewModel : IConvertibleToModel<Place>
     {
+        /// <summary>
+        /// Если указан, будет сопоставляться с первичным ключом в нашей таблице
+        /// </summary>
+        public int? Id { get; set; }
+
         [Required]
         public string Title { get; set; }
 
@@ -14,5 +21,19 @@ namespace JustGo.View.Models
 
         [JsonProperty("coords")]
         public Coordinates Coordinates { get; set; }
+
+        public Place ToModel()
+        {
+            return new Place
+            {
+                Title = Title,
+                Address = Address,
+                Coordinates = new Coordinates
+                {
+                    Latitude = Coordinates.Latitude,
+                    Longitude = Coordinates.Longitude
+                }
+            };
+        }
     }
 }
