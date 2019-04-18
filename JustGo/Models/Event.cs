@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using JustGo.Helpers;
+using JustGo.Interfaces;
 using JustGo.View.Models;
 
 namespace JustGo.Models

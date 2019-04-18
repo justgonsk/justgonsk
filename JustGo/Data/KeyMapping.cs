@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using JustGo.Models;
 
-namespace JustGo.Helpers
+namespace JustGo.Data
 {
     /// <summary>
     /// Отображает ключи событий kudago на ключи в нашей базе

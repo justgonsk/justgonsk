@@ -1,4 +1,4 @@
-﻿namespace JustGo.Helpers
+﻿namespace JustGo.Interfaces
 {
     public interface IConvertibleToViewModel<out TViewModel>
     {

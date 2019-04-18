@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using JustGo.Models;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace JustGo.Helpers
+namespace JustGo.Data
 {
     public static class DbConverters
     {

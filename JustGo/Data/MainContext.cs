@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using JustGo.Helpers;
 using JustGo.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace JustGo.Contexts
+namespace JustGo.Data
 {
     /// <summary>
     /// Главный контекст, служит для построения базы данных с помощью миграций.
