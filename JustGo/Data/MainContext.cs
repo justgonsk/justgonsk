@@ -23,6 +23,7 @@ namespace JustGo.Data
 
         public DbSet<EventCategory> EventCategories { set; get; }
         public DbSet<EventTag> EventTags { set; get; }
+        public DbSet<EventDate> EventDates { set; get; }
 
         public DbSet<EventsKeyMapping> EventsKeyMappings { set; get; }
         public DbSet<PlacesKeyMapping> PlacesKeyMappings { set; get; }
@@ -36,7 +37,6 @@ namespace JustGo.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseLazyLoadingProxies()
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,9 +47,6 @@ namespace JustGo.Data
             modelBuilder.Entity<Coordinates>(IgnoreBaseProperties);
 
             modelBuilder.Entity<Place>().OwnsOne(place => place.Coordinates);
-
-            modelBuilder.Entity<EventDate>().ToTable("EventDates")
-                .HasKey(date => new { date.EventId, date.Start });
 
             modelBuilder.Entity<EventCategory>()
                 .HasKey(ec => new { ec.EventId, ec.CategoryId });

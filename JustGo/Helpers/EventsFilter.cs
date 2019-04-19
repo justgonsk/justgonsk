@@ -14,21 +14,21 @@ namespace JustGo.Helpers
     public class EventsFilter
     {
         /// <summary>
-        /// Список допустимых категорий в строковом представлении.
+        /// Список требуемых категорий в строковом представлении.
         /// Если null, тогда не фильтруем по категориям
         /// Если пустой, ищем только события без категорий
         /// </summary>
-        public List<string> FilterCategories { get; set; }
+        public List<string> RequiredCategories { get; set; }
 
         /// <summary>
-        /// Список допустимых тэгов в строковом представлении.
+        /// Список требуемых тэгов в строковом представлении.
         /// Если null, тогда не фильтруем по тэгам
         /// Если пустой, ищем только события без тэгов
         /// </summary>
-        public List<string> FilterTags { get; set; }
+        public List<string> RequiredTags { get; set; }
 
         /// <summary>
-        /// Список допустимых категорий в виде view-моделек.
+        /// Список допустимых мест в виде view-моделек.
         /// Если null, тогда не фильтруем по местам
         /// Если пустой, ищем события где место не указано
         /// </summary>
@@ -66,7 +66,7 @@ namespace JustGo.Helpers
             var eventCategories = @event.EventCategories
                 .Select(eventCategory => eventCategory.Category.Name);
 
-            return FilterCategories == null || FilterCategories
+            return RequiredCategories == null || RequiredCategories
                        .All(filterCategory => eventCategories
                        .Contains(filterCategory));
         }
@@ -76,7 +76,7 @@ namespace JustGo.Helpers
             var eventTags = @event.EventTags
                 .Select(eventTag => eventTag.Tag.Name);
 
-            return FilterTags == null || FilterTags
+            return RequiredTags == null || RequiredTags
                 .All(filterTag => eventTags
                 .Contains(filterTag));
         }
@@ -95,13 +95,13 @@ namespace JustGo.Helpers
 
         private bool HasCategories(EventViewModel @event)
         {
-            return FilterCategories == null || FilterCategories
+            return RequiredCategories == null || RequiredCategories
                    .All(filterCategory => @event.Categories.Contains(filterCategory));
         }
 
         private bool HasTags(EventViewModel @event)
         {
-            return FilterTags == null || FilterTags
+            return RequiredTags == null || RequiredTags
                    .All(filterTag => @event.Tags.Contains(filterTag));
         }
 

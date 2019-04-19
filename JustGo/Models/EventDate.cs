@@ -8,6 +8,12 @@ namespace JustGo.Models
     public class EventDate : IValidatableObject
     {
         /// <summary>
+        /// Суррогатный ключ для базы
+        /// </summary>
+        [JsonIgnore]
+        public int EventDateId { get; set; }
+
+        /// <summary>
         /// Навигационное свойство Event и внешний ключ EventId
         /// </summary>
         [JsonIgnore]
@@ -20,26 +26,25 @@ namespace JustGo.Models
         public int EventId { get; set; }
 
         /// <summary>
-        /// Момент начала. Должно быть указано всегда
+        /// Момент начала.
         /// </summary>
-        [Required]
-        [Range(typeof(DateTime), "01/01/2010", "01/01/2022")]
-        public DateTime Start { get; set; }
+        [NullOrRange(typeof(DateTime), "01/01/2010", "01/01/2021")]
+        public DateTime? Start { get; set; }
 
         /// <summary>
-        /// Момент конца. Может не указываться, тогда считаем что после момента Start
-        /// мероприятие неактуально.
+        /// Момент конца.
         /// </summary>
-        [Range(typeof(DateTime), "01/01/2010", "01/01/2021")]
+        [NullOrRange(typeof(DateTime), "01/01/2010", "01/01/2021")]
         public DateTime? End { get; set; }
 
         /// <summary>
         /// Если End указано, то событие завершилось в момент End.
         /// Если End не указано, то событие завершилось в момент Start.
+        /// Если ни End, ни Start не указано, то событие завершилось в момент DateTime.MaxValue.
         /// Это вспомогательное свойство для внутренних нужд. Не сериализуется в ответах
         /// </summary>
         [JsonIgnore]
-        public DateTime ActualEnd => End ?? Start;
+        public DateTime ActualEnd => End ?? Start ?? DateTime.MaxValue;
 
         /// <summary>
         /// Закончилось мероприятие в текущий момент или нет
@@ -62,6 +67,19 @@ namespace JustGo.Models
                         nameof(Start), nameof(End)
                     });
             }
+        }
+    }
+
+    public class NullOrRangeAttribute : RangeAttribute
+    {
+        public NullOrRangeAttribute(Type type, string minimum, string maximum)
+            : base(type, minimum, maximum)
+        {
+        }
+
+        public override bool IsValid(object value)
+        {
+            return value == null || base.IsValid(value);
         }
     }
 }

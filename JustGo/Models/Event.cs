@@ -21,12 +21,12 @@ namespace JustGo.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Навигационное свойство Place и внешний ключ PlaceId
+        /// Навигационное свойство <see cref="Place"/> и внешний ключ <see cref="PlaceId"/>
         /// </summary>
-        public virtual Place Place { get; set; }
+        public Place Place { get; set; }
 
         /// <summary>
-        /// Навигационное свойство Place и внешний ключ PlaceId
+        /// Навигационное свойство <see cref="Place"/> и внешний ключ <see cref="PlaceId"/>
         /// </summary>
         public int PlaceId { get; set; }
 
@@ -38,11 +38,11 @@ namespace JustGo.Models
         [Required]
         public string Description { get; set; }
 
-        public virtual ICollection<EventCategory> EventCategories { get; set; }
+        public ICollection<EventCategory> EventCategories { get; set; }
 
-        public virtual ICollection<EventTag> EventTags { get; set; }
+        public ICollection<EventTag> EventTags { get; set; }
 
-        public virtual ICollection<ImageModel> Images { get; set; }
+        public ICollection<ImageModel> Images { get; set; }
 
         public ICollection<EventDate> Dates { get; set; }
 

@@ -44,7 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extern\Models\" />
     <Folder Include="wwwroot\" />
     <Folder Include="ServerConfigs\" />
   </ItemGroup>
@@ -56,6 +55,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />

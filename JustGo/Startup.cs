@@ -36,7 +36,8 @@ namespace JustGo
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {
-                    options.SerializerSettings.ContractResolver = Utilities.SnakeCaseSettings.ContractResolver;
+                    options.SerializerSettings.ContractResolver
+                        = Utilities.SnakeCaseSettings.ContractResolver;
                 });
 
             services.AddHttpContextAccessor();
@@ -46,6 +47,8 @@ namespace JustGo
 
             services.AddDbContext<MainContext>(options =>
             {
+                // options.UseLazyLoadingProxies();
+
                 var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
 
                 var connectionString = Configuration.GetConnectionString(databaseConnStr);

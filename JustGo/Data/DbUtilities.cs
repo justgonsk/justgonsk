@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JustGo.Data
@@ -31,15 +33,25 @@ namespace JustGo.Data
         /// <summary>
         /// Загружает из базы все навигационные свойства сущности
         /// </summary>
-        /// <typeparam name="T">Класс, сопоставленный с таблицей в БД</typeparam>
+        /// <typeparam name="TEntityEntry">Класс, сопоставленный с таблицей в БД</typeparam>
         /// <param name="context">Объект контекста</param>
         /// <param name="entry">Объект сущности</param>
+        /// <param name="recursionDepth"></param>
         /// <returns></returns>
-        public static async Task LoadNavigationProperties<T>(this DbContext context, T entry) where T : class
+        public static async Task LoadNavigationProperties<TEntityEntry>(this DbContext context,
+            TEntityEntry entry, int recursionDepth = 0) where TEntityEntry : EntityEntry
         {
-            foreach (var navigation in context.Entry(entry).Navigations)
+            foreach (var navigation in entry.Navigations.Where(nav => !nav.IsLoaded))
             {
                 await navigation.LoadAsync();
+                if (recursionDepth > 0)
+                {
+                    var entities = navigation.CurrentValue as IEnumerable;
+                    foreach (var recursiveEntity in entities ?? new[] { navigation.CurrentValue })
+                    {
+                        await context.LoadNavigationProperties(context.Entry(recursiveEntity), recursionDepth - 1);
+                    }
+                }
             }
         }
     }

@@ -12,24 +12,24 @@ namespace JustGo.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [StubExceptionFilter]
-    public class TestController : ControllerBase
+    public class TestController : Controller
     {
         private HttpClient httpClient = HttpClientFactory.Create();
 
         [HttpGet]
         public async Task<Poll<EventViewModel>> Get()
         {
-            var events = GetEventsFromTarget().Result;
+            var events = await GetEventsFromTarget();
             var query = Request.Query;
 
             if (query.ContainsKey(Constants.CategoriesKey))
             {
-                var filter = new EventsFilter { FilterCategories = new List<string>() };
+                var filter = new EventsFilter { RequiredCategories = new List<string>() };
                 var categories = query[Constants.CategoriesKey].ToString().Split(',');
 
                 foreach (var category in categories)
                 {
-                    filter.FilterCategories.Add(category);
+                    filter.RequiredCategories.Add(category);
                 }
 
                 events = filter.FilterEvents(events.Results).ToPoll();

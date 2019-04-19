@@ -51,7 +51,9 @@ namespace JustGo.Repositories
         public async Task<Event> FindAsync(int id)
         {
             var @event = await context.Events.FindAsync(id);
-            await context.LoadNavigationProperties(@event);
+            var entry = context.Entry(@event);
+
+            await context.LoadNavigationProperties(entry, recursionDepth: 2);
 
             return @event;
         }
