@@ -20,6 +20,7 @@ namespace JustGo.View.Models
         [JsonProperty("coords")]
         public Coordinates Coordinates { get; set; }
 
+
         public Place ToModel()
         {
             return new Place

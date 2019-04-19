@@ -9,8 +9,8 @@ namespace JustGo.Data
     /// </summary>
     public class EventsKeyMapping
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //2-ой атрибут указывает, что ключ генерериует не EF, а мы сами (точнее он приходит от kudago)
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int KudagoId { get; set; }
 
         public int OurId { get; set; }
@@ -24,8 +24,7 @@ namespace JustGo.Data
     /// </summary>
     public class PlacesKeyMapping
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int KudagoId { get; set; }
 
         public int OurId { get; set; }

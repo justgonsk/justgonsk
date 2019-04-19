@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using JustGo.Extern.Models;
+
 using System.Linq;
 using JustGo.Helpers;
 using JustGo.Models;

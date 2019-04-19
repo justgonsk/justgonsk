@@ -18,7 +18,7 @@ namespace JustGo.Helpers
         {
             await context.HttpContext.Response.WriteAsync(
                 $"Something went wrong: {context.Exception.Message}\n"
-                + $"Stacktrace: {context.Exception.StackTrace} ");
+                + $"Here is the stacktrace: {context.Exception.StackTrace} ");
         }
     }
 }
