@@ -54,7 +54,7 @@ namespace JustGo.Helpers
             return sequence.Where(SatisfiesFilter);
         }
 
-        private bool SatisfiesFilter(Event @event)
+        public bool SatisfiesFilter(Event @event)
         {
             return PlaceIsFromFilter(@event)
                    && HasCategories(@event)
@@ -86,7 +86,7 @@ namespace JustGo.Helpers
             return Places == null || Places.Contains(@event.Place.ToViewModel());
         }
 
-        private bool SatisfiesFilter(EventViewModel @event)
+        public bool SatisfiesFilter(EventViewModel @event)
         {
             return PlaceIsFromFilter(@event)
                    && HasCategories(@event)
