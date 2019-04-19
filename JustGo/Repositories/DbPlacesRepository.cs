@@ -45,11 +45,27 @@ namespace JustGo.Repositories
         }
 
         public async Task<Place> FindAsync(int id)
-            => await context.Places.FindAsync(id);
+        {
+            var place = await context.Places.FindAsync(id);
+
+            if (place == null)
+            {
+                return null;
+            }
+
+            await context.LoadNavigationProperties(context.Entry(place));
+
+            return place;
+        }
 
         public async Task<Place> UpdateAsync(int id, PlaceViewModel viewModel)
         {
             var placeToUpdate = context.Places.Find(id);
+
+            if (placeToUpdate == null)
+            {
+                return null;
+            }
 
             AssignProperties(placeToUpdate, viewModel);
 
@@ -61,6 +77,11 @@ namespace JustGo.Repositories
         public async Task<Place> DeleteAsync(int id)
         {
             var placeToRemove = context.Places.Find(id);
+
+            if (placeToRemove == null)
+            {
+                return null;
+            }
 
             context.Places.Remove(placeToRemove);
 

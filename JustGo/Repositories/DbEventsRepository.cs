@@ -56,6 +56,7 @@ namespace JustGo.Repositories
             {
                 return null;
             }
+
             var entry = context.Entry(@event);
 
             await context.LoadNavigationProperties(entry, recursionDepth: 1);
@@ -67,6 +68,11 @@ namespace JustGo.Repositories
         {
             var eventToUpdate = context.Events.Find(id);
 
+            if (eventToUpdate == null)
+            {
+                return null;
+            }
+
             await AssignProperties(eventToUpdate, viewModel);
 
             await context.SaveChangesAsync();
@@ -77,6 +83,11 @@ namespace JustGo.Repositories
         public async Task<Event> DeleteAsync(int id)
         {
             var eventToRemove = context.Events.Find(id);
+
+            if (eventToRemove == null)
+            {
+                return null;
+            }
 
             context.Events.Remove(eventToRemove);
 
