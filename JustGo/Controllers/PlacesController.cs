@@ -41,7 +41,7 @@ namespace JustGo.Controllers
                 return NotFound();
             }
 
-            return Ok(place);
+            return Ok(place.ToViewModel());
         }
 
         /* POST: api/Places
@@ -118,7 +118,7 @@ namespace JustGo.Controllers
 
             var place = await placesRepository.DeleteAsync(id);
 
-            return Ok(place);
+            return Ok(place.ToViewModel());
         }
 
         private bool PlaceExists(int id)
