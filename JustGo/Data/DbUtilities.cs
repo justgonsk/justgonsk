@@ -38,7 +38,7 @@ namespace JustGo.Data
         /// <param name="entry">Объект сущности</param>
         /// <param name="recursionDepth"></param>
         /// <returns></returns>
-        public static async Task LoadNavigationProperties<TEntityEntry>(this DbContext context,
+        public static async Task LoadNavigationsAsync<TEntityEntry>(this DbContext context,
             TEntityEntry entry, int recursionDepth = 0) where TEntityEntry : EntityEntry
         {
             foreach (var navigation in entry.Navigations.Where(nav => !nav.IsLoaded))
@@ -49,7 +49,7 @@ namespace JustGo.Data
                     var entities = navigation.CurrentValue as IEnumerable;
                     foreach (var recursiveEntity in entities ?? new[] { navigation.CurrentValue })
                     {
-                        await context.LoadNavigationProperties(context.Entry(recursiveEntity), recursionDepth - 1);
+                        await context.LoadNavigationsAsync(context.Entry(recursiveEntity), recursionDepth - 1);
                     }
                 }
             }

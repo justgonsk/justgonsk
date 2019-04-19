@@ -59,7 +59,7 @@ namespace JustGo.Repositories
 
             var entry = context.Entry(@event);
 
-            await context.LoadNavigationProperties(entry, recursionDepth: 1);
+            await context.LoadNavigationsAsync(entry, recursionDepth: 1);
 
             return @event;
         }

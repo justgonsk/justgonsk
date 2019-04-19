@@ -53,7 +53,7 @@ namespace JustGo.Repositories
                 return null;
             }
 
-            await context.LoadNavigationProperties(context.Entry(place));
+            await context.LoadNavigationsAsync(context.Entry(place));
 
             return place;
         }
