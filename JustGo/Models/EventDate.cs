@@ -23,7 +23,7 @@ namespace JustGo.Models
         /// Момент начала. Должно быть указано всегда
         /// </summary>
         [Required]
-        [Range(typeof(DateTime), "01/01/2010", "01/01/2021")]
+        [Range(typeof(DateTime), "01/01/2010", "01/01/2022")]
         public DateTime Start { get; set; }
 
         /// <summary>
@@ -36,6 +36,7 @@ namespace JustGo.Models
         /// <summary>
         /// Если End указано, то событие завершилось в момент End.
         /// Если End не указано, то событие завершилось в момент Start.
+        /// Это вспомогательное свойство для внутренних нужд. Не сериализуется в ответах
         /// </summary>
         [JsonIgnore]
         public DateTime ActualEnd => End ?? Start;

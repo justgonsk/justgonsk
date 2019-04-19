@@ -8,6 +8,7 @@ using JustGo.Interfaces;
 using JustGo.Models;
 using JustGo.View.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace JustGo.Repositories
 {
@@ -20,7 +21,7 @@ namespace JustGo.Repositories
             this.context = context;
         }
 
-        public IEnumerable<Event> EnumerateAll() => context.Events;
+        public IEnumerable<Event> EnumerateAll() => context.Events.AsNoTracking();
 
         public Poll<EventViewModel> GetEventPoll(EventsFilter filter = null,
             int? offset = 0, int? count = 100)
@@ -48,7 +49,12 @@ namespace JustGo.Repositories
         }
 
         public async Task<Event> FindAsync(int id)
-            => await context.Events.FindAsync(id);
+        {
+            var @event = await context.Events.FindAsync(id);
+            await context.LoadNavigationProperties(@event);
+
+            return @event;
+        }
 
         public async Task<Event> UpdateAsync(int id, EventViewModel viewModel)
         {

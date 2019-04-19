@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 
 namespace JustGo.Models
 {
+    /// <remarks>
+    /// Виртуальные свойства используются для lazy loading
+    /// </remarks>
     public class Event : IConvertibleToViewModel<EventViewModel>
     {
         /// <summary>
@@ -20,7 +23,7 @@ namespace JustGo.Models
         /// <summary>
         /// Навигационное свойство Place и внешний ключ PlaceId
         /// </summary>
-        public Place Place { get; set; }
+        public virtual Place Place { get; set; }
 
         /// <summary>
         /// Навигационное свойство Place и внешний ключ PlaceId
@@ -35,11 +38,11 @@ namespace JustGo.Models
         [Required]
         public string Description { get; set; }
 
-        public ICollection<EventCategory> EventCategories { get; set; }
+        public virtual ICollection<EventCategory> EventCategories { get; set; }
 
-        public ICollection<EventTag> EventTags { get; set; }
+        public virtual ICollection<EventTag> EventTags { get; set; }
 
-        public ICollection<ImageModel> Images { get; set; }
+        public virtual ICollection<ImageModel> Images { get; set; }
 
         public ICollection<EventDate> Dates { get; set; }
 
