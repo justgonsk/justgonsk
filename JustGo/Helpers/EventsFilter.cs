@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JustGo.Extern.Models;
+
 using JustGo.Interfaces;
 using JustGo.Models;
 using JustGo.View.Models;
@@ -14,17 +14,23 @@ namespace JustGo.Helpers
     public class EventsFilter
     {
         /// <summary>
-        /// Список допустимых категорий в строковом представлении. Если null, тогда не фильтруем по категориям
+        /// Список допустимых категорий в строковом представлении.
+        /// Если null, тогда не фильтруем по категориям
+        /// Если пустой, ищем только события без категорий
         /// </summary>
-        public List<string> Categories { get; set; }
+        public List<string> FilterCategories { get; set; }
 
         /// <summary>
-        /// Список допустимых тэгов в строковом представлении. Если null, тогда не фильтруем по тэгам
+        /// Список допустимых тэгов в строковом представлении.
+        /// Если null, тогда не фильтруем по тэгам
+        /// Если пустой, ищем только события без тэгов
         /// </summary>
-        public List<string> Tags { get; set; }
+        public List<string> FilterTags { get; set; }
 
         /// <summary>
-        /// Список допустимых категорий в виде view-моделек. Если null, тогда не фильтруем по местам
+        /// Список допустимых категорий в виде view-моделек.
+        /// Если null, тогда не фильтруем по местам
+        /// Если пустой, ищем события где место не указано
         /// </summary>
         public List<PlaceViewModel> Places { get; set; }
 
@@ -43,10 +49,9 @@ namespace JustGo.Helpers
             return sequence.Where(SatisfiesFilter);
         }
 
-        public IEnumerable<T> FilterEvents<T>(IEnumerable<T> events) where T : EventViewModel
+        public IEnumerable<EventViewModel> FilterEvents(IEnumerable<EventViewModel> sequence)
         {
-            var eventViewModels = FilterEvents(events.Select(vm => vm.ToModel())).Select(m => m.ToViewModel());
-            return eventViewModels as IEnumerable<T>;
+            return sequence.Where(SatisfiesFilter);
         }
 
         private bool SatisfiesFilter(Event @event)
@@ -58,48 +63,51 @@ namespace JustGo.Helpers
 
         private bool HasCategories(Event @event)
         {
-            if (Categories == null)
-            {
-                return true;
-            }
+            var eventCategories = @event.EventCategories
+                .Select(eventCategory => eventCategory.Category.Name);
 
-            foreach (var category in @event.EventCategories.Select(eventCat => eventCat.Category.Name))
-            {
-                if (!Categories.Contains(category))
-                {
-                    return false; // если нет хотя бы одной категории
-                }
-            }
-
-            return true;
+            return FilterCategories == null || FilterCategories
+                       .All(filterCategory => eventCategories
+                       .Contains(filterCategory));
         }
 
         private bool HasTags(Event @event)
         {
-            if (Tags == null)
-            {
-                return true;
-            }
+            var eventTags = @event.EventTags
+                .Select(eventTag => eventTag.Tag.Name);
 
-            foreach (var tag in @event.EventTags.Select(eventTag => eventTag.Tag.Name))
-            {
-                if (!Tags.Contains(tag))
-                {
-                    return false; // если нет хотя бы одной категории
-                }
-            }
-
-            return true;
+            return FilterTags == null || FilterTags
+                .All(filterTag => eventTags
+                .Contains(filterTag));
         }
 
         private bool PlaceIsFromFilter(Event @event)
         {
-            if (Places == null)
-            {
-                return true;
-            }
+            return Places == null || Places.Contains(@event.Place.ToViewModel());
+        }
 
-            return Places.Contains(@event.Place.ToViewModel());
+        private bool SatisfiesFilter(EventViewModel @event)
+        {
+            return PlaceIsFromFilter(@event)
+                   && HasCategories(@event)
+                   && HasTags(@event);
+        }
+
+        private bool HasCategories(EventViewModel @event)
+        {
+            return FilterCategories == null || FilterCategories
+                   .All(filterCategory => @event.Categories.Contains(filterCategory));
+        }
+
+        private bool HasTags(EventViewModel @event)
+        {
+            return FilterTags == null || FilterTags
+                   .All(filterTag => @event.Tags.Contains(filterTag));
+        }
+
+        private bool PlaceIsFromFilter(EventViewModel @event)
+        {
+            return Places == null || Places.Contains(@event.Place);
         }
     }
 }
