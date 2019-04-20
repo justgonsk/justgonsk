@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Threading.Tasks;
 using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.View.Models;
+using JustGo.View.Models.Edit;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 
 namespace JustGo.Models
@@ -30,7 +33,6 @@ namespace JustGo.Models
         /// </summary>
         public int PlaceId { get; set; }
 
-        [Required]
         public string Title { get; set; }
 
         public string ShortTitle { get; set; }

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace JustGo.View.Models
 {
-    public class EventViewModel : IConvertibleToModel<Event>
+    public class EventViewModel
     {
         public int? Id { get; set; }
 
@@ -54,18 +54,6 @@ namespace JustGo.View.Models
                     .OrderBy(date => date)
                     .FirstOrDefault(date => date.ActualEnd > DateTime.Now);
             }
-        }
-
-        public Event ToModel()
-        {
-            return new Event
-            {
-                Title = Title,
-                ShortTitle = ShortTitle,
-                Description = Description,
-                Dates = new List<EventDate>(Dates),
-                Images = new List<ImageModel>(Images)
-            };
         }
     }
 }

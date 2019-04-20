@@ -1,6 +1,8 @@
-﻿namespace JustGo.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace JustGo.Interfaces
 {
-    public interface IConvertibleToViewModel<out TViewModel>
+    public interface IConvertibleToViewModel<TViewModel>
     {
         TViewModel ToViewModel();
     }

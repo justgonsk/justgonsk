@@ -6,6 +6,7 @@ using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.Models;
 using JustGo.View.Models;
+using JustGo.View.Models.Edit;
 
 namespace JustGo.Repositories
 {
@@ -35,7 +36,7 @@ namespace JustGo.Repositories
         {
             var newPlace = new Place();
 
-            AssignProperties(newPlace, viewModel);
+            await AssignProperties(newPlace, viewModel);
 
             context.Places.Add(newPlace);
 
@@ -58,7 +59,7 @@ namespace JustGo.Repositories
             return place;
         }
 
-        public async Task<Place> UpdateAsync(int id, PlaceViewModel viewModel)
+        public async Task<Place> UpdateAsync(int id, PlaceEditModel editModel)
         {
             var placeToUpdate = context.Places.Find(id);
 
@@ -67,7 +68,7 @@ namespace JustGo.Repositories
                 return null;
             }
 
-            AssignProperties(placeToUpdate, viewModel);
+            await UpdateProperties(placeToUpdate, editModel);
 
             await context.SaveChangesAsync();
 
@@ -90,15 +91,43 @@ namespace JustGo.Repositories
             return placeToRemove;
         }
 
-        private void AssignProperties(Place place, PlaceViewModel viewModel)
+        public async Task AssignProperties(Place place, PlaceViewModel viewModel)
         {
-            place.Title = viewModel.Title;
-            place.Address = viewModel.Address;
-            place.Coordinates = new Coordinates
+            await Task.Run(() =>
             {
-                Latitude = viewModel.Coordinates.Latitude,
-                Longitude = viewModel.Coordinates.Longitude
-            };
+                place.Title = viewModel.Title;
+                place.Address = viewModel.Address;
+                place.Coordinates = new Coordinates
+                {
+                    Latitude = viewModel.Coordinates.Latitude,
+                    Longitude = viewModel.Coordinates.Longitude
+                };
+            });
+        }
+
+        public async Task UpdateProperties(Place place, PlaceEditModel editModel)
+        {
+            await Task.Run(() =>
+            {
+                if (editModel.Title != null)
+                {
+                    place.Title = editModel.Title;
+                }
+
+                if (editModel.Address != null)
+                {
+                    place.Address = editModel.Address;
+                }
+
+                if (editModel.Coordinates != null)
+                {
+                    place.Coordinates = new Coordinates
+                    {
+                        Latitude = editModel.Coordinates.Latitude,
+                        Longitude = editModel.Coordinates.Longitude
+                    };
+                }
+            });
         }
     }
 }

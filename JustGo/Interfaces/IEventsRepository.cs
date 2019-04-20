@@ -2,10 +2,11 @@
 using JustGo.Helpers;
 using JustGo.Models;
 using JustGo.View.Models;
+using JustGo.View.Models.Edit;
 
 namespace JustGo.Interfaces
 {
-    public interface IEventsRepository : IRepository<Event, EventViewModel>
+    public interface IEventsRepository : IRepository<Event, EventViewModel, EventEditModel>
     {
         /// <summary>
         /// Возвращает объект <see cref="Poll{T}"/> с view-моделями событий

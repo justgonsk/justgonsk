@@ -7,6 +7,7 @@ using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.Models;
 using JustGo.View.Models;
+using JustGo.View.Models.Edit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -21,12 +22,20 @@ namespace JustGo.Repositories
             this.context = context;
         }
 
-        public IEnumerable<Event> EnumerateAll() => context.Events.AsNoTracking();
+        public IEnumerable<Event> EnumerateAll() => context.Events;
 
         public Poll<EventViewModel> GetEventPoll(EventsFilter filter = null,
             int? offset = 0, int? count = 100)
         {
-            var wholeSequence = context.Events;
+            var wholeSequence = context.Events
+                .Include(e => e.EventCategories).ThenInclude(ec => ec.Category)
+                .Include(e => e.EventTags).ThenInclude(et => et.Tag)
+                .Include(e => e.Place).Include(e => e.Dates).AsNoTracking();
+
+            if (filter != null)
+            {
+                wholeSequence = filter.FilterEvents(wholeSequence).AsQueryable();
+            }
 
             var limitedSequence = wholeSequence
                 .Skip(offset ?? 0).Take(count ?? 100);
@@ -65,7 +74,7 @@ namespace JustGo.Repositories
             return @event;
         }
 
-        public async Task<Event> UpdateAsync(int id, EventViewModel viewModel)
+        public async Task<Event> UpdateAsync(int id, EventEditModel editModel)
         {
             var eventToUpdate = context.Events.Find(id);
 
@@ -74,7 +83,7 @@ namespace JustGo.Repositories
                 return null;
             }
 
-            await AssignProperties(eventToUpdate, viewModel);
+            await UpdateProperties(eventToUpdate, editModel);
 
             await context.SaveChangesAsync();
 
@@ -97,7 +106,7 @@ namespace JustGo.Repositories
             return eventToRemove;
         }
 
-        private async Task AssignProperties(Event @event, EventViewModel viewModel)
+        public async Task AssignProperties(Event @event, EventViewModel viewModel)
         {
             //если место с таким ID не найдено, будет брошено исключение
             var place = await context.Places.FirstAsync(existingPlace => existingPlace.Id == viewModel.Place.Id);
@@ -122,6 +131,59 @@ namespace JustGo.Repositories
                 Tag = FindTagByName(tagName) ?? new Tag { Name = tagName },
                 Event = @event
             }).ToHashSet();
+        }
+
+        public async Task UpdateProperties(Event @event, EventEditModel editModel)
+        {
+            if (editModel.Title != null)
+            {
+                @event.Title = editModel.Title;
+            }
+
+            if (editModel.ShortTitle != null)
+            {
+                @event.ShortTitle = editModel.ShortTitle;
+            }
+
+            if (editModel.Description != null)
+            {
+                @event.Description = editModel.Description;
+            }
+
+            if (editModel.Dates != null)
+            {
+                @event.Dates = new List<EventDate>(editModel.Dates);
+            }
+
+            if (editModel.Images != null)
+            {
+                @event.Images = new List<ImageModel>(editModel.Images);
+            }
+
+            if (editModel.Place != null)
+            {
+                @event.Place = await context.Places
+                    .FirstAsync(existingPlace => existingPlace.Id == editModel.Place.Id);
+            }
+
+            if (editModel.Categories != null)
+            {
+                @event.EventCategories = editModel.Categories.Select(categoryName => new EventCategory
+                {
+                    //если такой категории ещё не было, она будет добавлена при сохранении; аналогично с тегом
+                    Category = FindCategoryByName(categoryName) ?? new Category { Name = categoryName },
+                    Event = @event
+                }).ToHashSet();
+            }
+
+            if (editModel.Tags != null)
+            {
+                @event.EventTags = editModel.Tags.Select(tagName => new EventTag
+                {
+                    Tag = FindTagByName(tagName) ?? new Tag { Name = tagName },
+                    Event = @event
+                }).ToHashSet();
+            }
         }
 
         private Category FindCategoryByName(string desiredName)
