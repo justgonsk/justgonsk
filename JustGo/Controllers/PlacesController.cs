@@ -2,6 +2,7 @@
 using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.View.Models;
+using JustGo.View.Models.Edit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JustGo.Controllers
@@ -85,7 +86,8 @@ namespace JustGo.Controllers
         */
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PlaceViewModel>> UpdatePlaceAsync([FromRoute] int id, [FromBody] PlaceViewModel eventViewModel)
+        public async Task<ActionResult<PlaceViewModel>> UpdatePlaceAsync([FromRoute] int id,
+            [FromBody] PlaceEditModel eventViewModel)
         {
             if (!ModelState.IsValid)
             {

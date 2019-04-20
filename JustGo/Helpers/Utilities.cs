@@ -51,9 +51,9 @@ namespace JustGo.Helpers
 
             var results = (JArray)newBody["results"];
 
-            for (var i = 0; i < results.Count; i++)
+            foreach (var result in results)
             {
-                var eventInfo = (JObject)results[i];
+                var eventInfo = (JObject)result;
 
                 var placeId = (int)eventInfo["place"]["id"];
 
@@ -66,9 +66,9 @@ namespace JustGo.Helpers
                 eventInfo.Property("dates").Remove();
                 eventInfo.Add("dates", new JArray());
 
-                for (var j = 0; j < dates.Length; j++)
+                foreach (var date in dates)
                 {
-                    var (start, end) = dates[j];
+                    var (start, end) = date;
                     ((JArray)eventInfo["dates"]).Add(new JObject
                     (
                         new JProperty("start", start),

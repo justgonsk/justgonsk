@@ -41,6 +41,8 @@
     <Compile Remove="Migrations\20190419112228_Lazy-Loading-Properties.Designer.cs" />
     <Compile Remove="Migrations\20190419121405_Lazy-Loading-Properties.cs" />
     <Compile Remove="Migrations\20190419121405_Lazy-Loading-Properties.Designer.cs" />
+    <Compile Remove="Migrations\20190420154041_Third111111.cs" />
+    <Compile Remove="Migrations\20190420154041_Third111111.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

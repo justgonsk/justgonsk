@@ -21,19 +21,5 @@ namespace JustGo.View.Models
 
         [JsonProperty("coords")]
         public Coordinates Coordinates { get; set; }
-
-        public void AssignProperties(Place model)
-        {
-            return new Place
-            {
-                Title = Title,
-                Address = Address,
-                Coordinates = new Coordinates
-                {
-                    Latitude = Coordinates.Latitude,
-                    Longitude = Coordinates.Longitude
-                }
-            };
-        }
     }
 }

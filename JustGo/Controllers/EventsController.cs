@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JustGo.Models;
 using JustGo.View.Models;
+using JustGo.View.Models.Edit;
 
 namespace JustGo.Controllers
 {
@@ -24,7 +25,15 @@ namespace JustGo.Controllers
             this.eventsRepository = eventsRepository;
         }
 
-        /* GET: api/Events/?offset=2&count=35
+        [HttpGet]
+        public Poll<EventViewModel> GetEventPoll([FromQuery] int? offset, [FromQuery] int? count)
+        {
+            return eventsRepository.GetEventPoll(null, offset, count);
+        }
+
+        #region EXAMPLE
+
+        /* GET: api/Events/filter/?offset=2&count=35
 
         json:
 
@@ -48,7 +57,10 @@ namespace JustGo.Controllers
 
              */
 
-        [HttpGet] //в теле обязательно отправить хотя бы { }
+        #endregion EXAMPLE
+
+        [HttpGet]
+        [Route("filter")]
         public Poll<EventViewModel> GetEventPoll([FromBody] EventsFilter filter,
             [FromQuery] int? offset, [FromQuery] int? count)
         {
@@ -155,7 +167,8 @@ namespace JustGo.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<EventViewModel>> UpdateEventAsync([FromRoute] int id, [FromBody] EventViewModel eventViewModel)
+        public async Task<ActionResult<EventViewModel>> UpdateEventAsync([FromRoute] int id,
+            [FromBody] EventEditModel editViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -167,7 +180,7 @@ namespace JustGo.Controllers
                 return NotFound();
             }
 
-            var @event = await eventsRepository.UpdateAsync(id, eventViewModel);
+            var @event = await eventsRepository.UpdateAsync(id, editViewModel);
 
             return @event.ToViewModel();
         }

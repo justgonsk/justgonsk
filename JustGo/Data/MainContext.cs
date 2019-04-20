@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JustGo.Data
 {
+    /// <inheritdoc />
     /// <summary>
     /// Главный контекст, служит для построения базы данных с помощью миграций.
     /// По этой причине должен содержать ссылки на все DbSet'ы, по которым
@@ -33,6 +34,8 @@ namespace JustGo.Data
         {
             //раскомментировать, если нужно продебажить код создания файлов миграций, исполняемый самой студией
             //Debugger.Launch();
+
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

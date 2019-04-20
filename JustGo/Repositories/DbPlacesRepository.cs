@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Data;
@@ -93,41 +94,38 @@ namespace JustGo.Repositories
 
         public async Task AssignProperties(Place place, PlaceViewModel viewModel)
         {
-            await Task.Run(() =>
+            place.Title = viewModel.Title;
+            place.Address = viewModel.Address;
+            place.Coordinates = new Coordinates
             {
-                place.Title = viewModel.Title;
-                place.Address = viewModel.Address;
-                place.Coordinates = new Coordinates
-                {
-                    Latitude = viewModel.Coordinates.Latitude,
-                    Longitude = viewModel.Coordinates.Longitude
-                };
-            });
+                Latitude = viewModel.Coordinates.Latitude,
+                Longitude = viewModel.Coordinates.Longitude
+            };
         }
 
         public async Task UpdateProperties(Place place, PlaceEditModel editModel)
         {
-            await Task.Run(() =>
+            if (editModel.Title != null)
             {
-                if (editModel.Title != null)
-                {
-                    place.Title = editModel.Title;
-                }
+                place.Title = editModel.Title;
+            }
 
-                if (editModel.Address != null)
-                {
-                    place.Address = editModel.Address;
-                }
+            if (editModel.Address != null)
+            {
+                place.Address = editModel.Address;
+            }
 
-                if (editModel.Coordinates != null)
+            if (editModel.Coordinates != null)
+            {
+                var longitude = editModel.Coordinates.Longitude;
+                var latitude = editModel.Coordinates.Latitude;
+
+                place.Coordinates = new Coordinates
                 {
-                    place.Coordinates = new Coordinates
-                    {
-                        Latitude = editModel.Coordinates.Latitude,
-                        Longitude = editModel.Coordinates.Longitude
-                    };
-                }
-            });
+                    Latitude = double.IsNaN(latitude) ? place.Coordinates.Latitude : latitude,
+                    Longitude = double.IsNaN(longitude) ? place.Coordinates.Longitude : longitude
+                };
+            }
         }
     }
 }
