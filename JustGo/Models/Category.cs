@@ -10,7 +10,7 @@ namespace JustGo.Models
         [Required]
         public string Name { get; set; }
 
-        public ICollection<EventCategory> EventCategories { get; set; }
+        public virtual ICollection<EventCategory> EventCategories { get; set; }
     }
 
     /// <summary>
@@ -21,7 +21,7 @@ namespace JustGo.Models
         public int EventId { get; set; }
         public int CategoryId { get; set; }
 
-        public Event Event { get; set; }
-        public Category Category { get; set; }
+        public virtual Event Event { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

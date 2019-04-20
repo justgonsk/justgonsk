@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace JustGo
 {
@@ -47,7 +48,7 @@ namespace JustGo
 
             services.AddDbContext<MainContext>(options =>
             {
-                // options.UseLazyLoadingProxies();
+                options.UseLazyLoadingProxies();
 
                 var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
 

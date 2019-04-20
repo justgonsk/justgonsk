@@ -20,12 +20,12 @@ namespace JustGo.Models
 
         public string Address { get; set; }
 
-        public Coordinates Coordinates { get; set; }
+        public virtual Coordinates Coordinates { get; set; }
 
         /// <summary>
         /// Навигационное свойство к событиям в этом месте
         /// </summary>
-        public ICollection<Event> Events { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
 
         public PlaceViewModel ToViewModel()
         {

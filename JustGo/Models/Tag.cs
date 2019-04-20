@@ -10,7 +10,7 @@ namespace JustGo.Models
         [Required]
         public string Name { get; set; }
 
-        public ICollection<EventTag> EventTags { get; set; }
+        public virtual ICollection<EventTag> EventTags { get; set; }
     }
 
     /// <summary>
@@ -21,7 +21,7 @@ namespace JustGo.Models
         public int EventId { get; set; }
         public int TagId { get; set; }
 
-        public Event Event { get; set; }
-        public Tag Tag { get; set; }
+        public virtual Event Event { get; set; }
+        public virtual Tag Tag { get; set; }
     }
 }

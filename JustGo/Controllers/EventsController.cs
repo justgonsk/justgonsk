@@ -48,7 +48,7 @@ namespace JustGo.Controllers
 
              */
 
-        [HttpGet]
+        [HttpGet] //в теле обязательно отправить хотя бы { }
         public Poll<EventViewModel> GetEventPoll([FromBody] EventsFilter filter,
             [FromQuery] int? offset, [FromQuery] int? count)
         {

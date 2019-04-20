@@ -26,14 +26,10 @@ namespace JustGo.Repositories
         public Poll<EventViewModel> GetEventPoll(EventsFilter filter = null,
             int? offset = 0, int? count = 100)
         {
-            var wholeSequence = filter == null ?
-                EnumerateAll().AsQueryable() :
-                context.Events.Where(ev => filter.SatisfiesFilter(ev));
+            var wholeSequence = context.Events;
 
             var limitedSequence = wholeSequence
                 .Skip(offset ?? 0).Take(count ?? 100);
-
-            limitedSequence.Load();
 
             return limitedSequence.AsEnumerable()
                 .AsViewModels<Event, EventViewModel>()

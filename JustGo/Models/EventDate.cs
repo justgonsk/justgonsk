@@ -17,7 +17,7 @@ namespace JustGo.Models
         /// Навигационное свойство Event и внешний ключ EventId
         /// </summary>
         [JsonIgnore]
-        public Event Event { get; set; }
+        public virtual Event Event { get; set; }
 
         /// <summary>
         /// Навигационное свойство Event и внешний ключ EventId
@@ -28,13 +28,13 @@ namespace JustGo.Models
         /// <summary>
         /// Момент начала.
         /// </summary>
-        [NullOrRange(typeof(DateTime), "01/01/2010", "01/01/2021")]
+        [NullOrRange(typeof(DateTime), "01/01/2014", "01/01/2021")]
         public DateTime? Start { get; set; }
 
         /// <summary>
         /// Момент конца.
         /// </summary>
-        [NullOrRange(typeof(DateTime), "01/01/2010", "01/01/2021")]
+        [NullOrRange(typeof(DateTime), "01/01/2014", "01/01/2021")]
         public DateTime? End { get; set; }
 
         /// <summary>
@@ -62,10 +62,7 @@ namespace JustGo.Models
             if (eventDate.End.HasValue && eventDate.End < eventDate.Start)
             {
                 yield return new ValidationResult("Дата начала должна быть раньше даты конца!",
-                    new[]
-                    {
-                        nameof(Start), nameof(End)
-                    });
+                    new[] { nameof(Start), nameof(End) });
             }
         }
     }

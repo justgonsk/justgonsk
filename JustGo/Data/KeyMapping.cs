@@ -16,7 +16,7 @@ namespace JustGo.Data
         public int OurId { get; set; }
 
         [ForeignKey(nameof(OurId))]
-        public Event Event { get; set; }
+        public virtual Event Event { get; set; }
     }
 
     /// <summary>
@@ -30,6 +30,6 @@ namespace JustGo.Data
         public int OurId { get; set; }
 
         [ForeignKey(nameof(OurId))]
-        public Place Place { get; set; }
+        public virtual Place Place { get; set; }
     }
 }
