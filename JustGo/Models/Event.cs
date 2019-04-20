@@ -46,36 +46,6 @@ namespace JustGo.Models
 
         public ICollection<EventDate> Dates { get; set; }
 
-        public bool IsSingle => Dates.Count == 1;
-
-        /// <summary>
-        /// Даты (начало и конец) последнего проведения этого мероприятия
-        /// Если ещё не проводилось, вернёт null
-        /// </summary>
-        public EventDate Latest
-        {
-            get
-            {
-                return Dates
-                     .OrderBy(date => date)
-                     .LastOrDefault(date => date.ActualEnd < DateTime.Now);
-            }
-        }
-
-        /// <summary>
-        /// Даты (начало и конец) следующего ближайшего проведения этого мероприятия
-        /// Если в будущем не запланировано, вернёт null
-        /// </summary>
-        public EventDate NearestNext
-        {
-            get
-            {
-                return Dates
-                    .OrderBy(date => date)
-                    .FirstOrDefault(date => date.ActualEnd > DateTime.Now);
-            }
-        }
-
         public EventViewModel ToViewModel()
         {
             return new EventViewModel
