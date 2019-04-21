@@ -59,8 +59,7 @@ namespace JustGo.Controllers
 
         #endregion EXAMPLE
 
-        [HttpGet]
-        [Route("filter")]
+        [HttpGet("filter")]
         public Poll<EventViewModel> GetEventPoll([FromBody] EventsFilter filter,
             [FromQuery] int? offset, [FromQuery] int? count)
         {

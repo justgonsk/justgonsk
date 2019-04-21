@@ -29,16 +29,21 @@ namespace JustGo.View.Models
         public bool IsSingle => Dates.Count == 1;
 
         /// <summary>
-        /// Даты (начало и конец) последнего проведения этого мероприятия
-        /// Если ещё не проводилось, вернёт null
+        /// Даты (начало и конец) текущего проведения этого мероприятия
+        /// Если такого нет, вернёт null
         /// </summary>
-        public EventDate Latest
+        public EventDate Current
         {
             get
             {
                 return Dates
-                    .OrderBy(date => date)
-                    .LastOrDefault(date => date.ActualEnd < DateTime.Now);
+                    .OrderBy(date => date.ActualStart)
+                    .FirstOrDefault(date =>
+                    {
+                        var startBeforeNow = DateTime.Now > date.ActualStart;
+                        var endAfterNow = DateTime.Now < date.ActualEnd;
+                        return startBeforeNow && endAfterNow;
+                    });
             }
         }
 
@@ -51,8 +56,8 @@ namespace JustGo.View.Models
             get
             {
                 return Dates
-                    .OrderBy(date => date)
-                    .FirstOrDefault(date => date.ActualEnd > DateTime.Now);
+                    .OrderBy(date => date.ActualStart)
+                    .FirstOrDefault(date => date.ActualStart > DateTime.Now);
             }
         }
     }
