@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using JustGo.Models;
 using JustGo.View.Models;
 using JustGo.View.Models.Edit;
+using System.Linq;
 
 namespace JustGo.Controllers
 {
@@ -27,9 +28,24 @@ namespace JustGo.Controllers
         }
 
         [HttpGet]
-        public Poll<EventViewModel> GetEventPoll([FromQuery] int? offset, [FromQuery] int? count)
+        public ActionResult<Poll<EventViewModel>> GetEventPoll([FromQuery] int? offset,
+                                                  [FromQuery] int? count,
+                                                  [FromQuery] string categories,
+                                                  [FromQuery] string tags,
+                                                  [FromQuery] string places)
         {
-            return eventsRepository.GetEventPoll(null, offset, count);
+            var filter = new EventsFilter();
+
+            try
+            {
+                filter.ParseParameters(categories, tags, places);
+            }
+            catch(ArgumentException e)
+            {
+                return BadRequest(e.ToString());
+            }
+
+            return eventsRepository.GetEventPoll(filter, offset, count);
         }
 
         #region EXAMPLE
@@ -60,12 +76,12 @@ namespace JustGo.Controllers
 
         #endregion EXAMPLE
 
-        [HttpGet("filter")]
+        /*[HttpGet("filter")]
         public Poll<EventViewModel> GetEventPoll([FromBody] EventsFilter filter,
             [FromQuery] int? offset, [FromQuery] int? count)
         {
             return eventsRepository.GetEventPoll(filter, offset, count);
-        }
+        }*/
 
         // GET: api/Events/2903
         [HttpGet("{id}")]

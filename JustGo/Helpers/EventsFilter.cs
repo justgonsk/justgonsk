@@ -38,6 +38,34 @@ namespace JustGo.Helpers
         [JsonProperty("places")]
         public List<PlaceViewModel> AllowedPlaces { get; set; }
 
+        /// <summary>
+        /// Список ID допустимых мест.
+        /// Если null, тогда не фильтруем по местам
+        /// Если пустой, ищем события где место не указано
+        /// </summary>
+        [JsonProperty("place_ids")]
+        public List<int> AllowedPlacesIds { get; set; }
+
+        public void ParseParameters(string categories, string tags, string places)
+        {
+            RequiredCategories = categories?.Split(',').ToList();
+            RequiredTags = tags?.Split(',').ToList();
+
+            AllowedPlacesIds = places?.Split(',').Select(x =>
+            {
+                if (int.TryParse(x, out int result))
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new ArgumentException("Place IDs must be numbers", nameof(places));
+                }
+            }).ToList();
+
+            AllowedPlaces = null;
+        }
+
         public IEnumerable<Event> FilterEvents(IEnumerable<Event> sequence)
         {
             return sequence.Where(SatisfiesFilter);
