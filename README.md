@@ -1,4 +1,7 @@
-# JustGoNsk (Backend) 
+# JustGoNsk (Backend)
+https://justgonskapitest.azurewebsites.net/ - тестовый сервер (все обновления сначала обкатываются здесь)
+https://justgonsk.azurewebsites.net/ - продакшн сервер (здесь всегда должна быть стабильная версия)
+
 ## Описание API
 
 ### Список событий (опционально с фильтрацией и пагинацией)
