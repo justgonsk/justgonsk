@@ -17,5 +17,20 @@ namespace JustGo.View.Models.Edit
 
         [JsonProperty("coords")]
         public Coordinates Coordinates { get; set; }
+
+        public static implicit operator PlaceViewModel(PlaceEditModel model)
+        {
+            return new PlaceViewModel
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Address = model.Address,
+                Coordinates = new Coordinates
+                {
+                    Latitude = model.Coordinates.Latitude,
+                    Longitude = model.Coordinates.Longitude
+                }
+            };
+        }
     }
 }

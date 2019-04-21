@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using JustGo.Models;
+using JustGo.View.Models.Edit;
 using Newtonsoft.Json;
 
 namespace JustGo.View.Models
@@ -21,5 +22,20 @@ namespace JustGo.View.Models
 
         [JsonProperty("coords")]
         public Coordinates Coordinates { get; set; }
+
+        public static implicit operator PlaceEditModel(PlaceViewModel model)
+        {
+            return new PlaceEditModel
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Address = model.Address,
+                Coordinates = new Coordinates
+                {
+                    Latitude = model.Coordinates.Latitude,
+                    Longitude = model.Coordinates.Longitude
+                }
+            };
+        }
     }
 }
