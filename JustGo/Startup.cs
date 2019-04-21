@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using JustGo.Controllers;
 
 namespace JustGo
 {
@@ -39,7 +40,8 @@ namespace JustGo
                 {
                     options.SerializerSettings.ContractResolver
                         = Utilities.SnakeCaseSettings.ContractResolver;
-                });
+                })
+                .AddControllersAsServices();
 
             services.AddHttpContextAccessor();
 
