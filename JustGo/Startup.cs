@@ -48,13 +48,14 @@ namespace JustGo
 
             services.AddDbContext<MainContext>(options =>
             {
-                options.UseLazyLoadingProxies();
+                options.UseLazyLoadingProxies(); //это нужно и для in-memory базы тоже
 
-                var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
+                options.UseInMemoryDatabase("justgo_inmemory");
+                /*var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
 
                 var connectionString = Configuration.GetConnectionString(databaseConnStr);
 
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(connectionString);*/
             });
 
             services.AddScoped<IEventsRepository, DbEventsRepository>();
