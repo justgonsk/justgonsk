@@ -13,7 +13,7 @@ namespace JustGo.Controllers
     {
         private IEventsRepository eventsRepository { get; set; }
         private IPlacesRepository placesRepository { get; set; }
-        private EventsPollDaemon eventsDaemon;
+        //private EventsDaemon eventsDaemon;
 
         private bool eventsDaemonStarted = false;
         
@@ -28,7 +28,7 @@ namespace JustGo.Controllers
         {
             if (!eventsDaemonStarted)
             {
-                eventsDaemon = new EventsPollDaemon(eventsRepository, placesRepository, Constants.EventPollUrl, Constants.EventsPollDaemonTimespan);
+                var eventsDaemon = new EventsDaemon(eventsRepository, placesRepository, Constants.EventPollUrl, Constants.EventsPollDaemonTimespan);
                 eventsDaemonStarted = true;
                 //Task.Factory.StartNew(() => eventsDaemon.MainCycle());
                 await eventsDaemon.FillBaseOnce();

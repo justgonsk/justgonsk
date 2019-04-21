@@ -8,10 +8,11 @@ using JustGo.Interfaces;
 using JustGo.ServerConfigs;
 using JustGo.View.Models;
 using static JustGo.Helpers.Utilities;
+using static JustGo.Helpers.PlaceManager;
 
 namespace JustGo.Helpers
 {
-    public class EventsPollDaemon
+    public class EventsDaemon
     {
         private string targetUrl;
         private HttpClient httpClient;
@@ -19,7 +20,7 @@ namespace JustGo.Helpers
         IEventsRepository eventsRepository;
         IPlacesRepository placesRepository;
 
-        public EventsPollDaemon(IEventsRepository eventsRepository, 
+        public EventsDaemon(IEventsRepository eventsRepository, 
                                 IPlacesRepository placesRepository, 
                                 string targetUrl, 
                                 int timespan)
@@ -35,8 +36,7 @@ namespace JustGo.Helpers
         {
             while (true)
             {
-                var eventsPoll = await GetEventsFromTarget();
-                await PutEventsInDatabase(eventsPoll);
+                FillBaseOnce();
                 Thread.Sleep(timespan);
             }
         }
@@ -49,7 +49,7 @@ namespace JustGo.Helpers
              
             var tasks = events.Results.Select(async (x) =>
             {
-                var place = await placesRepository.AddAsync(x.Place);
+                var place = await AddPlaceToDatabase(placesRepository, x.Place);
                 x.Place.Id = place.Id;
                 await eventsRepository.AddAsync(x);
             });
