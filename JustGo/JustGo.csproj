@@ -1,20 +1,65 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190417210035_Initial.cs" />
+    <Compile Remove="Migrations\20190417210035_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190417210820_Initial.cs" />
+    <Compile Remove="Migrations\20190417210820_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190417214237_Initial.cs" />
+    <Compile Remove="Migrations\20190417214237_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190417214815_Initial.cs" />
+    <Compile Remove="Migrations\20190417214815_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190417215119_First.cs" />
+    <Compile Remove="Migrations\20190417215119_First.Designer.cs" />
+    <Compile Remove="Migrations\20190418060225_Initial.cs" />
+    <Compile Remove="Migrations\20190418060225_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190418060637_First.cs" />
+    <Compile Remove="Migrations\20190418060637_First.Designer.cs" />
+    <Compile Remove="Migrations\20190418060740_Initial.cs" />
+    <Compile Remove="Migrations\20190418060740_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190418060937_Initial.cs" />
+    <Compile Remove="Migrations\20190418060937_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190418061811_Initial.cs" />
+    <Compile Remove="Migrations\20190418061811_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190418062715_Initial.cs" />
+    <Compile Remove="Migrations\20190418062715_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190418062837_Initiallll.cs" />
+    <Compile Remove="Migrations\20190418062837_Initiallll.Designer.cs" />
+    <Compile Remove="Migrations\20190418063008_Initiallllllk.cs" />
+    <Compile Remove="Migrations\20190418063008_Initiallllllk.Designer.cs" />
+    <Compile Remove="Migrations\20190418075743_Initial.cs" />
+    <Compile Remove="Migrations\20190418075743_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190418080148_Initial.cs" />
+    <Compile Remove="Migrations\20190418080148_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190418080620_Initial.cs" />
+    <Compile Remove="Migrations\20190418080620_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190419112228_Lazy-Loading-Properties.cs" />
+    <Compile Remove="Migrations\20190419112228_Lazy-Loading-Properties.Designer.cs" />
+    <Compile Remove="Migrations\20190419121405_Lazy-Loading-Properties.cs" />
+    <Compile Remove="Migrations\20190419121405_Lazy-Loading-Properties.Designer.cs" />
+    <Compile Remove="Migrations\20190420154041_Third111111.cs" />
+    <Compile Remove="Migrations\20190420154041_Third111111.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="View.Models\" />
-    <Folder Include="Models\" />
-    <Folder Include="Helpers\" />
     <Folder Include="ServerConfigs\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />
   </ItemGroup>
-
 </Project>

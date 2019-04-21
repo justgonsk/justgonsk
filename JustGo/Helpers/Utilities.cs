@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using JustGo.Models;
 using JustGo.ServerConfigs;
+using JustGo.View.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -13,24 +14,19 @@ namespace JustGo.Helpers
 {
     public static class Utilities
     {
-        public static Dictionary<long, Place> PlacesInfoCache { get; } = new Dictionary<long, Place>();
+        public static Dictionary<long, PlaceViewModel> PlacesInfoCache { get; }
+            = new Dictionary<long, PlaceViewModel>();
 
-        public static JsonSerializerSettings SnakeCaseSettings { get; } = new JsonSerializerSettings
-        {
-            ContractResolver = new DefaultContractResolver
+        public static JsonSerializerSettings SnakeCaseSettings { get; }
+            = new JsonSerializerSettings
             {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            }
-        };
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                }
+            };
 
         public static JsonSerializer SnakeCaseSerializer { get; } = JsonSerializer.Create(SnakeCaseSettings);
-
-        public static void Rename(this JToken token, string newName)
-        {
-            var parent = token.Parent;
-            var newToken = new JProperty(newName, token);
-            parent.Replace(newToken);
-        }
 
         public static async Task<JObject> ParseResponseFromUrl(string url)
         {
@@ -55,57 +51,61 @@ namespace JustGo.Helpers
 
             var results = (JArray)newBody["results"];
 
-            for (var i = 0; i < results.Count; i++)
+            foreach (var result in results)
             {
-                var eventInfo = (JObject)results[i];
+                var eventInfo = (JObject)result;
 
-                var imagesInfo = eventInfo["images"];
-
-                var links = imagesInfo.Select(info => (string)info["image"]).ToList();
-
-                eventInfo.Property("images").Remove();
-
-                eventInfo["images"] = new JArray(links);
-
-                var placeId = (long)eventInfo["place"]["id"];
+                var placeId = (int)eventInfo["place"]["id"];
 
                 var place = await GetPlaceById(placeId);
 
                 eventInfo.Property("place").Value = JToken.FromObject(place, SnakeCaseSerializer);
 
-                var (start, end) = GetDatesFromJson((JArray)eventInfo["dates"]);
+                var dates = GetDatesFromJson((JArray)eventInfo["dates"]);
 
                 eventInfo.Property("dates").Remove();
+                eventInfo.Add("dates", new JArray());
 
-                eventInfo["start"] = JToken.FromObject(start);
-                eventInfo["end"] = JToken.FromObject(end);
+                foreach (var date in dates)
+                {
+                    var (start, end) = date;
+                    ((JArray)eventInfo["dates"]).Add(new JObject
+                    (
+                        new JProperty("start", start),
+                        new JProperty("end", end)
+                    ));
+                }
             }
 
             return newBody;
         }
 
-        private static (DateTime, DateTime) GetDatesFromJson(JArray dates)
+        private static (DateTime, DateTime)[] GetDatesFromJson(JArray dates)
         {
-            //для простоты будем пока работать с первой записью в массиве дат,
-            //т.е. не будем учитывать регулярные мероприятия
+            return dates.Select(entry =>
+            {
+                var startTimestamp = (long)entry["start"];
+                var endTimestamp = (long)entry["end"];
 
-            var firstEntry = dates[0];
-            var startTimestamp = (long)firstEntry["start"];
-            var endTimestamp = (long)firstEntry["end"];
+                var start = DateTimeOffset
+                    .FromUnixTimeSeconds(startTimestamp)
+                    .ToLocalTime().DateTime;
 
-            var start = DateTimeOffset.FromUnixTimeSeconds(startTimestamp).ToLocalTime().DateTime;
-            var end = DateTimeOffset.FromUnixTimeSeconds(endTimestamp).ToLocalTime().DateTime;
+                var end = DateTimeOffset
+                    .FromUnixTimeSeconds(endTimestamp)
+                    .ToLocalTime().DateTime;
 
-            return (start, end);
+                return (start, end);
+            }).ToArray();
         }
 
-        public static async Task<Place> GetPlaceById(long placeId)
+        public static async Task<PlaceViewModel> GetPlaceById(int placeId)
         {
             if (!PlacesInfoCache.ContainsKey(placeId))
             {
                 var body = await ParseResponseFromUrl(string.Format(Constants.PlaceDetailsUrlPattern, placeId));
 
-                var place = body.ToObject<Place>();
+                var place = body.ToObject<PlaceViewModel>();
 
                 PlacesInfoCache[placeId] = place;
 
