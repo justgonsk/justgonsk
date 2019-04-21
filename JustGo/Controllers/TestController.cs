@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using JustGo.Exceptions;
 using JustGo.Helpers;
 using JustGo.ServerConfigs;
 using JustGo.View.Models;

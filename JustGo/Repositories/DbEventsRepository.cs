@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Data;
+using JustGo.Exceptions;
 using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.Models;
@@ -108,16 +109,14 @@ namespace JustGo.Repositories
 
         public async Task AssignProperties(Event @event, EventViewModel viewModel)
         {
-            //если место с таким ID не найдено, будет брошено исключение
-            var place = await context.Places.FirstAsync(existingPlace => existingPlace.Id == viewModel.Place.Id);
-
+            var place = await context.Places.FirstOrDefaultAsync(existingPlace => existingPlace.Id == viewModel.Place.Id);
             @event.Title = viewModel.Title;
             @event.ShortTitle = viewModel.ShortTitle;
             @event.Description = viewModel.Description;
             @event.Dates = new List<EventDate>(viewModel.Dates);
             @event.Images = new List<ImageModel>(viewModel.Images);
 
-            @event.Place = place;
+            @event.Place = place ?? throw new PlaceNotFoundException(viewModel.Place);
 
             @event.EventCategories = viewModel.Categories.Select(categoryName => new EventCategory
             {

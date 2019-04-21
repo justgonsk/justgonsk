@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JustGo.Data;
+using JustGo.Exceptions;
 using JustGo.Helpers;
 using JustGo.Interfaces;
 using Microsoft.AspNetCore.Http;

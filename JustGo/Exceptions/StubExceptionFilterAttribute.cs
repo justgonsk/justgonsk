@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace JustGo.Helpers
+namespace JustGo.Exceptions
 {
     /// <summary>
     /// Атрибут фильтра, отлавливающий все исключения и отправляющий в ответе ошибку.
@@ -16,9 +18,16 @@ namespace JustGo.Helpers
     {
         public override async Task OnExceptionAsync(ExceptionContext context)
         {
-            await context.HttpContext.Response.WriteAsync(
-                $"Something went wrong: {context.Exception.Message}\n"
-                + $"Here is the stacktrace: {context.Exception.StackTrace} ");
+            if (context.Exception is PlaceNotFoundException exception)
+            {
+                context.Result = new NotFoundObjectResult($"No place with ID { exception.Place.Id }");
+            }
+            else
+            {
+                await context.HttpContext.Response.WriteAsync(
+                    $"Something went wrong: {context.Exception.Message}\n"
+                    + $"Here is the stacktrace: {context.Exception.StackTrace} ");
+            }
         }
     }
 }
