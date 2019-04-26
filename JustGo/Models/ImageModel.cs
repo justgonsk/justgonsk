@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace JustGo.Models
 {
-    public class Image_Model
+    public class ImageModel
     {
+        [Url]
         public string Image { get; set; }
     }
 }

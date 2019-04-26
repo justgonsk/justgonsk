@@ -1,47 +1,88 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using JustGo.Exceptions;
 using JustGo.Helpers;
 using JustGo.ServerConfigs;
 using JustGo.View.Models;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static JustGo.Helpers.Utilities;
 
 namespace JustGo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestController : ControllerBase
+    [StubExceptionFilter]
+    public class TestController : Controller
     {
-        [HttpGet]
-        public async Task<EventsPoll> Get()
-        {
-            var events = GetEventsFromTarget().Result;
+        private HttpClient httpClient = HttpClientFactory.Create();
 
-            foreach (var e in events.Results)
+        [HttpGet]
+        public async Task<Poll<EventViewModel>> Get()
+        {
+            var events = await GetEventsFromTarget();
+            var query = Request.Query;
+
+            if (query.ContainsKey(Constants.CategoriesKey))
             {
-                e.Place = await Utilities.GetPlaceById(e.Place.Id);
+                var filter = new EventsFilter { RequiredCategories = new List<string>() };
+                var categories = query[Constants.CategoriesKey].ToString().Split(',');
+
+                foreach (var category in categories)
+                {
+                    filter.RequiredCategories.Add(category);
+                }
+
+                events = filter.FilterEvents(events.Results).ToPoll();
             }
 
             return events;
         }
 
-        public async Task<EventsPoll> GetEventsFromTarget()
+        [HttpGet("{id}")]
+        public async Task<EventViewModel> GetEvent(int id)
         {
-            var httpClient = HttpClientFactory.Create();
-            var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventPollUrl);
+            var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventDetailsUrl + id);
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsAsync<EventViewModel>();
+                result.Place = await GetPlaceById(result.Place.Id ?? -1);
+                return result;
+            }
+
+            return null;
+        }
+
+        public async Task<Poll<EventViewModel>> GetEventsFromTarget()
+        {
+            #region old_impl
+
+            /* var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventPollUrl);
 
             var response = await httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsAsync<EventsPoll>();
+                return await response.Content.ReadAsAsync<Poll<EventViewModel>>();
             }
             else
             {
                 return null;
-            }
+            }  */
+
+            #endregion old_impl
+
+            var parsedPoll = await ParseResponseFromUrl(Constants.EventPollUrl);
+
+            var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll);
+
+            var poll = pollInOurFormat.ToObject<Poll<EventViewModel>>(SnakeCaseSerializer);
+
+            // kudago выдаёт неправильный count, поэтому пересчитываем сами
+            poll.Count = poll.Results.Count;
+            return poll;
         }
     }
 }
