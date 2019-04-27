@@ -48,7 +48,7 @@ namespace JustGo.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsAsync<EventViewModel>();
-                result.Place = await GetPlaceById(result.Place.Id ?? -1);
+                result.Place = await GetPlaceById(result.Place.Id ?? -1, Constants.PlaceDetailsUrlPattern);
                 return result;
             }
 
@@ -76,7 +76,7 @@ namespace JustGo.Controllers
 
             var parsedPoll = await ParseResponseFromUrl(Constants.EventPollUrl);
 
-            var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll);
+            var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, Constants.PlaceDetailsUrlPattern);
 
             var poll = pollInOurFormat.ToObject<Poll<EventViewModel>>(SnakeCaseSerializer);
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using JustGo.Models;
-using JustGo.ServerConfigs;
 using JustGo.View.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -30,7 +29,7 @@ namespace JustGo.Helpers
 
         public static async Task<JObject> ParseResponseFromUrl(string url)
         {
-            var httpClient = HttpClientFactory.Create();
+            var httpClient = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, url);
 
             var response = await httpClient.SendAsync(request);
@@ -42,7 +41,7 @@ namespace JustGo.Helpers
             return JObject.Parse(content);
         }
 
-        public static async Task<JObject> ConvertToOurApiFormat(JObject parsedBody)
+        public static async Task<JObject> ConvertToOurApiFormat(JObject parsedBody, string placeDetailsUrlPattern)
         {
             if (parsedBody == null)
                 throw new ArgumentNullException(nameof(parsedBody));
@@ -57,7 +56,7 @@ namespace JustGo.Helpers
 
                 var placeId = (int)eventInfo["place"]["id"];
 
-                var place = await GetPlaceById(placeId);
+                var place = await GetPlaceById(placeId, placeDetailsUrlPattern);
 
                 eventInfo.Property("place").Value = JToken.FromObject(place, SnakeCaseSerializer);
 
@@ -99,11 +98,11 @@ namespace JustGo.Helpers
             }).ToArray();
         }
 
-        public static async Task<PlaceViewModel> GetPlaceById(int placeId)
+        public static async Task<PlaceViewModel> GetPlaceById(int placeId, string placeDetailsUrlPattern)
         {
             if (!PlacesInfoCache.ContainsKey(placeId))
             {
-                var body = await ParseResponseFromUrl(string.Format(Constants.PlaceDetailsUrlPattern, placeId));
+                var body = await ParseResponseFromUrl(string.Format(placeDetailsUrlPattern, placeId));
 
                 var place = body.ToObject<PlaceViewModel>();
 
