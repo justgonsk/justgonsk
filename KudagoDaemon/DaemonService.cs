@@ -1,13 +1,15 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using JustGo.View.Models;
+//using JustGo.View.Models;
 using JustGo.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using static JustGo.Helpers.Utilities;
+//using static JustGo.Helpers.Utilities;
 using System.Linq;
+using JustGo.View.Models;
+using static JustGo.Helpers.Utilities;
 
 namespace KudagoDaemon
 {
@@ -54,9 +56,9 @@ namespace KudagoDaemon
 
             var tasks = events.Results.Select(async (x) =>
             {
-                var place = await AddPlaceToDatabase(placesRepository, x.Place);
-                x.Place.Id = place.Id;
-                await eventsRepository.AddAsync(x);
+                //var place = await AddPlaceToDatabase(IPlacesRepository, x.Place);
+                //x.Place.Id = place.Id;
+                //await eventsRepository.AddAsync(x);
             });
 
             await Task.WhenAll(tasks);
@@ -74,8 +76,8 @@ namespace KudagoDaemon
                 }
             }*/
 
-            var tasks = eventsPoll.Results.Select(async (x) => await eventsRepository.AddAsync(x));
-            await Task.WhenAll(tasks);
+            //var tasks = eventsPoll.Results.Select(async (x) => await eventsRepository.AddAsync(x));
+            //await Task.WhenAll(tasks);
         }
 
         public async void MainCycle()

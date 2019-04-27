@@ -4,11 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.View.Models;
 using JustGo.View.Models.Edit;
-using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 
 namespace JustGo.Models
