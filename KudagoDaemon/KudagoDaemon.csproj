@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\justgonsk\JustGoModels\JustGoModels.csproj" />
-    <ProjectReference Include="..\justgonsk\JustGoUtilities\JustGoUtilities.csproj" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" />
+    <ProjectReference Include="..\JustGoModels\JustGoModels.csproj" />
+    <ProjectReference Include="..\JustGoUtilities\JustGoUtilities.csproj" />
   </ItemGroup>
 </Project>

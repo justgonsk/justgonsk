@@ -7,7 +7,7 @@ using JustGo.Models;
 using JustGo.View.Models;
 using Newtonsoft.Json;
 
-namespace JustGo.Helpers
+namespace JustGo.Models
 {
     /// <summary>
     /// Фильтр, отсеивающий события

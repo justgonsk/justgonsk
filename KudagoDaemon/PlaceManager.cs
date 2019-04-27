@@ -1,10 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using JustGo.Interfaces;
 using JustGo.Models;
+using JustGo.View.Models;
 using JustGo.View.Models.Edit;
+using static JustGo.Helpers.Utilities;
 
-namespace JustGo.Helpers
+namespace KudagoDaemon
 {
     public static class PlaceManager
     {
@@ -18,6 +19,17 @@ namespace JustGo.Helpers
             }
 
             return placeFromDatabase;
+        }
+
+        public async static Task<Poll<EventViewModel>> GetPlacesFromUrl(string url, string placeDetailsUrl)
+        {
+            var parsedPoll = await ParseResponseFromUrl(url);
+
+            var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, placeDetailsUrl);
+
+            var poll = pollInOurFormat.ToObject<Poll<EventViewModel>>(SnakeCaseSerializer);
+
+            return poll;
         }
     }
 }

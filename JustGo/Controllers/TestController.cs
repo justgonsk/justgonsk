@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using JustGo.Exceptions;
 using JustGo.Helpers;
+using JustGo.Models;
 using JustGo.ServerConfigs;
 using JustGo.View.Models;
 using Microsoft.AspNetCore.Mvc;

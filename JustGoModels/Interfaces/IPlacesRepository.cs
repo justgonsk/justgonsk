@@ -1,5 +1,4 @@
-﻿using JustGo.Helpers;
-using JustGo.Models;
+﻿using JustGo.Models;
 using JustGo.View.Models;
 using JustGo.View.Models.Edit;
 

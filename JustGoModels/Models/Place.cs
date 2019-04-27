@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Device.Location;
-using JustGo.Helpers;
 using JustGo.Interfaces;
 using JustGo.View.Models;
 using Newtonsoft.Json;
