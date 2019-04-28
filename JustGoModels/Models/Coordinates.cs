@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Device.Location;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GeoCoordinatePortable;
 using Newtonsoft.Json;
 
-namespace JustGo.Models
+namespace JustGoModels.Models
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class Coordinates : GeoCoordinate

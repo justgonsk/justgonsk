@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using JustGo.Models;
+﻿using System.Collections.Generic;
 
-namespace JustGo.View.Models.Edit
+namespace JustGoModels.Models.Edit
 {
     /// <summary>
     /// Класс для инициализации новых значений у viewmodel

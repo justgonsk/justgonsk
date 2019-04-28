@@ -1,8 +1,8 @@
-﻿using JustGo.Models;
-using JustGo.View.Models;
-using JustGo.View.Models.Edit;
+﻿using JustGoModels.Models;
+using JustGoModels.Models.Edit;
+using JustGoModels.Models.View;
 
-namespace JustGo.Interfaces
+namespace JustGoModels.Interfaces
 {
     public interface IEventsRepository : IRepository<Event, EventViewModel, EventEditModel>
     {

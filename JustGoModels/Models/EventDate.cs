@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace JustGo.Models
+namespace JustGoModels.Models
 {
     [DataContract]
     public class EventDate : IValidatableObject
@@ -28,14 +28,16 @@ namespace JustGo.Models
         /// Момент начала.
         /// </summary>
         [JsonProperty]
-        [NullOrRange(typeof(DateTime), "01/01/2014", "01/01/2021")]
+        [NullOrRange(typeof(DateTime), "01/01/2014", "01/01/2021",
+            ErrorMessage = "Если дата указывается, она должна быть от 01.01.2014 до 01.01.2021")]
         public DateTime? Start { get; set; }
 
         /// <summary>
         /// Момент конца.
         /// </summary>
         [JsonProperty]
-        [NullOrRange(typeof(DateTime), "01/01/2014", "01/01/2021")]
+        [NullOrRange(typeof(DateTime), "01/01/2014", "01/01/2021",
+            ErrorMessage = "Если дата указывается, она должна быть от 01.01.2014 до 01.01.2021")]
         public DateTime? End { get; set; }
 
         /// <summary>

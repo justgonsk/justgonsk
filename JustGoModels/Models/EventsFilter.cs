@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using JustGo.Interfaces;
-using JustGo.Models;
-using JustGo.View.Models;
+using JustGoModels.Models.View;
 using Newtonsoft.Json;
 
-namespace JustGo.Models
+namespace JustGoModels.Models
 {
     /// <summary>
     /// Фильтр, отсеивающий события

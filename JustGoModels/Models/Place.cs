@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using JustGo.Interfaces;
-using JustGo.View.Models;
-using Newtonsoft.Json;
+using JustGoModels.Interfaces;
+using JustGoModels.Models.View;
 
-namespace JustGo.Models
+namespace JustGoModels.Models
 {
     public class Place : IConvertibleToViewModel<PlaceViewModel>
     {

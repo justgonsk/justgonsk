@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using JustGo.Models;
-using JustGo.View.Models.Edit;
+﻿using JustGoModels.Models.View;
 using Newtonsoft.Json;
 
-namespace JustGo.View.Models
+namespace JustGoModels.Models.Edit
 {
-    public class PlaceViewModel
+    /// <summary>
+    /// Класс для инициализации новых значений у viewmodel
+    /// Свойства могут быть null - это значит что мы их не меняем.
+    /// </summary>
+    public class PlaceEditModel
     {
-        /// <summary>
-        /// Если указан, будет сопоставляться с первичным ключом в нашей таблице
-        /// </summary>
         public int? Id { get; set; }
 
-        [Required]
         public string Title { get; set; }
 
-        [Required]
         public string Address { get; set; }
 
         [JsonProperty("coords")]
         public Coordinates Coordinates { get; set; }
 
-        public static implicit operator PlaceEditModel(PlaceViewModel model)
+        public static implicit operator PlaceViewModel(PlaceEditModel model)
         {
-            return new PlaceEditModel
+            return new PlaceViewModel
             {
                 Id = model.Id,
                 Title = model.Title,

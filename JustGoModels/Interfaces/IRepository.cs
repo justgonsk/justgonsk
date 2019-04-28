@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using JustGo.Models;
-using JustGo.View.Models;
 
-namespace JustGo.Interfaces
+namespace JustGoModels.Interfaces
 {
     /// <summary>
     /// Интерфейс для хранилища объектов бизнес-логики

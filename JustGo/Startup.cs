@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JustGo.Data;
-using JustGo.Helpers;
-using JustGo.Interfaces;
+﻿using JustGo.Data;
 using JustGo.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using JustGo.Controllers;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
-using MySql.Data.EntityFrameworkCore.Extensions;
+using JustGoModels.Interfaces;
+using JustGoUtilities;
 
 namespace JustGo
 {
