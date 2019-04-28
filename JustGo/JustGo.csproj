@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <UserSecretsId>7eedf785-3ec7-4380-b8f9-17db6f724a91</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -77,5 +75,7 @@
     <None Update="C:\Users\Андрей\.nuget\packages\nlog.config\4.6.2\contentFiles\any\any\NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.16" />
   </ItemGroup>
 </Project>

@@ -22,6 +22,11 @@ using JustGoUtilities;
 using NLog.Extensions.Logging;
 using NLog.Web;
 
+using JustGo.Controllers;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Net;
+using MySql.Data.EntityFrameworkCore.Extensions;
+
 namespace JustGo
 {
     public class Startup
@@ -61,12 +66,12 @@ namespace JustGo
             {
                 options.UseLazyLoadingProxies(); //это нужно и для in-memory базы тоже
 
-                options.UseInMemoryDatabase("justgo_inmemory");
-                /*var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
+                //options.UseInMemoryDatabase("justgo_inmemory");
+                //var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
 
-                var connectionString = Configuration.GetConnectionString(databaseConnStr);
+                var connectionString = Configuration.GetConnectionString("MySQLConnectionString");
 
-                options.UseSqlServer(connectionString);*/
+                options.UseMySQL(connectionString);
             });
 
             services.AddScoped<IEventsRepository, DbEventsRepository>();
