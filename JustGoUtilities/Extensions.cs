@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JustGo.Interfaces;
-using JustGo.View.Models;
+﻿using System.Collections.Generic;
+using JustGoModels.Interfaces;
+using JustGoModels.Models.View;
 
-namespace JustGo.Helpers
+namespace JustGoUtilities
 {
     public static class Extensions
     {

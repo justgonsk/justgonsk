@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace JustGo.Interfaces
+﻿namespace JustGoModels.Interfaces
 {
     public interface IConvertibleToViewModel<TViewModel>
     {

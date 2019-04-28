@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Data;
-using JustGo.Helpers;
-using JustGo.Interfaces;
-using JustGo.Models;
-using JustGo.View.Models;
-using JustGo.View.Models.Edit;
+using JustGoModels.Interfaces;
+using JustGoModels.Models;
+using JustGoModels.Models.Edit;
+using JustGoModels.Models.View;
+using JustGoUtilities;
 
 namespace JustGo.Repositories
 {

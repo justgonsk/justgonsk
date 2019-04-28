@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Linq;
 
-namespace JustGo.View.Models
+namespace JustGoModels.Models.View
 {
     /// <summary>
     /// DTO-шка для передачи списков чего-либо (событий, мест и т.д...)

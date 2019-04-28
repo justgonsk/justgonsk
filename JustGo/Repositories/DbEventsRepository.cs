@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Data;
 using JustGo.Exceptions;
-using JustGo.Helpers;
-using JustGo.Interfaces;
-using JustGo.Models;
-using JustGo.View.Models;
-using JustGo.View.Models.Edit;
+using JustGoModels.Interfaces;
+using JustGoModels.Models;
+using JustGoModels.Models.Edit;
+using JustGoModels.Models.View;
+using JustGoUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 

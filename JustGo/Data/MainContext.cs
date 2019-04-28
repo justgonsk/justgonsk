@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using JustGo.Helpers;
-using JustGo.Models;
+using JustGoModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

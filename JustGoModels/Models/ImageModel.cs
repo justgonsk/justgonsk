@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace JustGo.Models
+namespace JustGoModels.Models
 {
     public class ImageModel
     {

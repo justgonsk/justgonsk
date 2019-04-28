@@ -1,19 +1,20 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 //using JustGo.View.Models;
-using JustGo.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 //using static JustGo.Helpers.Utilities;
 using System.Linq;
-using JustGo.View.Models;
-using static JustGo.Helpers.Utilities;
+using JustGoModels.Models.View;
+using JustGoUtilities;
+using static JustGoUtilities.Utilities;
 
 namespace KudagoDaemon
 {
-
     public class DaemonService : IHostedService, IDisposable
     {
         private const string DefaultEventPollUrl =
@@ -103,7 +104,6 @@ namespace KudagoDaemon
         public void Dispose()
         {
             _logger.LogInformation("Disposing....");
-
         }
     }
 }

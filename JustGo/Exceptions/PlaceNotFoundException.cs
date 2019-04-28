@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using JustGo.View.Models.Edit;
+using JustGoModels.Models.Edit;
+using JustGoModels.Models.View;
 
 namespace JustGo.Exceptions
 {
@@ -28,7 +29,6 @@ namespace JustGo.Exceptions
 
         protected PlaceNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-
         }
     }
 }

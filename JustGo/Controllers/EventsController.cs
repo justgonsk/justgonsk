@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using JustGo.Data;
 using JustGo.Exceptions;
-using JustGo.Helpers;
-using JustGo.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using JustGo.Models;
-using JustGo.View.Models;
-using JustGo.View.Models.Edit;
 using System.Linq;
+using JustGoModels.Interfaces;
+using JustGoModels.Models;
+using JustGoModels.Models.Edit;
+using JustGoModels.Models.View;
 
 namespace JustGo.Controllers
 {
@@ -40,7 +39,7 @@ namespace JustGo.Controllers
             {
                 filter.ParseParameters(categories, tags, places);
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 return BadRequest(e.ToString());
             }

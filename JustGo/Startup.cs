@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGo.Data;
-using JustGo.Helpers;
-using JustGo.Interfaces;
 using JustGo.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +17,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using JustGo.Controllers;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
+using JustGoModels.Interfaces;
+using JustGoUtilities;
 
 namespace JustGo
 {

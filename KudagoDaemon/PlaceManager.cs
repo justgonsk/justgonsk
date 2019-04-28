@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using JustGo.Interfaces;
-using JustGo.Models;
-using JustGo.View.Models;
-using JustGo.View.Models.Edit;
-using static JustGo.Helpers.Utilities;
+using JustGoModels.Interfaces;
+using JustGoModels.Models;
+using JustGoModels.Models.Edit;
+using JustGoModels.Models.View;
+using static JustGoUtilities.Utilities;
 
 namespace KudagoDaemon
 {

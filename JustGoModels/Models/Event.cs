@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
-using JustGo.Interfaces;
-using JustGo.View.Models;
-using JustGo.View.Models.Edit;
-using Newtonsoft.Json;
+using JustGoModels.Interfaces;
+using JustGoModels.Models.View;
 
-namespace JustGo.Models
+namespace JustGoModels.Models
 {
     /// <remarks>
     /// Виртуальные свойства используются для lazy loading

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using JustGo.Models;
-using JustGo.View.Models.Edit;
-using Newtonsoft.Json;
+using JustGoModels.Models.Edit;
 
-namespace JustGo.View.Models
+namespace JustGoModels.Models.View
 {
     public class EventViewModel
     {

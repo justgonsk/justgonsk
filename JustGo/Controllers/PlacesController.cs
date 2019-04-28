@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using JustGo.Exceptions;
-using JustGo.Helpers;
-using JustGo.Interfaces;
-using JustGo.View.Models;
-using JustGo.View.Models.Edit;
+using JustGoModels.Interfaces;
+using JustGoModels.Models.Edit;
+using JustGoModels.Models.View;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JustGo.Controllers

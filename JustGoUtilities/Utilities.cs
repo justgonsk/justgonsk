@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using JustGo.Models;
-using JustGo.View.Models;
+using JustGoModels.Models.View;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace JustGo.Helpers
+namespace JustGoUtilities
 {
     public static class Utilities
     {

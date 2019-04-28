@@ -2,12 +2,12 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using JustGo.Exceptions;
-using JustGo.Helpers;
-using JustGo.Models;
 using JustGo.ServerConfigs;
-using JustGo.View.Models;
+using JustGoModels.Models;
+using JustGoModels.Models.View;
+using JustGoUtilities;
 using Microsoft.AspNetCore.Mvc;
-using static JustGo.Helpers.Utilities;
+using static JustGoUtilities.Utilities;
 
 namespace JustGo.Controllers
 {
