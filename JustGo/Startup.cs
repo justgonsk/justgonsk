@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using JustGo.Controllers;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
+using MySql.Data.EntityFrameworkCore.Extensions;
 
 namespace JustGo
 {
@@ -59,12 +60,12 @@ namespace JustGo
             {
                 options.UseLazyLoadingProxies(); //это нужно и для in-memory базы тоже
 
-                options.UseInMemoryDatabase("justgo_inmemory");
-                /*var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
+                //options.UseInMemoryDatabase("justgo_inmemory");
+                //var databaseConnStr = Environment.IsDevelopment() ? "LocalEventContext" : "TODO!!!";
 
-                var connectionString = Configuration.GetConnectionString(databaseConnStr);
+                var connectionString = Configuration.GetConnectionString("MySQLConnectionString");
 
-                options.UseSqlServer(connectionString);*/
+                options.UseMySQL(connectionString);
             });
 
             services.AddScoped<IEventsRepository, DbEventsRepository>();
