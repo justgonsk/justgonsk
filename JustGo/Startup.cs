@@ -1,6 +1,4 @@
 ﻿using JustGo.Controllers;
-using JustGo.Data;
-using JustGo.Repositories;
 using JustGoModels.Interfaces;
 using JustGoUtilities;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +20,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System;
+using JustGoUtilities.Data;
+using JustGoUtilities.Repositories;
 
 namespace JustGo
 {

@@ -1,13 +1,18 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustGo", "JustGo\JustGo.csproj", "{38737E89-B148-4F2B-8F87-C8D929761CE0}"
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JustGo", "JustGo\JustGo.csproj", "{38737E89-B148-4F2B-8F87-C8D929761CE0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D7F720D-E581-442A-9923-1591A9BAFD63} = {5D7F720D-E581-442A-9923-1591A9BAFD63}
+		{35AB9669-B521-4556-8823-EAEB6C6DB794} = {35AB9669-B521-4556-8823-EAEB6C6DB794}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustGoModels", "JustGoModels\JustGoModels.csproj", "{35AB9669-B521-4556-8823-EAEB6C6DB794}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JustGoModels", "JustGoModels\JustGoModels.csproj", "{35AB9669-B521-4556-8823-EAEB6C6DB794}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustGoUtilities", "JustGoUtilities\JustGoUtilities.csproj", "{5D7F720D-E581-442A-9923-1591A9BAFD63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JustGoUtilities", "JustGoUtilities\JustGoUtilities.csproj", "{5D7F720D-E581-442A-9923-1591A9BAFD63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KudagoDaemon", "KudagoDaemon\KudagoDaemon.csproj", "{8A809288-C233-4671-A71B-96C39D229F26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KudagoDaemon", "KudagoDaemon\KudagoDaemon.csproj", "{8A809288-C233-4671-A71B-96C39D229F26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,5 +36,11 @@ Global
 		{8A809288-C233-4671-A71B-96C39D229F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A809288-C233-4671-A71B-96C39D229F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A809288-C233-4671-A71B-96C39D229F26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {243749EF-344B-4520-9EDE-8FB8FC7811B6}
 	EndGlobalSection
 EndGlobal
