@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
 using JustGoModels.Interfaces;
 using JustGoUtilities;
+using NLog.Extensions.Logging;
+using NLog.Web;
 
 namespace JustGo
 {
@@ -72,7 +74,7 @@ namespace JustGo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
@@ -91,6 +93,11 @@ namespace JustGo
             app.UseCors(builder => builder.AllowAnyOrigin());
 
             app.UseHttpsRedirection();
+
+            loggerFactory.AddNLog();
+
+            app.AddNLogWeb();
+
             app.UseMvc();
         }
     }

@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>7eedf785-3ec7-4380-b8f9-17db6f724a91</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -60,11 +62,20 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NLog.Config" Version="4.6.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JustGoModels\JustGoModels.csproj" />
     <ProjectReference Include="..\JustGoUtilities\JustGoUtilities.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="C:\Users\Андрей\.nuget\packages\nlog.config\4.6.2\contentFiles\any\any\NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
