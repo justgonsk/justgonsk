@@ -1,8 +1,11 @@
 language: csharp
+mono: none
+dotnet: 2.1.0
 solution: JustGo.sln
+
 install:
-  - nuget restore JustGo.sln
+  - dotnet restore
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
-  - msbuild /p:Configuration=Release JustGo.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./JustGoTests/bin/Release.1/JustGoTests.dll
+ - dotnet build
+ - dotnet test JustGoTests/JustGoTests.csproj
