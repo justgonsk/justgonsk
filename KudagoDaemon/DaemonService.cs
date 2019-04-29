@@ -2,16 +2,18 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-//using JustGo.View.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-//using static JustGo.Helpers.Utilities;
 using System.Linq;
 using JustGoModels.Models.View;
 using JustGoUtilities;
 using static JustGoUtilities.Utilities;
+using static KudagoDaemon.PlaceManager;
+using Microsoft.EntityFrameworkCore;
+using JustGoUtilities.Data;
+using JustGoUtilities.Repositories;
 
 namespace KudagoDaemon
 {
@@ -27,6 +29,9 @@ namespace KudagoDaemon
             "https://kudago.com/public-api/v1.4/places/{0}/?lang=&fields=id,title,address,coords&expand=";
 
         private int timespan;
+        private MainContext _dbcontext;
+        private DbEventsRepository eventsRepository;
+        private DbPlacesRepository placesRepository;
 
         private readonly ILogger _logger;
         private readonly IOptions<DaemonConfig> _config;
@@ -35,11 +40,20 @@ namespace KudagoDaemon
         {
             _logger = logger;
             _config = config;
+
+            var dbcontextoptions = new DbContextOptions<MainContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<MainContext>();
+            optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
+
+            _dbcontext = new MainContext(optionsBuilder.Options);
+            eventsRepository = new DbEventsRepository(_dbcontext);
+            placesRepository = new DbPlacesRepository(_dbcontext);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Starting daemon: " + _config.Value.DaemonName);
+            MainCycle();
             return Task.CompletedTask;
         }
 
@@ -57,12 +71,22 @@ namespace KudagoDaemon
 
             var tasks = events.Results.Select(async (x) =>
             {
-                //var place = await AddPlaceToDatabase(IPlacesRepository, x.Place);
-                //x.Place.Id = place.Id;
-                //await eventsRepository.AddAsync(x);
+                if (!EventExistsInDb(x))
+                {
+                    var place = await AddPlaceToDatabase(placesRepository, x.Place);
+                    x.Place.Id = place.Id;
+
+                    await eventsRepository.AddAsync(x);
+                }
             });
 
             await Task.WhenAll(tasks);
+        }
+
+        private bool EventExistsInDb(EventViewModel @event)
+        {
+            var poll = eventsRepository.GetEventPoll(null, 0, 1000000);
+            return poll.Results.Any(x => x.Description == @event.Description);
         }
 
         public async Task PutEventsInDatabase(Poll<EventViewModel> eventsPoll)
@@ -92,7 +116,7 @@ namespace KudagoDaemon
 
         public async Task<Poll<EventViewModel>> GetEventsFromTarget()
         {
-            var parsedPoll = await Utilities.ParseResponseFromUrl(DefaultEventPollUrl);
+            var parsedPoll = await ParseResponseFromUrl(DefaultEventPollUrl);
 
             var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, DefaultPlaceDetailsUrlPattern);
 

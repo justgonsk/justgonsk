@@ -6,7 +6,6 @@ using JustGoModels.Interfaces;
 using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
-using JustGoUtilities;
 
 namespace JustGoUtilities.Repositories
 {
