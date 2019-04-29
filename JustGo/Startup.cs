@@ -1,4 +1,4 @@
-﻿using JustGo.Repositories;
+﻿using JustGoUtilities.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
-using JustGoModels.Data;
+using JustGoUtilities.Data;
 using JustGoModels.Interfaces;
 using static JustGoUtilities.Utilities;
 

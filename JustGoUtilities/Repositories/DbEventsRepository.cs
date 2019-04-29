@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JustGo.Exceptions;
-using JustGoModels.Data;
+using JustGoUtilities.Exceptions;
+using JustGoUtilities.Data;
 using JustGoModels.Interfaces;
 using JustGoModels.Models;
 using JustGoModels.Models.Edit;
@@ -11,7 +11,7 @@ using JustGoUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
-namespace JustGo.Repositories
+namespace JustGoUtilities.Repositories
 {
     public class DbEventsRepository : IEventsRepository
     {

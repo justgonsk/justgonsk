@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using JustGoModels.Models.Edit;
 
-namespace JustGo.Exceptions
+namespace JustGoUtilities.Exceptions
 {
     [Serializable]
     internal class PlaceNotFoundException : Exception

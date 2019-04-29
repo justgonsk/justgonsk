@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using JustGo.Exceptions;
+using JustGoUtilities.Exceptions;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;

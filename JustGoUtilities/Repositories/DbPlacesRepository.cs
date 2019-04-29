@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JustGoModels.Data;
+using JustGoUtilities.Data;
 using JustGoModels.Interfaces;
 using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
 using JustGoUtilities;
 
-namespace JustGo.Repositories
+namespace JustGoUtilities.Repositories
 {
-    internal class DbPlacesRepository : IPlacesRepository
+    public class DbPlacesRepository : IPlacesRepository
     {
         private readonly MainContext context;
 

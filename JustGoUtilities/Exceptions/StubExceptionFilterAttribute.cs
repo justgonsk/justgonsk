@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace JustGo.Exceptions
+namespace JustGoUtilities.Exceptions
 {
     /// <summary>
     /// Атрибут фильтра, отлавливающий все исключения и отправляющий в ответе ошибку.
@@ -14,7 +14,7 @@ namespace JustGo.Exceptions
     /// В реальном приложении не очень круто отправлять stacktrace
     /// Здесь это сделано в диагностических целях
     /// </remarks>
-    internal class StubExceptionFilterAttribute : ExceptionFilterAttribute
+    public class StubExceptionFilterAttribute : ExceptionFilterAttribute
     {
         public override async Task OnExceptionAsync(ExceptionContext context)
         {
