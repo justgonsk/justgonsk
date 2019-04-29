@@ -1,5 +1,4 @@
-﻿using JustGo.Data;
-using JustGo.Repositories;
+﻿using JustGo.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
+using JustGoModels.Data;
 using JustGoModels.Interfaces;
-using JustGoUtilities;
+using static JustGoUtilities.Utilities;
 
 namespace JustGo
 {
@@ -37,7 +37,7 @@ namespace JustGo
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver
-                        = Utilities.SnakeCaseSettings.ContractResolver;
+                        = SnakeCaseSettings.ContractResolver;
                 })
                 .AddControllersAsServices();
 

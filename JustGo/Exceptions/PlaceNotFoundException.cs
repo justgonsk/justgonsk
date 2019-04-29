@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using JustGoModels.Models.Edit;
-using JustGoModels.Models.View;
 
 namespace JustGo.Exceptions
 {

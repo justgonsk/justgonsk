@@ -5,7 +5,7 @@ using JustGoModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JustGo.Data
+namespace JustGoModels.Data
 {
     /// <inheritdoc />
     /// <summary>
