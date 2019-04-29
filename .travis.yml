@@ -5,7 +5,7 @@ solution: JustGo.sln
 
 install:
   - dotnet restore
-  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
+
 script:
  - dotnet build
  - dotnet test JustGoTests/JustGoTests.csproj
