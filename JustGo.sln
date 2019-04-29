@@ -14,6 +14,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JustGoUtilities", "JustGoUt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KudagoDaemon", "KudagoDaemon\KudagoDaemon.csproj", "{8A809288-C233-4671-A71B-96C39D229F26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustGoTests", "JustGoTests\JustGoTests.csproj", "{7155D639-76F2-43D1-8B30-3CAAE8ADAE0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DC6A67B-AA5F-4F40-9446-C76AD7637284}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +43,10 @@ Global
 		{8A809288-C233-4671-A71B-96C39D229F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A809288-C233-4671-A71B-96C39D229F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A809288-C233-4671-A71B-96C39D229F26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7155D639-76F2-43D1-8B30-3CAAE8ADAE0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7155D639-76F2-43D1-8B30-3CAAE8ADAE0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7155D639-76F2-43D1-8B30-3CAAE8ADAE0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7155D639-76F2-43D1-8B30-3CAAE8ADAE0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
