@@ -4,5 +4,5 @@ install:
   - nuget restore JustGo.sln
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
-  - msbuild /p:Configuration=Release JustGoname.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./JustGoTests/bin/Release/netcoreapp2.1/JustGoTests.dll
+  - msbuild /p:Configuration=Release JustGo.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./JustGoTests/bin/Release.1/JustGoTests.dll
