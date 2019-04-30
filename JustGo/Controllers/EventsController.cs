@@ -21,27 +21,6 @@ namespace JustGo.Controllers
             this.eventsRepository = eventsRepository;
         }
 
-        [HttpGet]
-        public ActionResult<Poll<EventViewModel>> GetEventPoll([FromQuery] int? offset,
-                                                  [FromQuery] int? count,
-                                                  [FromQuery] string categories,
-                                                  [FromQuery] string tags,
-                                                  [FromQuery] string places)
-        {
-            var filter = new EventsFilter();
-
-            try
-            {
-                filter.ParseParameters(categories, tags, places);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.ToString());
-            }
-
-            return eventsRepository.GetEventPoll(filter, offset, count);
-        }
-
         #region EXAMPLE
 
         /* GET: api/Events/filter/?offset=2&count=35
@@ -70,12 +49,13 @@ namespace JustGo.Controllers
 
         #endregion EXAMPLE
 
-        /*[HttpGet("filter")]
-        public Poll<EventViewModel> GetEventPoll([FromBody] EventsFilter filter,
-            [FromQuery] int? offset, [FromQuery] int? count)
+        [HttpGet]
+        public ActionResult<Poll<EventViewModel>> GetEventPoll([FromQuery] int? offset,
+            [FromQuery] int? count, [FromQuery] EventsFilterViewModel filterInfo)
         {
+            var filter = filterInfo.ToModel();
             return eventsRepository.GetEventPoll(filter, offset, count);
-        }*/
+        }
 
         // GET: api/Events/2903
         [HttpGet("{id}")]

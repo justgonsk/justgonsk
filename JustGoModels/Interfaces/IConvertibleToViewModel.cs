@@ -1,6 +1,6 @@
 ﻿namespace JustGoModels.Interfaces
 {
-    public interface IConvertibleToViewModel<TViewModel>
+    public interface IConvertibleToViewModel<out TViewModel>
     {
         TViewModel ToViewModel();
     }

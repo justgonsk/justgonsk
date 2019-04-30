@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using JustGoModels.Models.View;
+
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace JustGoModels.Models
@@ -16,7 +18,6 @@ namespace JustGoModels.Models
         /// Если null, тогда не фильтруем по категориям
         /// Если пустой, ищем только события без категорий
         /// </summary>
-        [JsonProperty("categories")]
         public List<string> RequiredCategories { get; set; }
 
         /// <summary>
@@ -24,44 +25,24 @@ namespace JustGoModels.Models
         /// Если null, тогда не фильтруем по тэгам
         /// Если пустой, ищем только события без тэгов
         /// </summary>
-        [JsonProperty("tags")]
         public List<string> RequiredTags { get; set; }
-
-        /// <summary>
-        /// Список допустимых мест в виде view-моделек.
-        /// Если null, тогда не фильтруем по местам
-        /// Если пустой, ищем события где место не указано
-        /// </summary>
-        [JsonProperty("places")]
-        public List<PlaceViewModel> AllowedPlaces { get; set; }
 
         /// <summary>
         /// Список ID допустимых мест.
         /// Если null, тогда не фильтруем по местам
         /// Если пустой, ищем события где место не указано
         /// </summary>
-        [JsonProperty("place_ids")]
-        public List<int> AllowedPlacesIds { get; set; }
+        public List<int> AllowedPlaceIds { get; set; }
 
-        public void ParseParameters(string categories, string tags, string places)
-        {
-            RequiredCategories = categories?.Split(',').ToList();
-            RequiredTags = tags?.Split(',').ToList();
+        /// <summary>
+        /// Если указано, то события раньше этого момента включаться не будут
+        /// </summary>
+        public DateTime? From { get; set; }
 
-            AllowedPlacesIds = places?.Split(',').Select(x =>
-            {
-                if (int.TryParse(x, out int result))
-                {
-                    return result;
-                }
-                else
-                {
-                    throw new ArgumentException("Place IDs must be numbers", nameof(places));
-                }
-            }).ToList();
-
-            AllowedPlaces = null;
-        }
+        /// <summary>
+        /// Если указано, то события позже этого момента включаться не будут
+        /// </summary>
+        public DateTime? To { get; set; }
 
         public IEnumerable<Event> FilterEvents(IEnumerable<Event> sequence)
         {
@@ -102,7 +83,7 @@ namespace JustGoModels.Models
 
         private bool PlaceIsFromFilter(Event @event)
         {
-            return AllowedPlaces == null || AllowedPlaces.Contains(@event.Place.ToViewModel());
+            return AllowedPlaceIds == null || AllowedPlaceIds.Contains(@event.Place.Id);
         }
 
         public bool SatisfiesFilter(EventViewModel @event)
@@ -126,7 +107,9 @@ namespace JustGoModels.Models
 
         private bool PlaceIsFromFilter(EventViewModel @event)
         {
-            return AllowedPlaces == null || AllowedPlaces.Contains(@event.Place);
+            var placeId = @event.Place.Id;
+            return placeId != null &&
+                   (AllowedPlaceIds == null || AllowedPlaceIds.Contains(placeId.Value));
         }
     }
 }

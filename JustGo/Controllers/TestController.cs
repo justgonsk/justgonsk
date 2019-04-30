@@ -58,23 +58,6 @@ namespace JustGo.Controllers
 
         public async Task<Poll<EventViewModel>> GetEventsFromTarget()
         {
-            #region old_impl
-
-            /* var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventPollUrl);
-
-            var response = await httpClient.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadAsAsync<Poll<EventViewModel>>();
-            }
-            else
-            {
-                return null;
-            }  */
-
-            #endregion old_impl
-
             var parsedPoll = await ParseResponseFromUrl(Constants.EventPollUrl);
 
             var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, Constants.PlaceDetailsUrlPattern);
