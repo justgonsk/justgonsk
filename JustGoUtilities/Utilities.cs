@@ -26,6 +26,11 @@ namespace JustGoUtilities
 
         public static JsonSerializer SnakeCaseSerializer { get; } = JsonSerializer.Create(SnakeCaseSettings);
 
+        public static int DateTimeToUnixTimestamp(this DateTime dateTime)
+        {
+            return (int)dateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        }
+
         public static async Task<JObject> ParseResponseFromUrl(string url)
         {
             var httpClient = new HttpClient();

@@ -19,16 +19,19 @@ namespace KudagoDaemon
 {
     public class DaemonService : IHostedService, IDisposable
     {
-        private const string DefaultEventPollUrl =
-            "https://kudago.com/public-api/v1.4/events/?location=nsk&expand=dates&fields=id,dates,title,short_title,place,description,categories,images,tags&actual_since=1554508800";
+        private const string DefaultEventPollUrlPattern =
+            "https://kudago.com/public-api/v1.4/events/?location=nsk&expand=dates&" +
+            "fields=id,dates,title,short_title,place,description,categories,images,tags&actual_since={0}&actual_until={1}";
 
         private const string DefaultEventDetailsUrl = "https://kudago.com/public-api/v1.4/events/";
+
+        private const int DateTimeRangeLengthInDays = 30;
 
         //32414 - максимальный ID места на кудаго на момент этого коммита
         private const string DefaultPlaceDetailsUrlPattern =
             "https://kudago.com/public-api/v1.4/places/{0}/?lang=&fields=id,title,address,coords&expand=";
 
-        private int timespan;
+        private int timespan = 600;
         private MainContext _dbcontext;
         private DbEventsRepository eventsRepository;
         private DbPlacesRepository placesRepository;
@@ -43,7 +46,8 @@ namespace KudagoDaemon
 
             var dbcontextoptions = new DbContextOptions<MainContext>();
             var optionsBuilder = new DbContextOptionsBuilder<MainContext>();
-            optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
+            optionsBuilder.UseInMemoryDatabase("justgo_inmemory");
+            //optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
 
             _dbcontext = new MainContext(optionsBuilder.Options);
             eventsRepository = new DbEventsRepository(_dbcontext);
@@ -65,13 +69,23 @@ namespace KudagoDaemon
 
         public async Task FillBaseOnce()
         {
-            var events = await GetEventsFromTarget();
+            var events = await GetAllEventsFromTarget();
 
-            events = events.Results.ToPoll();
+            //events = events.Results.ToPoll();
+
+            await PutEventsInDatabase(events);
+        }
+
+        public async Task PutEventsInDatabase(Poll<EventViewModel> events)
+        {
+            if (events == null)
+                throw new ArgumentNullException(nameof(events));
+
+            var allEvents = eventsRepository.EnumerateAll();
 
             var tasks = events.Results.Select(async (x) =>
             {
-                if (!EventExistsInDb(x))
+                if (!allEvents.Any(eventFromDb => x.Description == eventFromDb.Description))
                 {
                     var place = await AddPlaceToDatabase(placesRepository, x.Place);
                     x.Place.Id = place.Id;
@@ -83,28 +97,6 @@ namespace KudagoDaemon
             await Task.WhenAll(tasks);
         }
 
-        private bool EventExistsInDb(EventViewModel @event)
-        {
-            var poll = eventsRepository.GetEventPoll(null, 0, 1000000);
-            return poll.Results.Any(x => x.Description == @event.Description);
-        }
-
-        public async Task PutEventsInDatabase(Poll<EventViewModel> eventsPoll)
-        {
-            // занести события в нашу базу
-            /*foreach(var @event in eventsPoll.Results)
-            {
-                var eventFromDatabase = await eventsRepository.FindAsync(@event.Id.Value);
-                if (@event.Id != null && eventFromDatabase == null)
-                {
-                    await eventsRepository.AddAsync(@event);
-                }
-            }*/
-
-            //var tasks = eventsPoll.Results.Select(async (x) => await eventsRepository.AddAsync(x));
-            //await Task.WhenAll(tasks);
-        }
-
         public async void MainCycle()
         {
             while (true)
@@ -114,9 +106,27 @@ namespace KudagoDaemon
             }
         }
 
-        public async Task<Poll<EventViewModel>> GetEventsFromTarget()
+        public async Task<Poll<EventViewModel>> GetAllEventsFromTarget()
         {
-            var parsedPoll = await ParseResponseFromUrl(DefaultEventPollUrl);
+            var nowUnixTimestamp = DateTime.UtcNow.DateTimeToUnixTimestamp();
+            var endRangeTimestamp = DateTime.UtcNow.AddDays(DateTimeRangeLengthInDays).DateTimeToUnixTimestamp();
+
+            var events = await GetEventsFromTarget(string.Format(DefaultEventPollUrlPattern, nowUnixTimestamp, endRangeTimestamp));
+            var result = new Poll<EventViewModel>(events.Results);
+
+            while (events.Next != null)
+            {
+                events = await GetEventsFromTarget(events.Next);
+                var eventsPoll = events.Results.ToPoll();
+                result.AddRange(eventsPoll);
+            }
+
+            return result;
+        }
+
+        public async Task<Poll<EventViewModel>> GetEventsFromTarget(string targetURL)
+        {
+            var parsedPoll = await ParseResponseFromUrl(targetURL);
 
             var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, DefaultPlaceDetailsUrlPattern);
 
