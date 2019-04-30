@@ -47,7 +47,7 @@ namespace KudagoDaemon
             var dbcontextoptions = new DbContextOptions<MainContext>();
             var optionsBuilder = new DbContextOptionsBuilder<MainContext>();
 
-            //optionsBuilder.UseInMemoryDatabase("justgo_inmemory");
+            //optionsBuilder.UseInMemoryDatabase("LocalInMemory");
             optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
 
             _dbcontext = new MainContext(optionsBuilder.Options);
