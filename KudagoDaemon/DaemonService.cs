@@ -31,7 +31,7 @@ namespace KudagoDaemon
         private const string DefaultPlaceDetailsUrlPattern =
             "https://kudago.com/public-api/v1.4/places/{0}/?lang=&fields=id,title,address,coords&expand=";
 
-        private int timespan = 600;
+        private int timespan = 600000;
         private MainContext _dbcontext;
         private DbEventsRepository eventsRepository;
         private DbPlacesRepository placesRepository;
@@ -46,8 +46,9 @@ namespace KudagoDaemon
 
             var dbcontextoptions = new DbContextOptions<MainContext>();
             var optionsBuilder = new DbContextOptionsBuilder<MainContext>();
-            optionsBuilder.UseInMemoryDatabase("justgo_inmemory");
-            //optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
+
+            //optionsBuilder.UseInMemoryDatabase("justgo_inmemory");
+            optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
 
             _dbcontext = new MainContext(optionsBuilder.Options);
             eventsRepository = new DbEventsRepository(_dbcontext);
@@ -70,8 +71,6 @@ namespace KudagoDaemon
         public async Task FillBaseOnce()
         {
             var events = await GetAllEventsFromTarget();
-
-            //events = events.Results.ToPoll();
 
             await PutEventsInDatabase(events);
         }
@@ -117,7 +116,7 @@ namespace KudagoDaemon
             while (events.Next != null)
             {
                 events = await GetEventsFromTarget(events.Next);
-                var eventsPoll = events.Results.ToPoll();
+                var eventsPoll = new Poll<EventViewModel>(events.Results);
                 result.AddRange(eventsPoll);
             }
 
