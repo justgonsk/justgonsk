@@ -54,15 +54,31 @@ namespace JustGoUtilities
 
             var results = (JArray)newBody["results"];
 
-            foreach (var result in results)
+            for (int i = 0; i < results.Count; i++)
             {
+                var result = results[i];
                 var eventInfo = (JObject)result;
 
-                var placeId = (int)eventInfo["place"]["id"];
+                if ((int)eventInfo["id"] == 132963)
+                {
+                    var placeFromObjectTokenDeb = eventInfo["place"];
+                    var bo = placeFromObjectTokenDeb.HasValues;
+                }
 
-                var place = await GetPlaceById(placeId, placeDetailsUrlPattern);
+                var placeFromObjectToken = eventInfo["place"];
 
-                eventInfo.Property("place").Value = JToken.FromObject(place, SnakeCaseSerializer);
+                if (placeFromObjectToken.HasValues)
+                {
+                    var placeId = (int)eventInfo["place"]["id"];
+                    var place = await GetPlaceById(placeId, placeDetailsUrlPattern);
+                    eventInfo.Property("place").Value = JToken.FromObject(place, SnakeCaseSerializer);
+                }
+                else
+                {
+                    results.RemoveAt(i);
+                    i--;
+                    continue;
+                }
 
                 var dates = GetDatesFromJson((JArray)eventInfo["dates"]);
 

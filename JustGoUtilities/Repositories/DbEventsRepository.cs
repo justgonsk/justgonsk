@@ -10,6 +10,7 @@ using JustGoModels.Models.View;
 using JustGoUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System;
 
 namespace JustGoUtilities.Repositories
 {
