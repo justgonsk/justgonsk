@@ -107,8 +107,8 @@ namespace KudagoDaemon
 
         public async Task<Poll<EventViewModel>> GetAllEventsFromTarget()
         {
-            var nowUnixTimestamp = DateTime.UtcNow.DateTimeToUnixTimestamp();
-            var endRangeTimestamp = DateTime.UtcNow.AddDays(DateTimeRangeLengthInDays).DateTimeToUnixTimestamp();
+            var nowUnixTimestamp = DateTime.UtcNow.ToUnixTimeSeconds();
+            var endRangeTimestamp = DateTime.UtcNow.AddDays(DateTimeRangeLengthInDays).ToUnixTimeSeconds();
 
             var events = await GetEventsFromTarget(string.Format(DefaultEventPollUrlPattern, nowUnixTimestamp, endRangeTimestamp));
             var result = new Poll<EventViewModel>(events.Results);
@@ -127,7 +127,7 @@ namespace KudagoDaemon
         {
             var parsedPoll = await ParseResponseFromUrl(targetURL);
 
-            var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, DefaultPlaceDetailsUrlPattern);
+            var pollInOurFormat = await KudagoConverter.ConvertEventPoll(parsedPoll);
 
             var poll = pollInOurFormat.ToObject<Poll<EventViewModel>>(SnakeCaseSerializer);
 

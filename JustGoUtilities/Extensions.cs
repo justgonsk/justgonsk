@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.View;
 
@@ -28,6 +29,11 @@ namespace JustGoUtilities
         public static Poll<TViewModel> ToPoll<TViewModel>(this IEnumerable<TViewModel> viewModelSequence)
         {
             return new Poll<TViewModel>(viewModelSequence);
+        }
+
+        public static long ToUnixTimeSeconds(this DateTime dateTime)
+        {
+            return new DateTimeOffset(dateTime).ToUnixTimeSeconds();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace JustGo.ServerConfigs
+﻿namespace JustGoUtilities
 {
     public static class Constants
     {

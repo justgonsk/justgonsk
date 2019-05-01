@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using JustGoUtilities.Exceptions;
-using JustGo.ServerConfigs;
 using JustGoModels.Models;
 using JustGoModels.Models.View;
 using JustGoUtilities;
@@ -49,7 +48,7 @@ namespace JustGo.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsAsync<EventViewModel>();
-                result.Place = await GetPlaceById(result.Place.Id ?? -1, Constants.PlaceDetailsUrlPattern);
+                result.Place = await KudagoConverter.GetPlaceById(result.Place.Id ?? -1);
                 return result;
             }
 
@@ -60,7 +59,7 @@ namespace JustGo.Controllers
         {
             var parsedPoll = await ParseResponseFromUrl(Constants.EventPollUrl);
 
-            var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, Constants.PlaceDetailsUrlPattern);
+            var pollInOurFormat = await KudagoConverter.ConvertEventPoll(parsedPoll);
 
             var poll = pollInOurFormat.ToObject<Poll<EventViewModel>>(SnakeCaseSerializer);
 

@@ -29,10 +29,6 @@
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.8" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JustGoModels\JustGoModels.csproj" />
     <ProjectReference Include="..\JustGoUtilities\JustGoUtilities.csproj" />

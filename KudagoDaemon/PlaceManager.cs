@@ -3,6 +3,7 @@ using JustGoModels.Interfaces;
 using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
+using JustGoUtilities;
 using static JustGoUtilities.Utilities;
 
 namespace KudagoDaemon
@@ -25,7 +26,7 @@ namespace KudagoDaemon
         {
             var parsedPoll = await ParseResponseFromUrl(url);
 
-            var pollInOurFormat = await ConvertToOurApiFormat(parsedPoll, placeDetailsUrl);
+            var pollInOurFormat = await KudagoConverter.ConvertEventPoll(parsedPoll);
 
             var poll = pollInOurFormat.ToObject<Poll<EventViewModel>>(SnakeCaseSerializer);
 
