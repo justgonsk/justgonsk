@@ -13,4 +13,11 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JustGoModels\JustGoModels.csproj" />
+    <ProjectReference Include="..\JustGoUtilities\JustGoUtilities.csproj" />
+    <ProjectReference Include="..\JustGo\JustGo.csproj" />
+    <ProjectReference Include="..\KudagoDaemon\KudagoDaemon.csproj" />
+  </ItemGroup>
+
 </Project>

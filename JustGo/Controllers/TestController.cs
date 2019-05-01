@@ -42,7 +42,7 @@ namespace JustGo.Controllers
         [HttpGet("{id}")]
         public async Task<EventViewModel> GetEvent(int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, Constants.EventDetailsUrl + id);
+            var request = new HttpRequestMessage(HttpMethod.Get, string.Format(Constants.EventDetailsUrlPattern, id));
             var response = await httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)

@@ -37,7 +37,7 @@ namespace JustGoUtilities
             return ourPoll;
         }
 
-        private static async Task<JObject> ConvertEvent(JObject kudagoEventInfo)
+        public static async Task<JObject> ConvertEvent(JObject kudagoEventInfo)
         {
             if (kudagoEventInfo == null)
                 throw new ArgumentNullException(nameof(kudagoEventInfo));
@@ -68,7 +68,7 @@ namespace JustGoUtilities
             return eventInfo;
         }
 
-        private static SingleDate[] GetSingleDates(JArray dates)
+        public static SingleDate[] GetSingleDates(JArray dates)
         {
             return dates.Where(entry => !HasSchedules(entry))
             .Select(entry =>
@@ -90,7 +90,7 @@ namespace JustGoUtilities
             .ToArray();
         }
 
-        private static ScheduledDate[] GetScheduledDates(JArray dates)
+        public static ScheduledDate[] GetScheduledDates(JArray dates)
         {
             return dates.Where(HasSchedules)
             .Select(entry =>
@@ -113,14 +113,16 @@ namespace JustGoUtilities
                 );
 
                 return new ScheduledDate(scheduleStart, scheduleEnd, schedules);
-            }).ToArray();
+            })
+            .Where(date => date.ScheduleEnd.Year >= 2019)
+            .ToArray();
         }
 
         private static bool HasSchedules(JToken entry)
         {
             var schedules = (JArray)entry["schedules"];
 
-            return schedules == null || schedules.Count == 0;
+            return schedules != null && schedules.Count != 0;
         }
     }
 }

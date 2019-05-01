@@ -5,7 +5,7 @@
         public const string EventPollUrl =
             "https://kudago.com/public-api/v1.4/events/?location=nsk&expand=dates&fields=id,dates,title,short_title,place,description,categories,images,tags&actual_since=1554508800";
 
-        public const string EventDetailsUrl = "https://kudago.com/public-api/v1.4/events/";
+        public const string EventDetailsUrlPattern = "https://kudago.com/public-api/v1.4/events/{0}?expand=dates";
 
         //32414 - максимальный ID места на кудаго на момент этого коммита
         public const string PlaceDetailsUrlPattern =
