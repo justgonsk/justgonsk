@@ -20,6 +20,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
 
@@ -58,6 +60,7 @@ namespace JustGo
             services.AddCors();
             services.AddHttpClient();
 
+            //Debugger.Launch();
             services.AddDbContext<MainContext>(options =>
             {
                 options.UseLazyLoadingProxies(); //это нужно и для in-memory базы тоже
@@ -65,7 +68,7 @@ namespace JustGo
                 //для локального тестирования (Паша)
                 if (Environment.IsDevelopment())
                 {
-                    options.UseInMemoryDatabase("LocalInMemory");
+                    options.UseInMemoryDatabase("justgo_inmemory");
                 }
 
                 //для локального тестирования (Андрей)
@@ -73,7 +76,8 @@ namespace JustGo
                 {
                     var connectionString = Configuration.GetConnectionString("LocalSQLServer");
 
-                    options.UseSqlServer(connectionString);
+                    options.UseSqlServer(connectionString,
+                        builder => builder.MigrationsAssembly(nameof(JustGo)));
                 }
 
                 //для удалённого тестирования на Heroku
@@ -81,7 +85,8 @@ namespace JustGo
                 {
                     var connectionString = Configuration.GetConnectionString("HerokuPostgres");
 
-                    options.UseNpgsql(connectionString);
+                    options.UseNpgsql(connectionString,
+                        builder => builder.MigrationsAssembly(nameof(JustGo)));
                 }
 
                 //для продакшена на яндекс облаке
@@ -89,7 +94,8 @@ namespace JustGo
                 {
                     var connectionString = Configuration.GetConnectionString("YandexMySQL");
 
-                    options.UseMySQL(connectionString);
+                    options.UseMySQL(connectionString,
+                        builder => builder.MigrationsAssembly(nameof(JustGo)));
                 }
             });
 
