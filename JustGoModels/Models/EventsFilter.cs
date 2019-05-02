@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JustGoModels.Models.View;
 
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-
 namespace JustGoModels.Models
 {
     /// <summary>
@@ -61,6 +58,7 @@ namespace JustGoModels.Models
                    && HasTags(@event)
                    && HasDateFromRange(@event);
         }
+
         private bool HasCategories(Event @event)
         {
             var eventCategories = @event.EventCategories

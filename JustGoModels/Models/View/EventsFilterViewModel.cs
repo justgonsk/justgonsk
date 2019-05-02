@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using JustGoModels.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace JustGoModels.Models.View
 {
