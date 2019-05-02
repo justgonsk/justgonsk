@@ -24,7 +24,6 @@ namespace JustGoUtilities.Data
 
         public DbSet<EventCategory> EventCategories { set; get; }
         public DbSet<EventTag> EventTags { set; get; }
-        public DbSet<EventDate> EventDates { set; get; }
 
         public DbSet<EventsKeyMapping> EventsKeyMappings { set; get; }
         public DbSet<PlacesKeyMapping> PlacesKeyMappings { set; get; }
@@ -34,8 +33,6 @@ namespace JustGoUtilities.Data
         {
             //раскомментировать, если нужно продебажить код создания файлов миграций, исполняемый самой студией
             //Debugger.Launch();
-
-            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -44,6 +41,8 @@ namespace JustGoUtilities.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ForNpgsqlUseIdentityColumns();
+
             modelBuilder.Entity<Event>().Property(t => t.Images)
                 .HasConversion(DbUtilities.ImagesLinksConverter);
 

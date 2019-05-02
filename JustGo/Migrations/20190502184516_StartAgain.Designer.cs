@@ -5,48 +5,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JustGo.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20190419191542_Second")]
-    partial class Second
+    [Migration("20190502184516_StartAgain")]
+    partial class StartAgain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("JustGo.Data.EventsKeyMapping", b =>
-                {
-                    b.Property<int>("KudagoId");
-
-                    b.Property<int>("OurId");
-
-                    b.HasKey("KudagoId");
-
-                    b.HasIndex("OurId");
-
-                    b.ToTable("EventsKeyMappings");
-                });
-
-            modelBuilder.Entity("JustGo.Data.PlacesKeyMapping", b =>
-                {
-                    b.Property<int>("KudagoId");
-
-                    b.Property<int>("OurId");
-
-                    b.HasKey("KudagoId");
-
-                    b.HasIndex("OurId");
-
-                    b.ToTable("PlacesKeyMappings");
-                });
-
-            modelBuilder.Entity("JustGo.Models.Category", b =>
+            modelBuilder.Entity("JustGoModels.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,23 +37,27 @@ namespace JustGo.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("JustGo.Models.Event", b =>
+            modelBuilder.Entity("JustGoModels.Models.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
-                        .IsRequired();
+                    b.Property<string>("BodyText");
+
+                    b.Property<string>("Description");
 
                     b.Property<string>("Images");
 
                     b.Property<int>("PlaceId");
 
+                    b.Property<string>("ScheduledDates");
+
                     b.Property<string>("ShortTitle");
 
-                    b.Property<string>("Title")
-                        .IsRequired();
+                    b.Property<string>("SingleDates");
+
+                    b.Property<string>("Title");
 
                     b.HasKey("Id");
 
@@ -85,7 +66,7 @@ namespace JustGo.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("JustGo.Models.EventCategory", b =>
+            modelBuilder.Entity("JustGoModels.Models.EventCategory", b =>
                 {
                     b.Property<int>("EventId");
 
@@ -98,26 +79,7 @@ namespace JustGo.Migrations
                     b.ToTable("EventCategories");
                 });
 
-            modelBuilder.Entity("JustGo.Models.EventDate", b =>
-                {
-                    b.Property<int>("EventDateId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("End");
-
-                    b.Property<int>("EventId");
-
-                    b.Property<DateTime?>("Start");
-
-                    b.HasKey("EventDateId");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("EventDates");
-                });
-
-            modelBuilder.Entity("JustGo.Models.EventTag", b =>
+            modelBuilder.Entity("JustGoModels.Models.EventTag", b =>
                 {
                     b.Property<int>("EventId");
 
@@ -130,7 +92,7 @@ namespace JustGo.Migrations
                     b.ToTable("EventTags");
                 });
 
-            modelBuilder.Entity("JustGo.Models.Place", b =>
+            modelBuilder.Entity("JustGoModels.Models.Place", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,7 +108,7 @@ namespace JustGo.Migrations
                     b.ToTable("Places");
                 });
 
-            modelBuilder.Entity("JustGo.Models.Tag", b =>
+            modelBuilder.Entity("JustGoModels.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,67 +122,69 @@ namespace JustGo.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("JustGo.Data.EventsKeyMapping", b =>
+            modelBuilder.Entity("JustGoUtilities.Data.EventsKeyMapping", b =>
                 {
-                    b.HasOne("JustGo.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("OurId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<int>("KudagoId");
+
+                    b.Property<int>("OurId");
+
+                    b.HasKey("KudagoId");
+
+                    b.HasIndex("OurId");
+
+                    b.ToTable("EventsKeyMappings");
                 });
 
-            modelBuilder.Entity("JustGo.Data.PlacesKeyMapping", b =>
+            modelBuilder.Entity("JustGoUtilities.Data.PlacesKeyMapping", b =>
                 {
-                    b.HasOne("JustGo.Models.Place", "Place")
-                        .WithMany()
-                        .HasForeignKey("OurId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<int>("KudagoId");
+
+                    b.Property<int>("OurId");
+
+                    b.HasKey("KudagoId");
+
+                    b.HasIndex("OurId");
+
+                    b.ToTable("PlacesKeyMappings");
                 });
 
-            modelBuilder.Entity("JustGo.Models.Event", b =>
+            modelBuilder.Entity("JustGoModels.Models.Event", b =>
                 {
-                    b.HasOne("JustGo.Models.Place", "Place")
+                    b.HasOne("JustGoModels.Models.Place", "Place")
                         .WithMany("Events")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("JustGo.Models.EventCategory", b =>
+            modelBuilder.Entity("JustGoModels.Models.EventCategory", b =>
                 {
-                    b.HasOne("JustGo.Models.Category", "Category")
+                    b.HasOne("JustGoModels.Models.Category", "Category")
                         .WithMany("EventCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("JustGo.Models.Event", "Event")
+                    b.HasOne("JustGoModels.Models.Event", "Event")
                         .WithMany("EventCategories")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("JustGo.Models.EventDate", b =>
+            modelBuilder.Entity("JustGoModels.Models.EventTag", b =>
                 {
-                    b.HasOne("JustGo.Models.Event", "Event")
-                        .WithMany("Dates")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("JustGo.Models.EventTag", b =>
-                {
-                    b.HasOne("JustGo.Models.Event", "Event")
+                    b.HasOne("JustGoModels.Models.Event", "Event")
                         .WithMany("EventTags")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("JustGo.Models.Tag", "Tag")
+                    b.HasOne("JustGoModels.Models.Tag", "Tag")
                         .WithMany("EventTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("JustGo.Models.Place", b =>
+            modelBuilder.Entity("JustGoModels.Models.Place", b =>
                 {
-                    b.OwnsOne("JustGo.Models.Coordinates", "Coordinates", b1 =>
+                    b.OwnsOne("JustGoModels.Models.Coordinates", "Coordinates", b1 =>
                         {
                             b1.Property<int?>("PlaceId")
                                 .ValueGeneratedOnAdd()
@@ -232,11 +196,27 @@ namespace JustGo.Migrations
 
                             b1.ToTable("Places");
 
-                            b1.HasOne("JustGo.Models.Place")
+                            b1.HasOne("JustGoModels.Models.Place")
                                 .WithOne("Coordinates")
-                                .HasForeignKey("JustGo.Models.Coordinates", "PlaceId")
+                                .HasForeignKey("JustGoModels.Models.Coordinates", "PlaceId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
+                });
+
+            modelBuilder.Entity("JustGoUtilities.Data.EventsKeyMapping", b =>
+                {
+                    b.HasOne("JustGoModels.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("OurId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("JustGoUtilities.Data.PlacesKeyMapping", b =>
+                {
+                    b.HasOne("JustGoModels.Models.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("OurId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JustGo.Migrations
 {
-    public partial class Initial : Migration
+    public partial class StartAgain : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,10 +56,13 @@ namespace JustGo.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     PlaceId = table.Column<int>(nullable: false),
-                    Title = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
                     ShortTitle = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: false),
-                    Images = table.Column<string>(nullable: true)
+                    BodyText = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Images = table.Column<string>(nullable: true),
+                    SingleDates = table.Column<string>(nullable: true),
+                    ScheduledDates = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,25 +111,6 @@ namespace JustGo.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EventCategories_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EventDates",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(nullable: false),
-                    Start = table.Column<DateTime>(nullable: false),
-                    End = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EventDates", x => new { x.EventId, x.Start });
-                    table.ForeignKey(
-                        name: "FK_EventDates_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
@@ -206,9 +189,6 @@ namespace JustGo.Migrations
         {
             migrationBuilder.DropTable(
                 name: "EventCategories");
-
-            migrationBuilder.DropTable(
-                name: "EventDates");
 
             migrationBuilder.DropTable(
                 name: "EventsKeyMappings");

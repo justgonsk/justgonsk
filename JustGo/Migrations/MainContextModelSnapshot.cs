@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JustGo.Migrations
 {
@@ -15,6 +16,7 @@ namespace JustGo.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -73,25 +75,6 @@ namespace JustGo.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("EventCategories");
-                });
-
-            modelBuilder.Entity("JustGoModels.Models.EventDate", b =>
-                {
-                    b.Property<int>("EventDateId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("End");
-
-                    b.Property<int>("EventId");
-
-                    b.Property<DateTime?>("Start");
-
-                    b.HasKey("EventDateId");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("EventDates");
                 });
 
             modelBuilder.Entity("JustGoModels.Models.EventTag", b =>
@@ -180,14 +163,6 @@ namespace JustGo.Migrations
 
                     b.HasOne("JustGoModels.Models.Event", "Event")
                         .WithMany("EventCategories")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("JustGoModels.Models.EventDate", b =>
-                {
-                    b.HasOne("JustGoModels.Models.Event", "Event")
-                        .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -65,14 +65,8 @@ namespace JustGo
             {
                 options.UseLazyLoadingProxies(); //это нужно и для in-memory базы тоже
 
-                //для локального тестирования (Паша)
+                //для локального тестирования
                 if (Environment.IsDevelopment())
-                {
-                    options.UseInMemoryDatabase("justgo_inmemory");
-                }
-
-                //для локального тестирования (Андрей)
-                else if (Environment.IsEnvironment("localmssql"))
                 {
                     var connectionString = Configuration.GetConnectionString("LocalSQLServer");
 

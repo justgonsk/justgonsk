@@ -5,44 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190417210035_Initial.cs" />
-    <Compile Remove="Migrations\20190417210035_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190417210820_Initial.cs" />
-    <Compile Remove="Migrations\20190417210820_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190417214237_Initial.cs" />
-    <Compile Remove="Migrations\20190417214237_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190417214815_Initial.cs" />
-    <Compile Remove="Migrations\20190417214815_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190417215119_First.cs" />
-    <Compile Remove="Migrations\20190417215119_First.Designer.cs" />
-    <Compile Remove="Migrations\20190418060225_Initial.cs" />
-    <Compile Remove="Migrations\20190418060225_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190418060637_First.cs" />
-    <Compile Remove="Migrations\20190418060637_First.Designer.cs" />
-    <Compile Remove="Migrations\20190418060740_Initial.cs" />
-    <Compile Remove="Migrations\20190418060740_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190418060937_Initial.cs" />
-    <Compile Remove="Migrations\20190418060937_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190418061811_Initial.cs" />
-    <Compile Remove="Migrations\20190418061811_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190418062715_Initial.cs" />
-    <Compile Remove="Migrations\20190418062715_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190418062837_Initiallll.cs" />
-    <Compile Remove="Migrations\20190418062837_Initiallll.Designer.cs" />
-    <Compile Remove="Migrations\20190418063008_Initiallllllk.cs" />
-    <Compile Remove="Migrations\20190418063008_Initiallllllk.Designer.cs" />
-    <Compile Remove="Migrations\20190418075743_Initial.cs" />
-    <Compile Remove="Migrations\20190418075743_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190418080148_Initial.cs" />
-    <Compile Remove="Migrations\20190418080148_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190418080620_Initial.cs" />
-    <Compile Remove="Migrations\20190418080620_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190419112228_Lazy-Loading-Properties.cs" />
-    <Compile Remove="Migrations\20190419112228_Lazy-Loading-Properties.Designer.cs" />
-    <Compile Remove="Migrations\20190419121405_Lazy-Loading-Properties.cs" />
-    <Compile Remove="Migrations\20190419121405_Lazy-Loading-Properties.Designer.cs" />
-    <Compile Remove="Migrations\20190420154041_Third111111.cs" />
-    <Compile Remove="Migrations\20190420154041_Third111111.Designer.cs" />
+    <Compile Remove="Migrations\20190502174027_StartAgain.cs" />
+    <Compile Remove="Migrations\20190502174027_StartAgain.Designer.cs" />
+    <Compile Remove="Migrations\20190502184345_StartAgain.cs" />
+    <Compile Remove="Migrations\20190502184345_StartAgain.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,12 +19,18 @@
     <PackageReference Include="GeoCoordinate.NetCore" Version="1.0.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
@@ -82,6 +54,7 @@
   </ItemGroup>
 
   <Target Name="PrePublishTarget" AfterTargets="Publish">
-    <Exec Command="dotnet ef database update" />
+   <!--<Exec Command="dotnet ef migrations add Remote" /> -->
+  <Exec Command="dotnet ef database update --verbose" />
   </Target>
 </Project>
