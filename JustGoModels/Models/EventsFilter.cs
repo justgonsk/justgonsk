@@ -58,9 +58,9 @@ namespace JustGoModels.Models
         {
             return PlaceIsFromFilter(@event)
                    && HasCategories(@event)
-                   && HasTags(@event);
+                   && HasTags(@event)
+                   && HasDateFromRange(@event);
         }
-
         private bool HasCategories(Event @event)
         {
             var eventCategories = @event.EventCategories
@@ -84,6 +84,19 @@ namespace JustGoModels.Models
         private bool PlaceIsFromFilter(Event @event)
         {
             return AllowedPlaceIds == null || AllowedPlaceIds.Contains(@event.Place.Id);
+        }
+
+        private bool HasDateFromRange(Event @event)
+        {
+            if (From == null && To == null)
+            {
+                return true;
+            }
+
+            var from = From ?? DateTime.MinValue;
+            var to = To ?? DateTime.MaxValue;
+
+            return @event.FindFirstInRange(from, to) != null;
         }
 
         public bool SatisfiesFilter(EventViewModel @event)

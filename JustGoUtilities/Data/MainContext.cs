@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JustGoModels.Models;
@@ -46,7 +47,13 @@ namespace JustGoUtilities.Data
             modelBuilder.Entity<Event>().Property(t => t.Images)
                 .HasConversion(DbUtilities.ImagesLinksConverter);
 
-            modelBuilder.Entity<Coordinates>(IgnoreBaseProperties);
+            modelBuilder.Entity<Event>().Property(t => t.SingleDates)
+                .HasConversion(DbUtilities.JsonConverter<List<SingleDate>>());
+
+            modelBuilder.Entity<Event>().Property(t => t.ScheduledDates)
+                .HasConversion(DbUtilities.JsonConverter<List<ScheduledDate>>());
+
+            modelBuilder.Entity<Coordinates>(DbUtilities.IgnoreBaseProperties);
 
             modelBuilder.Entity<Place>().OwnsOne(place => place.Coordinates);
 
@@ -55,19 +62,6 @@ namespace JustGoUtilities.Data
 
             modelBuilder.Entity<EventTag>()
                 .HasKey(et => new { et.EventId, et.TagId });
-        }
-
-        private void IgnoreBaseProperties<T>(EntityTypeBuilder<T> builder) where T : class
-        {
-            var baseProperties = typeof(T).BaseType.GetProperties().Select(p => p.Name);
-            var properties = typeof(T)
-                .GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
-                .Select(p => p.Name);
-
-            foreach (var baseProperty in baseProperties.Except(properties))
-            {
-                builder.Ignore(baseProperty);
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using JustGoModels.Models.Edit;
 
@@ -18,46 +19,17 @@ namespace JustGoModels.Models.View
         [Required, MinLength(3), MaxLength(10000)]
         public string Description { get; set; }
 
+        public string BodyText { get; set; }
+
         public PlaceEditModel Place { get; set; } // место проведения
         public List<string> Categories { get; set; } // список категорий
         public List<string> Tags { get; set; }
-        public List<ImageModel> Images { get; set; }
+        public ICollection<ImageModel> Images { get; set; }
 
-        public List<EventDate> Dates { get; set; }
+        public ICollection<SingleDate> SingleDates { get; set; }
+        public ICollection<ScheduledDate> ScheduledDates { get; set; }
 
-        public bool IsSingle => Dates.Count == 1;
-
-        /// <summary>
-        /// Даты (начало и конец) текущего проведения этого мероприятия
-        /// Если такого нет, вернёт null
-        /// </summary>
-        public EventDate Current
-        {
-            get
-            {
-                return Dates
-                    .OrderBy(date => date.ActualStart)
-                    .FirstOrDefault(date =>
-                    {
-                        var startBeforeNow = DateTime.Now > date.ActualStart;
-                        var endAfterNow = DateTime.Now < date.ActualEnd;
-                        return startBeforeNow && endAfterNow;
-                    });
-            }
-        }
-
-        /// <summary>
-        /// Даты (начало и конец) следующего ближайшего проведения этого мероприятия
-        /// Если в будущем не запланировано, вернёт null
-        /// </summary>
-        public EventDate NearestNext
-        {
-            get
-            {
-                return Dates
-                    .OrderBy(date => date.ActualStart)
-                    .FirstOrDefault(date => date.ActualStart > DateTime.Now);
-            }
-        }
+        public SingleDate Current { get; set; }
+        public SingleDate NextOnWeek { get; set; }
     }
 }

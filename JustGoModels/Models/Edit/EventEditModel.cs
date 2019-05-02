@@ -21,6 +21,7 @@ namespace JustGoModels.Models.Edit
         public List<string> Tags { get; set; }
         public List<ImageModel> Images { get; set; }
 
-        public List<EventDate> Dates { get; set; }
+        public List<SingleDate> SingleDates { get; set; }
+        public List<ScheduledDate> ScheduledDates { get; set; }
     }
 }

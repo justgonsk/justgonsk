@@ -31,7 +31,7 @@ namespace JustGoUtilities.Repositories
             var wholeSequence = context.Events
                 .Include(e => e.EventCategories).ThenInclude(ec => ec.Category)
                 .Include(e => e.EventTags).ThenInclude(et => et.Tag)
-                .Include(e => e.Place).Include(e => e.Dates).AsNoTracking();
+                .Include(e => e.Place).AsNoTracking();
 
             if (filter != null)
             {
@@ -113,7 +113,8 @@ namespace JustGoUtilities.Repositories
             @event.Title = viewModel.Title;
             @event.ShortTitle = viewModel.ShortTitle;
             @event.Description = viewModel.Description;
-            @event.Dates = new List<EventDate>(viewModel.Dates);
+            @event.SingleDates = new List<SingleDate>(viewModel.SingleDates);
+            @event.ScheduledDates = new List<ScheduledDate>(viewModel.ScheduledDates);
             @event.Images = new List<ImageModel>(viewModel.Images);
 
             @event.Place = place ?? throw new PlaceNotFoundException(viewModel.Place);
@@ -149,9 +150,14 @@ namespace JustGoUtilities.Repositories
                 @event.Description = editModel.Description;
             }
 
-            if (editModel.Dates != null)
+            if (editModel.SingleDates != null)
             {
-                @event.Dates = new List<EventDate>(editModel.Dates);
+                @event.SingleDates = new List<SingleDate>(editModel.SingleDates);
+            }
+
+            if (editModel.ScheduledDates != null)
+            {
+                @event.ScheduledDates = new List<ScheduledDate>(editModel.ScheduledDates);
             }
 
             if (editModel.Images != null)
