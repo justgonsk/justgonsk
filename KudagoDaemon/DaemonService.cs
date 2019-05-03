@@ -14,6 +14,7 @@ using static KudagoDaemon.PlaceManager;
 using Microsoft.EntityFrameworkCore;
 using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
+using System.Configuration;
 
 namespace KudagoDaemon
 {
@@ -39,6 +40,14 @@ namespace KudagoDaemon
         private readonly ILogger _logger;
         private readonly IOptions<DaemonConfig> _config;
 
+        private void ReadConfigFromFile()
+        {
+            var title = ConfigurationManager.AppSettings["title"];
+            var language = ConfigurationManager.AppSettings["language"];
+
+            Console.WriteLine(string.Format("'{0}' project is created in '{1}' language ", title, language));
+        }
+
         public DaemonService(ILogger<DaemonService> logger, IOptions<DaemonConfig> config)
         {
             _logger = logger;
@@ -53,6 +62,9 @@ namespace KudagoDaemon
             _dbcontext = new MainContext(optionsBuilder.Options);
             eventsRepository = new DbEventsRepository(_dbcontext);
             placesRepository = new DbPlacesRepository(_dbcontext);
+
+            ReadConfigFromFile();
+            ReadConfigFromFile();
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
