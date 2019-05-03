@@ -4,7 +4,7 @@ using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
 using JustGoUtilities;
-using static JustGoUtilities.Utilities;
+using static JustGoModels.Utilities;
 
 namespace KudagoDaemon
 {

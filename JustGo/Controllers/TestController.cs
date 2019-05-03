@@ -6,7 +6,7 @@ using JustGoModels.Models;
 using JustGoModels.Models.View;
 using JustGoUtilities;
 using Microsoft.AspNetCore.Mvc;
-using static JustGoUtilities.Utilities;
+using static JustGoModels.Utilities;
 
 namespace JustGo.Controllers
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using JustGoModels;
 using JustGoModels.Models;
 using JustGoModels.Models.View;
 using JustGoUtilities;
@@ -36,8 +37,10 @@ namespace JustGo.Controllers
             };
 
             viewModel.Current = model.FindCurrent();
+            var novosibirskNow = Utilities.NovosibirskNow;
+
             viewModel.NextOnWeek = model
-                .FindFirstInRange(DateTime.Now, DateTime.Now.AddDays(7));
+                .FindFirstInRange(novosibirskNow, novosibirskNow.AddDays(7));
 
             return Json(viewModel);
         }

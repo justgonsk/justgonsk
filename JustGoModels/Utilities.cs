@@ -1,16 +1,21 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using JustGoModels.Models.View;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace JustGoUtilities
+namespace JustGoModels
 {
     public static class Utilities
     {
+        public static TimeZoneInfo NovosibirskTimeZone { get; } =
+            TimeZoneInfo.FindSystemTimeZoneById("N. Central Asia Standard Time");
+
+        public static DateTime NovosibirskNow
+            => TimeZoneInfo.ConvertTime(DateTime.Now,
+                TimeZoneInfo.Local, NovosibirskTimeZone);
+
         public static JsonSerializerSettings SnakeCaseSettings { get; }
             = new JsonSerializerSettings
             {

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using System.Linq;
 using JustGoModels.Models.View;
 using JustGoUtilities;
-using static JustGoUtilities.Utilities;
+using static JustGoModels.Utilities;
 using static KudagoDaemon.PlaceManager;
 using Microsoft.EntityFrameworkCore;
 using JustGoUtilities.Data;

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using JustGoModels.Models;
 using JustGoModels.Models.View;
 using Newtonsoft.Json.Linq;
-using static JustGoUtilities.Utilities;
+using static JustGoModels.Utilities;
 
 namespace JustGoUtilities
 {

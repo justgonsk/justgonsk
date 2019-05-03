@@ -52,13 +52,13 @@ namespace JustGoModels.Models
 
         private SingleDate FindCurrentInSingleDates()
         {
-            var now = DateTime.Now;
+            var now = Utilities.NovosibirskNow;
             return SingleDates?.FirstOrDefault(sd => sd.Start >= now && sd.End <= now);
         }
 
         private SingleDate FindCurrentInScheduledDates()
         {
-            var now = DateTime.Now;
+            var now = Utilities.NovosibirskNow;
             var currentScheduledDate = ScheduledDates?
                 .FirstOrDefault(sd => sd.ScheduleStart >= now && sd.ScheduleEnd <= now);
             if (currentScheduledDate == null)
@@ -83,8 +83,8 @@ namespace JustGoModels.Models
                 return null;
             }
 
-            var start = DateTime.Today.AddHours(currentSchedule.StartTime?.Hours ?? 0);
-            var end = DateTime.Today.AddHours(currentSchedule.EndTime?.Hours ?? 0);
+            var start = now.Date.AddHours(currentSchedule.StartTime?.Hours ?? 0);
+            var end = now.Date.AddHours(currentSchedule.EndTime?.Hours ?? 0);
 
             return new SingleDate(start, end);
         }
@@ -192,7 +192,7 @@ namespace JustGoModels.Models
 
         public EventViewModel ToViewModel()
         {
-            var now = DateTime.Now;
+            var now = Utilities.NovosibirskNow;
 
             return new EventViewModel
             {

@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using JustGoModels;
 using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
 
