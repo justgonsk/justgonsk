@@ -10,7 +10,7 @@ namespace JustGoModels
     public static class Utilities
     {
         public static TimeZoneInfo NovosibirskTimeZone { get; } =
-            TimeZoneInfo.FindSystemTimeZoneById("N. Central Asia Standard Time");
+            TimeZoneInfo.FindSystemTimeZoneById("Asia/Novosibirsk");
 
         public static DateTime NovosibirskNow
             => TimeZoneInfo.ConvertTime(DateTime.Now,
