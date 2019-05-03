@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace JustGoModels.Models.View
@@ -11,9 +12,7 @@ namespace JustGoModels.Models.View
     /// <typeparam name="T">Класс, элементы которого образуют список</typeparam>
     public class Poll<T>
     {
-        [JsonIgnore]
         public string Next;
-        [JsonIgnore]
         public string Previous;
 
         public Poll(IEnumerable<T> results)

@@ -31,7 +31,16 @@ namespace JustGoUtilities
 
             for (int i = 0; i < results.Count; i++)
             {
-                results[i] = await ConvertEvent((JObject)results[i]);
+                var convertedEvent = await ConvertEvent((JObject)results[i]);
+
+                if (convertedEvent == null)
+                {
+                    results.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+
+                results[i] = convertedEvent;
             }
 
             return ourPoll;

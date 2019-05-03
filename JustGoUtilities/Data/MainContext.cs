@@ -33,6 +33,7 @@ namespace JustGoUtilities.Data
         {
             //раскомментировать, если нужно продебажить код создания файлов миграций, исполняемый самой студией
             //Debugger.Launch();
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
