@@ -111,6 +111,7 @@ namespace JustGoUtilities.Repositories
         {
             var place = await context.Places.FirstOrDefaultAsync(existingPlace => existingPlace.Id == viewModel.Place.Id);
             @event.Title = viewModel.Title;
+            @event.BodyText = viewModel.BodyText;
             @event.ShortTitle = viewModel.ShortTitle;
             @event.Description = viewModel.Description;
             @event.SingleDates = new List<SingleDate>(viewModel.SingleDates);

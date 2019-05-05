@@ -9,7 +9,7 @@ namespace KudagoDaemon
     {
         private const string DefaultEventPollUrlPattern =
             "https://kudago.com/public-api/v1.4/events/?location=nsk&expand=dates&" +
-            "fields=id,dates,title,short_title,place,description,categories,images,tags&actual_since={0}&actual_until={1}";
+            "fields=id,dates,title,short_title,place,description,categories,images,tags,body_text&actual_since={0}&actual_until={1}";
         private const string DefaultEventDetailsUrl = "https://kudago.com/public-api/v1.4/events/";
         private const int DefaultDateTimeRangeLengthInDays = 30;
 
