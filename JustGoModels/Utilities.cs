@@ -40,5 +40,10 @@ namespace JustGoModels
 
             return JObject.Parse(content);
         }
+
+        public static bool IsInRange(this DateTime dateTime, DateTime lower, DateTime upper)
+        {
+            return lower < dateTime && upper > dateTime;
+        }
     }
 }

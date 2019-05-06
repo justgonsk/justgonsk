@@ -48,19 +48,20 @@ namespace JustGoModels.Models
         /// Даты (начало и конец) текущего проведения этого мероприятия
         /// Если такого нет, вернёт null
         /// </summary>
-        public SingleDate FindCurrent() => FindCurrentInSingleDates() ?? FindCurrentInScheduledDates();
+        public SingleDate FindCurrent()
+            => FindCurrentInSingleDates() ?? FindCurrentInScheduledDates();
 
         private SingleDate FindCurrentInSingleDates()
         {
             var now = Utilities.NovosibirskNow;
-            return SingleDates?.FirstOrDefault(sd => sd.Start >= now && sd.End <= now);
+            return SingleDates?.FirstOrDefault(sd => now >= sd.Start && now <= sd.End);
         }
 
         private SingleDate FindCurrentInScheduledDates()
         {
             var now = Utilities.NovosibirskNow;
             var currentScheduledDate = ScheduledDates?
-                .FirstOrDefault(sd => sd.ScheduleStart >= now && sd.ScheduleEnd <= now);
+                .FirstOrDefault(sd => now >= sd.ScheduleStart && now <= sd.ScheduleEnd);
             if (currentScheduledDate == null)
             {
                 return null;
@@ -73,9 +74,8 @@ namespace JustGoModels.Models
                 .Where(sch => sch.DaysOfWeek.Contains(currentDay))
                 .FirstOrDefault(schedule =>
                 {
-                    return schedule.EndTime != null && schedule.StartTime != null
-                           && schedule.StartTime.Value >= currentTime
-                           && schedule.EndTime.Value <= currentTime;
+                    return (!schedule.StartTime.HasValue || currentTime >= schedule.StartTime)
+                           && (!schedule.EndTime.HasValue || currentTime <= schedule.EndTime);
                 });
 
             if (currentSchedule == null)
@@ -83,8 +83,8 @@ namespace JustGoModels.Models
                 return null;
             }
 
-            var start = now.Date.AddHours(currentSchedule.StartTime?.Hours ?? 0);
-            var end = now.Date.AddHours(currentSchedule.EndTime?.Hours ?? 0);
+            var start = now.Date.Add(currentSchedule.StartTime ?? TimeSpan.Zero);
+            var end = now.Date.Add(currentSchedule.EndTime ?? TimeSpan.FromDays(1));
 
             return new SingleDate(start, end);
         }
@@ -121,8 +121,8 @@ namespace JustGoModels.Models
             var scheduledDate = ScheduledDates?
                 .OrderBy(date => date.ScheduleStart)
                 .ThenBy(date => date.ScheduleEnd)
-                .FirstOrDefault(sd => sd.ScheduleStart <= from
-                                      && sd.ScheduleEnd >= to);
+                .FirstOrDefault(sd => from.IsInRange(sd.ScheduleStart, sd.ScheduleEnd)
+                                      || to.IsInRange(sd.ScheduleStart, sd.ScheduleEnd));
 
             if (scheduledDate == null)
             {
