@@ -54,14 +54,14 @@ namespace KudagoDaemon
             return Task.CompletedTask;
         }
 
-        public async Task FillBaseOnce()
+        private async Task FillBaseOnce()
         {
             var events = await GetAllEventsFromTarget();
 
             await PutEventsInDatabase(events);
         }
 
-        public async Task PutEventsInDatabase(Poll<EventViewModel> events)
+        private async Task PutEventsInDatabase(Poll<EventViewModel> events)
         {
             if (events == null)
                 throw new ArgumentNullException(nameof(events));
@@ -72,6 +72,11 @@ namespace KudagoDaemon
             {
                 if (!allEvents.Any(eventFromDb => x.Description == eventFromDb.Description))
                 {
+                    if (x.SingleDates.Count == 0 && x.ScheduledDates.Count == 0)
+                    {
+                        return;
+                    }
+
                     var place = await AddPlaceToDatabase(placesRepository, x.Place);
                     x.Place.Id = place.Id;
 
@@ -82,7 +87,7 @@ namespace KudagoDaemon
             await Task.WhenAll(tasks);
         }
 
-        public async void MainCycle()
+        private async Task MainCycle()
         {
             while (true)
             {
@@ -93,7 +98,7 @@ namespace KudagoDaemon
             }
         }
 
-        public async Task<Poll<EventViewModel>> GetAllEventsFromTarget()
+        private async Task<Poll<EventViewModel>> GetAllEventsFromTarget()
         {
             var nowUnixTimestamp = DateTime.UtcNow.ToUnixTimeSeconds();
             var endRangeTimestamp = DateTime.UtcNow.AddDays(_config.Value.DateTimeRangeLengthInDays).ToUnixTimeSeconds();
@@ -111,7 +116,7 @@ namespace KudagoDaemon
             return result;
         }
 
-        public async Task<Poll<EventViewModel>> GetEventsFromTarget(string targetURL)
+        private async Task<Poll<EventViewModel>> GetEventsFromTarget(string targetURL)
         {
             var parsedPoll = await ParseResponseFromUrl(targetURL);
 
