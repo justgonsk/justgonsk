@@ -19,19 +19,6 @@ namespace KudagoDaemon
 {
     public class DaemonService : IHostedService, IDisposable
     {
-        private const string DefaultEventPollUrlPattern =
-            "https://kudago.com/public-api/v1.4/events/?location=nsk&expand=dates&" +
-            "fields=id,dates,title,short_title,place,description,categories,images,tags&actual_since={0}&actual_until={1}";
-
-        private const string DefaultEventDetailsUrl = "https://kudago.com/public-api/v1.4/events/";
-
-        private const int DateTimeRangeLengthInDays = 30;
-
-        //32414 - максимальный ID места на кудаго на момент этого коммита
-        private const string DefaultPlaceDetailsUrlPattern =
-            "https://kudago.com/public-api/v1.4/places/{0}/?lang=&fields=id,title,address,coords&expand=";
-
-        private int timespan = 600000;
         private MainContext _dbcontext;
         private DbEventsRepository eventsRepository;
         private DbPlacesRepository placesRepository;
@@ -47,7 +34,6 @@ namespace KudagoDaemon
             var dbcontextoptions = new DbContextOptions<MainContext>();
             var optionsBuilder = new DbContextOptionsBuilder<MainContext>();
 
-            //optionsBuilder.UseInMemoryDatabase("LocalInMemory");
             optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
 
             _dbcontext = new MainContext(optionsBuilder.Options);
@@ -100,17 +86,19 @@ namespace KudagoDaemon
         {
             while (true)
             {
+                _config.Value.ReadConfigFromFile("Config.xml");
+
                 await FillBaseOnce();
-                Thread.Sleep(timespan);
+                Thread.Sleep(_config.Value.Timespan);
             }
         }
 
         public async Task<Poll<EventViewModel>> GetAllEventsFromTarget()
         {
             var nowUnixTimestamp = DateTime.UtcNow.ToUnixTimeSeconds();
-            var endRangeTimestamp = DateTime.UtcNow.AddDays(DateTimeRangeLengthInDays).ToUnixTimeSeconds();
+            var endRangeTimestamp = DateTime.UtcNow.AddDays(_config.Value.DateTimeRangeLengthInDays).ToUnixTimeSeconds();
 
-            var events = await GetEventsFromTarget(string.Format(DefaultEventPollUrlPattern, nowUnixTimestamp, endRangeTimestamp));
+            var events = await GetEventsFromTarget(string.Format(_config.Value.EventPollUrlPattern, nowUnixTimestamp, endRangeTimestamp));
             var result = new Poll<EventViewModel>(events.Results);
 
             while (events.Next != null)

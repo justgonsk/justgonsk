@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DaemonSettings>
+    <urls>
+        <EventPollUrlPattern>
+            https://kudago.com/public-api/v1.4/events/?location=nsk&amp;expand=dates&amp;fields=id,dates,title,short_title,place,description,categories,images,tags,body_text&amp;actual_since={0}&amp;actual_until={1}
+        </EventPollUrlPattern>
+        
+        <EventDetailsUrl>
+            https://kudago.com/public-api/v1.4/events/
+        </EventDetailsUrl>
+        
+        <PlaceDetailsUrlPattern>
+            https://kudago.com/public-api/v1.4/places/{0}/?lang=&amp;fields=id,title,address,coords&amp;expand=
+        </PlaceDetailsUrlPattern>
+    </urls>
+    
+    <DateTimeRangeLengthInDays>
+        30
+    </DateTimeRangeLengthInDays>
+    
+    <Timespan>
+        600000
+    </Timespan>
+</DaemonSettings>
