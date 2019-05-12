@@ -1,30 +1,19 @@
-﻿using JustGo.Controllers;
+﻿using System;
+using System.Net;
+using JustGoModels;
 using JustGoModels.Interfaces;
-using JustGoUtilities;
+using JustGoUtilities.Data;
+using JustGoUtilities.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using MySql.Data.EntityFrameworkCore.Extensions;
 using NLog.Extensions.Logging;
 using NLog.Web;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System;
-using System.Diagnostics;
-using System.Reflection;
-using JustGoModels;
-using JustGoUtilities.Data;
-using JustGoUtilities.Repositories;
 
 namespace JustGo
 {
@@ -66,32 +55,10 @@ namespace JustGo
             {
                 options.UseLazyLoadingProxies(); //это нужно и для in-memory базы тоже
 
-                //для локального тестирования
-                if (Environment.IsDevelopment())
-                {
-                    var connectionString = Configuration.GetConnectionString("LocalSQLServer");
+                var connectionString = GetConnectionStringDependingOnEnvironment();
 
-                    options.UseSqlServer(connectionString,
-                        builder => builder.MigrationsAssembly(nameof(JustGo)));
-                }
-
-                //для удалённого тестирования на Heroku
-                else if (Environment.IsStaging())
-                {
-                    var connectionString = Configuration.GetConnectionString("HerokuPostgres");
-
-                    options.UseNpgsql(connectionString,
-                        builder => builder.MigrationsAssembly(nameof(JustGo)));
-                }
-
-                //для продакшена на яндекс облаке
-                else if (Environment.IsProduction())
-                {
-                    var connectionString = Configuration.GetConnectionString("YandexMySQL");
-
-                    options.UseMySQL(connectionString,
-                        builder => builder.MigrationsAssembly(nameof(JustGo)));
-                }
+                options.UseMySQL(connectionString,
+                    builder => builder.MigrationsAssembly(nameof(JustGo)));
             });
 
             services.AddScoped<IEventsRepository, DbEventsRepository>();
@@ -124,6 +91,33 @@ namespace JustGo
             app.AddNLogWeb();
 
             app.UseMvc();
+        }
+
+        private string GetConnectionStringDependingOnEnvironment()
+        {
+            //для локального тестирования
+            if (Environment.IsDevelopment())
+            {
+                return Configuration.GetConnectionString("LocalMySQL");
+            }
+
+            //для удалённого тестирования на Heroku
+
+            if (Environment.IsStaging())
+            {
+                return Configuration.GetConnectionString("HerokuMySQL");
+            }
+
+            //для продакшена на яндекс облаке
+
+            if (Environment.IsProduction())
+            {
+                return Configuration.GetConnectionString("YandexMySQL");
+            }
+
+            var message = $"Custom environments, such as {Environment.EnvironmentName}, are not supported";
+
+            throw new NotSupportedException(message);
         }
     }
 }

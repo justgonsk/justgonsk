@@ -44,6 +44,6 @@
     <ProjectReference Include="..\JustGoUtilities\JustGoUtilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\netcoreapp2.1\Config.xml" />
+    <Folder Include="bin\Debug\netcoreapp2.1\" />
   </ItemGroup>
 </Project>
