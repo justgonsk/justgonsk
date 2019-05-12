@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -9,12 +10,16 @@ namespace JustGoModels
 {
     public static class Utilities
     {
-        public static TimeZoneInfo NovosibirskTimeZone { get; } =
-            TimeZoneInfo.FindSystemTimeZoneById("Asia/Novosibirsk");
+        public static readonly TimeZoneInfo novosibirskTimeZone =
+            TimeZoneInfo.GetSystemTimeZones().First(zone =>
+            {
+                var zoneId = zone.Id;
+                return zoneId.Contains("Novosibirsk") || zoneId.Contains("N. Central");
+            });
 
         public static DateTime NovosibirskNow
             => TimeZoneInfo.ConvertTime(DateTime.Now,
-                TimeZoneInfo.Local, NovosibirskTimeZone);
+                TimeZoneInfo.Local, novosibirskTimeZone);
 
         public static JsonSerializerSettings SnakeCaseSettings { get; }
             = new JsonSerializerSettings
