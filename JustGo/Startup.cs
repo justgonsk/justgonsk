@@ -2,6 +2,7 @@
 using System.Net;
 using JustGoModels;
 using JustGoModels.Interfaces;
+using JustGoModels.Models.Auth;
 using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
 using Microsoft.AspNetCore.Builder;

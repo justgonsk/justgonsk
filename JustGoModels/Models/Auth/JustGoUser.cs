@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace JustGo
+namespace JustGoModels.Models.Auth
 {
     public class JustGoUser : IdentityUser
     {

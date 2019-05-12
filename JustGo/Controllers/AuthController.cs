@@ -23,7 +23,6 @@ namespace JustGo.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromBody] RegisterData data)
         {
             if (ModelState.IsValid)
@@ -44,7 +43,6 @@ namespace JustGo.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginData data)
         {
             if (ModelState.IsValid)

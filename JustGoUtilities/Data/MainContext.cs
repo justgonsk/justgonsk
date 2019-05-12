@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JustGoModels.Models;
+using JustGoModels.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -27,6 +28,8 @@ namespace JustGoUtilities.Data
 
         public DbSet<EventsKeyMapping> EventsKeyMappings { set; get; }
         public DbSet<PlacesKeyMapping> PlacesKeyMappings { set; get; }
+
+        public DbSet<JustGoUser> Users { set; get; }
 
         public MainContext(DbContextOptions<MainContext> options)
             : base(options)
