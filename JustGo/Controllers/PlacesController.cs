@@ -3,6 +3,7 @@ using JustGoUtilities.Exceptions;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JustGo.Controllers
@@ -86,6 +87,7 @@ namespace JustGo.Controllers
         */
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<PlaceViewModel>> UpdatePlaceAsync([FromRoute] int id,
             [FromBody] PlaceEditModel eventViewModel)
         {
@@ -106,6 +108,7 @@ namespace JustGo.Controllers
 
         // DELETE: api/Places/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePlaceAsync([FromRoute] int id)
         {
             if (!ModelState.IsValid)

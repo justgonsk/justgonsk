@@ -6,7 +6,9 @@ using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +38,12 @@ namespace JustGo
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
             });
 
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
@@ -61,6 +69,10 @@ namespace JustGo
                     builder => builder.MigrationsAssembly(nameof(JustGo)));
             });
 
+            services.AddDefaultIdentity<JustGoUser>()
+                .AddEntityFrameworkStores<MainContext>()
+                .AddDefaultTokenProviders();
+
             services.AddScoped<IEventsRepository, DbEventsRepository>();
             services.AddScoped<IPlacesRepository, DbPlacesRepository>();
         }
@@ -76,6 +88,7 @@ namespace JustGo
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -89,6 +102,10 @@ namespace JustGo
             loggerFactory.AddNLog();
 
             app.AddNLogWeb();
+
+            app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }

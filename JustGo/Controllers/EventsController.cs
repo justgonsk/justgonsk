@@ -5,6 +5,7 @@ using JustGoModels.Interfaces;
 using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JustGo.Controllers
@@ -157,6 +158,7 @@ namespace JustGo.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<EventViewModel>> UpdateEventAsync([FromRoute] int id,
             [FromBody] EventEditModel editViewModel)
         {
@@ -177,6 +179,7 @@ namespace JustGo.Controllers
 
         // DELETE: api/Events/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteEventAsync([FromRoute] int id)
         {
             if (!ModelState.IsValid)
