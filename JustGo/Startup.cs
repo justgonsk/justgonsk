@@ -70,7 +70,14 @@ namespace JustGo
                     builder => builder.MigrationsAssembly(nameof(JustGo)));
             });
 
-            services.AddDefaultIdentity<JustGoUser>()
+            services.AddDefaultIdentity<JustGoUser>(options =>
+                {
+                    options.Password.RequiredLength = 5;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                 .AddEntityFrameworkStores<MainContext>()
                 .AddDefaultTokenProviders();
 

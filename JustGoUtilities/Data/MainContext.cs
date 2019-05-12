@@ -65,6 +65,8 @@ namespace JustGoUtilities.Data
 
             modelBuilder.Entity<EventTag>()
                 .HasKey(et => new { et.EventId, et.TagId });
+
+            modelBuilder.Entity<JustGoUser>(DbUtilities.SaveBoolPropertiesAsInt);
         }
     }
 }

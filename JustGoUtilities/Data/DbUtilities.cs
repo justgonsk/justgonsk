@@ -79,5 +79,18 @@ namespace JustGoUtilities.Data
                 builder.Ignore(baseProperty);
             }
         }
+
+        public static void SaveBoolPropertiesAsInt<T>(this EntityTypeBuilder<T> builder) where T : class
+        {
+            var boolProperties = typeof(T)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.PropertyType == typeof(bool))
+                .Select(p => p.Name);
+
+            foreach (var boolProperty in boolProperties)
+            {
+                builder.Property(boolProperty).HasConversion(typeof(int));
+            }
+        }
     }
 }

@@ -29,9 +29,9 @@ namespace JustGo.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<int>("EmailConfirmed");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<int>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
@@ -43,11 +43,11 @@ namespace JustGo.Migrations
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<int>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<int>("TwoFactorEnabled");
 
                     b.Property<string>("UserName");
 

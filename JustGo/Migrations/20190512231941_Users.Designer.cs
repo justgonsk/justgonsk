@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JustGo.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20190512225907_Users")]
+    [Migration("20190512231941_Users")]
     partial class Users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,9 @@ namespace JustGo.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<int>("EmailConfirmed");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<int>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
@@ -45,11 +45,11 @@ namespace JustGo.Migrations
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<int>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<int>("TwoFactorEnabled");
 
                     b.Property<string>("UserName");
 
