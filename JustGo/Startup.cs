@@ -71,12 +71,15 @@ namespace JustGo
                     builder => builder.MigrationsAssembly(nameof(JustGo)));
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie("Identity.Application", options =>
-            {
-                options.AccessDeniedPath = "/api/auth/AccessDenied";
-                options.LoginPath = "/api/auth/Login";
-            });
+            services.AddAuthentication(IdentityConstants.ApplicationScheme)
+                .AddIdentityCookies(opts =>
+                {
+                    opts.ApplicationCookie.Configure(options =>
+                    {
+                        options.AccessDeniedPath = "/api/auth/AccessDenied";
+                        options.LoginPath = "/api/auth/Login";
+                    });
+                });
 
             services.AddIdentityCore<JustGoUser>(options =>
                 {
