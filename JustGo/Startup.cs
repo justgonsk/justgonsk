@@ -72,7 +72,7 @@ namespace JustGo
             });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            .AddCookie("Identity.Application", options =>
             {
                 options.AccessDeniedPath = "/api/auth/AccessDenied";
                 options.LoginPath = "/api/auth/Login";
@@ -114,7 +114,6 @@ namespace JustGo
             }
 
             app.UseCors(builder => builder.AllowAnyOrigin());
-
             app.UseHttpsRedirection();
 
             loggerFactory.AddNLog();
