@@ -5,6 +5,7 @@ using JustGoModels.Interfaces;
 using JustGoModels.Models.Auth;
 using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -70,7 +71,14 @@ namespace JustGo
                     builder => builder.MigrationsAssembly(nameof(JustGo)));
             });
 
-            services.AddDefaultIdentity<JustGoUser>(options =>
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.AccessDeniedPath = "/api/auth/AccessDenied";
+                options.LoginPath = "/api/auth/Login";
+            });
+
+            services.AddIdentityCore<JustGoUser>(options =>
                 {
                     options.Password.RequiredLength = 5;
                     options.Password.RequireDigit = false;
@@ -78,6 +86,8 @@ namespace JustGo
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                 })
+                .AddSignInManager<SignInManager<JustGoUser>>()
+                .AddUserManager<UserManager<JustGoUser>>()
                 .AddEntityFrameworkStores<MainContext>()
                 .AddDefaultTokenProviders();
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGoModels.Models.Auth;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +59,12 @@ namespace JustGo.Controllers
             }
 
             return BadRequest(ModelState);
+        }
+
+        public async Task AccessDenied()
+        {
+            Response.StatusCode = StatusCodes.Status403Forbidden;
+            await Response.WriteAsync("Invalid credentials");
         }
     }
 }

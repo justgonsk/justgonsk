@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using JustGoModels.Models;
 using JustGoModels.Models.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -30,6 +31,7 @@ namespace JustGoUtilities.Data
         public DbSet<PlacesKeyMapping> PlacesKeyMappings { set; get; }
 
         public DbSet<JustGoUser> Users { set; get; }
+        public DbSet<IdentityUserClaim<string>> Claims { get; set; }
 
         public MainContext(DbContextOptions<MainContext> options)
             : base(options)
