@@ -14,5 +14,12 @@
         public const int EventsPollDaemonTimespan = 600000;
 
         public const string CategoriesKey = "categories";
+
+        public static string[] VKSearchQueries =
+        {
+            " "
+        };
+
+        public static string DefaultVKSearchQuery = " ";
     }
 }
