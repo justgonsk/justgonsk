@@ -18,6 +18,8 @@ namespace JustGoModels.Models.View
 
         public string BodyText { get; set; }
 
+        public string Source { get; set; }
+
         public PlaceEditModel Place { get; set; } // место проведения
         public List<string> Categories { get; set; } // список категорий
         public List<string> Tags { get; set; }

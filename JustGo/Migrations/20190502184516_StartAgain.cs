@@ -59,6 +59,7 @@ namespace JustGo.Migrations
                     Title = table.Column<string>(nullable: true),
                     ShortTitle = table.Column<string>(nullable: true),
                     BodyText = table.Column<string>(nullable: true),
+                    Source = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Images = table.Column<string>(nullable: true),
                     SingleDates = table.Column<string>(nullable: true),

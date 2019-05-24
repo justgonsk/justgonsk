@@ -74,6 +74,7 @@ namespace KudagoDaemon
                 {
                     var place = await AddPlaceToDatabase(placesRepository, x.Place);
                     x.Place.Id = place.Id;
+                    x.Source = "kudago.com";
 
                     await eventsRepository.AddAsync(x);
                 }

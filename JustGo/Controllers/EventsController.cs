@@ -126,6 +126,7 @@ namespace JustGo.Controllers
                 }
             ],
             "short_title": "Шедевры импрессионизма. Том 1. Винсент Ван Гог и Эдуард Мане",
+            "source": "Kudago.com"           
             "tags": [
                 "шоу (развлечения)",
                 "мультимедиа",
@@ -143,6 +144,7 @@ namespace JustGo.Controllers
         #endregion EXAMPLE
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<EventViewModel>> AddEventAsync([FromBody] EventViewModel eventViewModel)
         {
             if (!ModelState.IsValid)
