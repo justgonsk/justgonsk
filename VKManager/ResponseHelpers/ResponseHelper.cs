@@ -11,8 +11,8 @@ namespace VKManager.ResponseHelpers
     public static class ResponseHelper
     {
         private static string urlPattern = "https://api.vk.com/method/groups.search?q={0}" +
-        	"&access_token=5604cd62e4baff93200099fc1bdd4704f90415f35f29f299b157f4f87d836524c3b21b72504a97bf19e2d&v=5.92" +
-        	"&city_id=99&count=900&future=1&type=event";
+            "&access_token=5604cd62e4baff93200099fc1bdd4704f90415f35f29f299b157f4f87d836524c3b21b72504a97bf19e2d&v=5.92" +
+            "&city_id=99&count=900&future=1&type=event";
 
         public static async Task<Poll<VKEventModel>> GetAllEventsFromTarget()
         {
@@ -26,7 +26,7 @@ namespace VKManager.ResponseHelpers
 
             var content = await response.Content.ReadAsStringAsync();
 
-            return JObject.Parse(content);
+            return JObject.Parse(content).ToObject<Poll<VKEventModel>>();
         }
     }
 }
