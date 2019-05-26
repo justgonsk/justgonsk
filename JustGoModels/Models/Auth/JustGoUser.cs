@@ -1,9 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using JustGoModels.Interfaces;
+using JustGoModels.Models.View;
+using Microsoft.AspNetCore.Identity;
 
 namespace JustGoModels.Models.Auth
 {
-    public class JustGoUser : IdentityUser
+    public class JustGoUser : IdentityUser, IConvertibleToViewModel<JustGoUserViewModel>
     {
-        //сюда возможно добавим какие-то свои свойства, например список избранных событий
+        public JustGoUserViewModel ToViewModel()
+        {
+            return new JustGoUserViewModel
+            {
+                UserName = UserName,
+                Email = Email
+            };
+        }
     }
 }

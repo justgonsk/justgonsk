@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JustGoModels.Models.Auth;
+using JustGoUtilities.Exceptions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JustGo.Controllers
 {
     [Route("api/[controller]/[action]")]
+    [StubExceptionFilter]
     [ApiController]
     public class AuthController : Controller
     {
@@ -44,7 +47,7 @@ namespace JustGo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginData data)
+        public async Task<IActionResult> Login([FromBody]  LoginData data)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +62,15 @@ namespace JustGo.Controllers
             }
 
             return BadRequest(ModelState);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Info()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+
+            return Ok(currentUser.ToViewModel());
         }
 
         public async Task AccessDenied()
