@@ -116,7 +116,14 @@ namespace JustGo
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://jgo-test.azurewebsites.net/").AllowCredentials();
+                builder.WithOrigins("https://jgo-test.azurewebsites.net/").AllowCredentials();
+
+                builder.WithOrigins("http://jgo.azurewebsites.net//").AllowCredentials();
+                builder.WithOrigins("https://jgo.azurewebsites.net//").AllowCredentials();
+            });
             app.UseHttpsRedirection();
 
             loggerFactory.AddNLog();
@@ -135,7 +142,7 @@ namespace JustGo
             //для локального тестирования
             if (Environment.IsDevelopment())
             {
-                return Configuration.GetConnectionString("YandexMySQL");
+                return Configuration.GetConnectionString("LocalMySQL");
             }
 
             //для удалённого тестирования на Heroku
