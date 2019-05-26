@@ -126,7 +126,7 @@ namespace JustGo.Controllers
                 }
             ],
             "short_title": "Шедевры импрессионизма. Том 1. Винсент Ван Гог и Эдуард Мане",
-            "source": "Kudago.com"           
+            "source": "Kudago.com",           
             "tags": [
                 "шоу (развлечения)",
                 "мультимедиа",

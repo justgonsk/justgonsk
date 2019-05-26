@@ -8,6 +8,7 @@
   <ItemGroup>
     <Folder Include="ResponseHelpers\" />
     <Folder Include="Config\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JustGoModels\JustGoModels.csproj" />

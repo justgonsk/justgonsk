@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using JustGoModels.Models.View;
 using JustGoUtilities;
 using Newtonsoft.Json.Linq;
+using Models;
 
 namespace VKManager.ResponseHelpers
 {
@@ -13,7 +14,7 @@ namespace VKManager.ResponseHelpers
         	"&access_token=5604cd62e4baff93200099fc1bdd4704f90415f35f29f299b157f4f87d836524c3b21b72504a97bf19e2d&v=5.92" +
         	"&city_id=99&count=900&future=1&type=event";
 
-        public static async Task<Poll<EventViewModel>> GetAllEventsFromTarget()
+        public static async Task<Poll<VKEventModel>> GetAllEventsFromTarget()
         {
             var httpClient = new HttpClient();
 
