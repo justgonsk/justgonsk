@@ -13,7 +13,7 @@ namespace JustGoModels.Models.View
 
         public string ShortTitle { get; set; }
 
-        [Required, MinLength(3), MaxLength(10000)]
+        [Required, MinLength(55), MaxLength(10000)]
         public string Description { get; set; }
 
         public string BodyText { get; set; }
