@@ -6,6 +6,7 @@ using JustGoModels.Models.Edit;
 
 namespace JustGoModels.Models.View
 {
+    //Это видимо не понадобится, но пусть будет, на всякий
     public class EventInstance
     {
         public int? Id { get; set; }

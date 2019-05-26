@@ -63,8 +63,6 @@ namespace JustGo.Controllers
 
             var poll = pollInOurFormat.ToObject<Poll<EventViewModel>>(SnakeCaseSerializer);
 
-            // kudago выдаёт неправильный count, поэтому пересчитываем сами
-            poll.Count = poll.Results.Count;
             return poll;
         }
     }

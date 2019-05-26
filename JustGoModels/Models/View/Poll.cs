@@ -12,8 +12,8 @@ namespace JustGoModels.Models.View
     /// <typeparam name="T">Класс, элементы которого образуют список</typeparam>
     public class Poll<T>
     {
-        public string Next;
-        public string Previous;
+        public string Next { get; }
+        public string Previous { get; }
 
         public Poll(IEnumerable<T> results)
         {
@@ -21,11 +21,10 @@ namespace JustGoModels.Models.View
                 throw new ArgumentNullException(nameof(results));
 
             Results = results.ToList();
-            Count = Results.Count;
         }
 
-        public long Count { get; set; }
-        public List<T> Results { get; set; }
+        public List<T> Results { get; }
+        public long Count => Results.Count;
 
         public void AddRange(Poll<T> poll)
         {
@@ -33,7 +32,6 @@ namespace JustGoModels.Models.View
                 throw new ArgumentNullException(nameof(poll));
 
             Results.AddRange(poll.Results);
-            Count += poll.Count;
         }
 
         // FilterBy был перемещён в сам класс фильтра
