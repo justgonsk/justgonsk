@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Security.Claims;
 using JustGoModels;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Auth;
@@ -59,7 +60,6 @@ namespace JustGo
 
             services.AddCors();
             services.AddHttpClient();
-
             //Debugger.Launch();
             services.AddDbContext<MainContext>(options =>
             {
@@ -121,8 +121,8 @@ namespace JustGo
                 builder.WithOrigins("http://jgo-test.azurewebsites.net/").AllowCredentials();
                 builder.WithOrigins("https://jgo-test.azurewebsites.net/").AllowCredentials();
 
-                builder.WithOrigins("http://jgo.azurewebsites.net//").AllowCredentials();
-                builder.WithOrigins("https://jgo.azurewebsites.net//").AllowCredentials();
+                builder.WithOrigins("http://jgo.azurewebsites.net/").AllowCredentials();
+                builder.WithOrigins("https://jgo.azurewebsites.net/").AllowCredentials();
             });
             app.UseHttpsRedirection();
 
