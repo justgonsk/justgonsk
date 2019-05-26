@@ -116,7 +116,7 @@ namespace JustGo
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             app.UseHttpsRedirection();
 
             loggerFactory.AddNLog();
