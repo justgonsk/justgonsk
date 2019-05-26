@@ -164,7 +164,7 @@ namespace JustGoTests
         }
 
         [Test]
-        public async Task SingleDatesParsedProperlyAsync()
+        public void SingleDatesParsedProperly()
         {
             var datesArray = JArray.Parse(DatesTest);
             var singleDates = KudagoConverter.GetSingleDates(datesArray);
@@ -175,7 +175,7 @@ namespace JustGoTests
         }
 
         [Test]
-        public async Task ScheduledDatesParsedProperlyAsync()
+        public void ScheduledDatesParsedProperly()
         {
             var datesArray = JArray.Parse(DatesTest);
             var scheduledDates = KudagoConverter.GetScheduledDates(datesArray);
