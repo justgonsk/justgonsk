@@ -34,6 +34,12 @@ namespace JustGoModels.Models
 
         public string Description { get; set; }
 
+        /// <summary>
+        /// Откуда пришло наше событие (источник)
+        /// </summary>
+        /// <value>The source.</value>
+        public string Source { get; set; }
+
         public virtual ICollection<EventCategory> EventCategories { get; set; }
 
         public virtual ICollection<EventTag> EventTags { get; set; }
@@ -201,6 +207,7 @@ namespace JustGoModels.Models
                 ShortTitle = ShortTitle,
                 Description = Description,
                 BodyText = BodyText,
+                Source = Source,
                 SingleDates = SingleDates,
                 ScheduledDates = ScheduledDates,
                 Images = Images,

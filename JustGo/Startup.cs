@@ -135,7 +135,7 @@ namespace JustGo
             //для локального тестирования
             if (Environment.IsDevelopment())
             {
-                return Configuration.GetConnectionString("LocalMySQL");
+                return Configuration.GetConnectionString("YandexMySQL");
             }
 
             //для удалённого тестирования на Heroku

@@ -13,10 +13,12 @@ namespace JustGoModels.Models.View
 
         public string ShortTitle { get; set; }
 
-        [Required, MinLength(3), MaxLength(10000)]
+        [Required, MinLength(55), MaxLength(10000)]
         public string Description { get; set; }
 
         public string BodyText { get; set; }
+
+        public string Source { get; set; }
 
         public PlaceEditModel Place { get; set; } // место проведения
         public List<string> Categories { get; set; } // список категорий

@@ -72,8 +72,20 @@ namespace KudagoDaemon
             {
                 if (!allEvents.Any(eventFromDb => x.Description == eventFromDb.Description))
                 {
-                    var place = await AddPlaceToDatabase(placesRepository, x.Place);
-                    x.Place.Id = place.Id;
+                    var allPlaces = placesRepository.EnumerateAll();
+                    JustGoModels.Models.Place placeForEvent;
+
+                    if (allPlaces.Any(place => place.Title == x.Place.Title))
+                    {
+                        placeForEvent = allPlaces.First(place => place.Title == x.Place.Title);
+                    }
+                    else
+                    {
+                        placeForEvent = await AddPlaceToDatabase(placesRepository, x.Place);
+                    }
+
+                    x.Place.Id = placeForEvent.Id;
+                    x.Source = "kudago.com";
 
                     await eventsRepository.AddAsync(x);
                 }
