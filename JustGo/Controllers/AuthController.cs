@@ -68,6 +68,7 @@ namespace JustGo.Controllers
         [HttpGet]
         public async Task<IActionResult> Info()
         {
+            Console.WriteLine(HttpContext.Request.Cookies[".AspNetCore.Identity.Application"]);
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
 
             return Ok(currentUser.ToViewModel());
