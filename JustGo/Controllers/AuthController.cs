@@ -79,11 +79,12 @@ namespace JustGo.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "Users")]
+        [Authorize(Roles = "Users")]
         public async Task<IActionResult> Info()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
 
+            var b = await userManager.IsInRoleAsync(currentUser, "Users");
             return Ok(currentUser.ToViewModel());
         }
 
