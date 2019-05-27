@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -49,6 +51,18 @@ namespace JustGoModels
         public static bool IsInRange(this DateTime dateTime, DateTime lower, DateTime upper)
         {
             return lower < dateTime && upper > dateTime;
+        }
+
+        public static async Task AddInitialRoles(this IServiceProvider services, params string[] initialRoleNames)
+        {
+            var roleManager = services.GetService<RoleManager<IdentityRole>>();
+            foreach (var roleName in initialRoleNames)
+            {
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
         }
     }
 }

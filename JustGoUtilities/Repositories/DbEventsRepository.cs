@@ -41,9 +41,9 @@ namespace JustGoUtilities.Repositories
             var limitedSequence = wholeSequence
                 .Skip(offset ?? 0).Take(count ?? 100);
 
-            return limitedSequence.AsEnumerable()
-                .AsViewModels<Event, EventViewModel>()
-                .ToPoll();
+            var onlyModerated = limitedSequence.Where(e => e.IsModerated);
+
+            return onlyModerated.AsEnumerable().ToPoll<Event, EventViewModel>();
         }
 
         public async Task<Event> AddAsync(EventViewModel viewModel)
@@ -142,9 +142,19 @@ namespace JustGoUtilities.Repositories
                 @event.Title = editModel.Title;
             }
 
+            if (editModel.IsModerated != null)
+            {
+                @event.IsModerated = editModel.IsModerated.Value;
+            }
+
             if (editModel.ShortTitle != null)
             {
                 @event.ShortTitle = editModel.ShortTitle;
+            }
+
+            if (editModel.Source != null)
+            {
+                @event.Source = editModel.Source;
             }
 
             if (editModel.Description != null)

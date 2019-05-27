@@ -34,7 +34,7 @@ namespace KudagoDaemon
             var dbcontextoptions = new DbContextOptions<MainContext>();
             var optionsBuilder = new DbContextOptionsBuilder<MainContext>();
 
-            optionsBuilder.UseMySQL("Server = localhost; Database = JustGo; User = root; Password = password;");
+            optionsBuilder.UseMySql("Server = localhost; Database = JustGo; User = root; Password = password;");
 
             _dbcontext = new MainContext(optionsBuilder.Options);
             eventsRepository = new DbEventsRepository(_dbcontext);
@@ -86,6 +86,7 @@ namespace KudagoDaemon
 
                     x.Place.Id = placeForEvent.Id;
                     x.Source = "kudago.com";
+                    x.IsModerated = true;
 
                     await eventsRepository.AddAsync(x);
                 }

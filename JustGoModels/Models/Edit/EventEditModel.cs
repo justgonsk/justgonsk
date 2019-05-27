@@ -10,7 +10,11 @@ namespace JustGoModels.Models.Edit
     {
         public int? Id { get; set; }
 
+        public bool? IsModerated { get; set; }
+
         public string Title { get; set; }
+
+        public string Source { get; set; }
 
         public string ShortTitle { get; set; }
 

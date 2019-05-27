@@ -42,6 +42,22 @@ namespace JustGoUtilities.Data
             );
         }
 
+        public static ValueConverter<bool, int> BoolToIntConverter()
+        {
+            return new ValueConverter<bool, int>(
+                b => Convert.ToInt32(b),
+                i => Convert.ToBoolean(i)
+            );
+        }
+
+        public static ValueConverter<bool, short> BoolToShortConverter()
+        {
+            return new ValueConverter<bool, short>(
+                b => Convert.ToInt16(b),
+                i => Convert.ToBoolean(i)
+            );
+        }
+
         /// <summary>
         /// Загружает из базы все навигационные свойства сущности рекурсивно
         /// </summary>
@@ -80,16 +96,29 @@ namespace JustGoUtilities.Data
             }
         }
 
-        public static void SaveBoolPropertiesAsInt<T>(this EntityTypeBuilder<T> builder) where T : class
+        public static void SaveBoolAsBit<T>(this EntityTypeBuilder<T> builder) where T : class
         {
-            var boolProperties = typeof(T)
+            var properties = typeof(T)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(p => p.PropertyType == typeof(bool))
                 .Select(p => p.Name);
 
-            foreach (var boolProperty in boolProperties)
+            foreach (var boolProperty in properties)
             {
-                builder.Property(boolProperty).HasConversion(typeof(int));
+                builder.Property(boolProperty).HasColumnType("BIT");
+            }
+        }
+
+        public static void SaveStringAsVarchar100<T>(this EntityTypeBuilder<T> builder) where T : class
+        {
+            var properties = typeof(T)
+                .GetProperties(/*BindingFlags.Public | BindingFlags.Instance*/)
+                .Where(p => p.PropertyType == typeof(string))
+                .Select(p => p.Name);
+
+            foreach (var stringProperty in properties)
+            {
+                builder.Property(stringProperty).HasColumnType("varchar(100)");
             }
         }
     }

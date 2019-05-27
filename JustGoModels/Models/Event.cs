@@ -17,6 +17,11 @@ namespace JustGoModels.Models
         public int Id { get; set; }
 
         /// <summary>
+        /// Если true - значит событие добавил обычный пользователь и оно ещё не прошло модерацию
+        /// </summary>
+        public bool IsModerated { get; set; }
+
+        /// <summary>
         /// Навигационное свойство <see cref="Place"/> и внешний ключ <see cref="PlaceId"/>
         /// </summary>
         public virtual Place Place { get; set; }
@@ -203,6 +208,7 @@ namespace JustGoModels.Models
             return new EventViewModel
             {
                 Id = Id,
+                IsModerated = IsModerated,
                 Title = Title,
                 ShortTitle = ShortTitle,
                 Description = Description,

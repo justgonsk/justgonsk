@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Security.Claims;
+using JustGo.Policies;
 using JustGoModels;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Auth;
@@ -17,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MySql.Data.EntityFrameworkCore.Extensions;
 using NLog.Extensions.Logging;
 using NLog.Web;
 
@@ -60,18 +64,27 @@ namespace JustGo
 
             services.AddCors();
             services.AddHttpClient();
-            //Debugger.Launch();
+
+            // Debugger.Launch();
             services.AddDbContext<MainContext>(options =>
             {
                 options.UseLazyLoadingProxies(); //это нужно и для in-memory базы тоже
 
                 var connectionString = GetConnectionStringDependingOnEnvironment();
 
-                options.UseMySQL(connectionString,
+                options.UseMySql(connectionString,
                     builder => builder.MigrationsAssembly(nameof(JustGo)));
             });
 
-            services.AddAuthentication(IdentityConstants.ApplicationScheme)
+            services.AddAuthentication(options
+                    =>
+                {
+                    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultForbidScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+                })
                 .AddIdentityCookies(opts =>
                 {
                     opts.ApplicationCookie.Configure(options =>
@@ -82,17 +95,27 @@ namespace JustGo
                 });
 
             services.AddIdentityCore<JustGoUser>(options =>
-                {
-                    options.Password.RequiredLength = 5;
-                    options.Password.RequireDigit = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                })
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddSignInManager<SignInManager<JustGoUser>>()
                 .AddUserManager<UserManager<JustGoUser>>()
+                .AddRoles<IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddEntityFrameworkStores<MainContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(nameof(Admins), opts => opts.RequireRole(nameof(Admins)));
+                options.AddPolicy(nameof(Users), opts => opts.RequireRole(nameof(Users)));
+            });
+
+            services.AddAuthorization();
 
             services.AddScoped<IEventsRepository, DbEventsRepository>();
             services.AddScoped<IPlacesRepository, DbPlacesRepository>();
@@ -135,6 +158,8 @@ namespace JustGo
             app.UseAuthentication();
 
             app.UseMvc();
+
+            app.ApplicationServices.AddInitialRoles(nameof(Admins), nameof(Users)).Wait();
         }
 
         private string GetConnectionStringDependingOnEnvironment()

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using JustGo.Policies;
 using JustGoUtilities.Exceptions;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Edit;
@@ -61,6 +62,7 @@ namespace JustGo.Controllers
         */
 
         [HttpPost]
+        [Authorize(Roles = nameof(Admins))]
         public async Task<ActionResult<PlaceViewModel>> AddPlaceAsync([FromBody] PlaceViewModel eventViewModel)
         {
             if (!ModelState.IsValid)
@@ -87,7 +89,7 @@ namespace JustGo.Controllers
         */
 
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Roles = nameof(Admins))]
         public async Task<ActionResult<PlaceViewModel>> UpdatePlaceAsync([FromRoute] int id,
             [FromBody] PlaceEditModel eventViewModel)
         {
@@ -108,7 +110,7 @@ namespace JustGo.Controllers
 
         // DELETE: api/Places/5
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = nameof(Admins))]
         public async Task<IActionResult> DeletePlaceAsync([FromRoute] int id)
         {
             if (!ModelState.IsValid)

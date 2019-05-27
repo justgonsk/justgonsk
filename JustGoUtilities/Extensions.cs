@@ -31,6 +31,12 @@ namespace JustGoUtilities
             return new Poll<TViewModel>(viewModelSequence);
         }
 
+        public static Poll<TViewModel> ToPoll<TModel, TViewModel>(this IEnumerable<TModel> modelSequence)
+            where TModel : IConvertibleToViewModel<TViewModel>
+        {
+            return modelSequence.AsViewModels<TModel, TViewModel>().ToPoll();
+        }
+
         public static long ToUnixTimeSeconds(this DateTime dateTime)
         {
             return new DateTimeOffset(dateTime).ToUnixTimeSeconds();

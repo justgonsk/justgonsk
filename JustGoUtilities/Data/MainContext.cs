@@ -5,6 +5,7 @@ using System.Reflection;
 using JustGoModels.Models;
 using JustGoModels.Models.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,7 +18,7 @@ namespace JustGoUtilities.Data
     /// будут строиться таблицы
     /// </summary>
 
-    public class MainContext : DbContext
+    public class MainContext : IdentityDbContext<JustGoUser>
     {
         public DbSet<Event> Events { set; get; }
         public DbSet<Place> Places { set; get; }
@@ -30,9 +31,6 @@ namespace JustGoUtilities.Data
         public DbSet<EventsKeyMapping> EventsKeyMappings { set; get; }
         public DbSet<PlacesKeyMapping> PlacesKeyMappings { set; get; }
 
-        public DbSet<JustGoUser> Users { set; get; }
-        public DbSet<IdentityUserClaim<string>> Claims { get; set; }
-
         public MainContext(DbContextOptions<MainContext> options)
             : base(options)
         {
@@ -41,12 +39,10 @@ namespace JustGoUtilities.Data
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ForNpgsqlUseIdentityColumns();
 
             modelBuilder.Entity<Event>().Property(t => t.Images)
@@ -68,7 +64,20 @@ namespace JustGoUtilities.Data
             modelBuilder.Entity<EventTag>()
                 .HasKey(et => new { et.EventId, et.TagId });
 
-            modelBuilder.Entity<JustGoUser>(DbUtilities.SaveBoolPropertiesAsInt);
+            modelBuilder.Entity<JustGoUser>(DbUtilities.SaveBoolAsBit);
+            modelBuilder.Entity<JustGoUser>(DbUtilities.SaveStringAsVarchar100);
+
+            modelBuilder.Entity<IdentityUserClaim<string>>(DbUtilities.SaveBoolAsBit);
+            modelBuilder.Entity<IdentityUserClaim<string>>(DbUtilities.SaveStringAsVarchar100);
+
+            modelBuilder.Entity<IdentityUserLogin<string>>(DbUtilities.SaveBoolAsBit);
+            modelBuilder.Entity<IdentityUserLogin<string>>(DbUtilities.SaveStringAsVarchar100);
+
+            modelBuilder.Entity<IdentityUserRole<string>>(DbUtilities.SaveBoolAsBit);
+            modelBuilder.Entity<IdentityUserRole<string>>(DbUtilities.SaveStringAsVarchar100);
+
+            modelBuilder.Entity<IdentityUserToken<string>>(DbUtilities.SaveBoolAsBit);
+            modelBuilder.Entity<IdentityUserToken<string>>(DbUtilities.SaveStringAsVarchar100);
         }
     }
 }

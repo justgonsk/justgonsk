@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190502174027_StartAgain.cs" />
-    <Compile Remove="Migrations\20190502174027_StartAgain.Designer.cs" />
-    <Compile Remove="Migrations\20190502184345_StartAgain.cs" />
-    <Compile Remove="Migrations\20190502184345_StartAgain.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -44,14 +37,13 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.4" />
   </ItemGroup>
   
   <ItemGroup>
     <None Update="C:\Users\Андрей\.nuget\packages\nlog.config\4.6.2\contentFiles\any\any\NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.16" />
   </ItemGroup>
   
   <ItemGroup>

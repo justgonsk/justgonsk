@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using JustGo.Policies;
 using JustGoUtilities.Exceptions;
 using JustGoModels.Interfaces;
 using JustGoModels.Models;
@@ -126,7 +127,7 @@ namespace JustGo.Controllers
                 }
             ],
             "short_title": "Шедевры импрессионизма. Том 1. Винсент Ван Гог и Эдуард Мане",
-            "source": "Kudago.com",           
+            "source": "Kudago.com",
             "tags": [
                 "шоу (развлечения)",
                 "мультимедиа",
@@ -151,6 +152,9 @@ namespace JustGo.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            eventViewModel.Source = User.Identity.Name;
+            eventViewModel.IsModerated = User.IsInRole(nameof(Admins));
 
             var @event = await eventsRepository.AddAsync(eventViewModel);
 
@@ -181,7 +185,7 @@ namespace JustGo.Controllers
 
         // DELETE: api/Events/5
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = nameof(Admins))]
         public async Task<IActionResult> DeleteEventAsync([FromRoute] int id)
         {
             if (!ModelState.IsValid)

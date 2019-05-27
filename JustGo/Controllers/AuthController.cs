@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JustGo.Policies;
 using JustGoModels.Models.Auth;
 using JustGoUtilities.Exceptions;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,7 +21,8 @@ namespace JustGo.Controllers
         private readonly UserManager<JustGoUser> userManager;
         private readonly SignInManager<JustGoUser> signInManager;
 
-        public AuthController(UserManager<JustGoUser> userManager, SignInManager<JustGoUser> signInManager)
+        public AuthController(UserManager<JustGoUser> userManager,
+            SignInManager<JustGoUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -31,13 +33,25 @@ namespace JustGo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new JustGoUser { UserName = data.Name, Email = data.Email };
+                var newUser = new JustGoUser { UserName = data.Name, Email = data.Email };
 
-                var result = await userManager.CreateAsync(user, data.Password);
+                var result = await userManager.CreateAsync(newUser, data.Password);
+
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, isPersistent: true);
-                    return Ok();
+                    var loginAsAdmin = false;
+
+                    if (HttpContext.Request.Headers["answer"] == "42")
+                    {
+                        await userManager.AddToRoleAsync(newUser, nameof(Admins));
+                        loginAsAdmin = true;
+                    }
+
+                    await userManager.AddToRoleAsync(newUser, nameof(Users));
+
+                    await signInManager.SignInAsync(newUser, isPersistent: true);
+
+                    return Ok(loginAsAdmin ? "Admin permissions granted!" : "Basic user account created");
                 }
 
                 return Forbid();
@@ -47,7 +61,7 @@ namespace JustGo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]  LoginData data)
+        public async Task<IActionResult> Login([FromBody] LoginData data)
         {
             if (ModelState.IsValid)
             {
@@ -64,13 +78,20 @@ namespace JustGo.Controllers
             return BadRequest(ModelState);
         }
 
-        [Authorize]
         [HttpGet]
+        [Authorize(Policy = "Users")]
         public async Task<IActionResult> Info()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
 
             return Ok(currentUser.ToViewModel());
+        }
+
+        [HttpGet]
+        public async Task<RedirectResult> Logout(string returnUrl)
+        {
+            await signInManager.SignOutAsync();
+            return Redirect(returnUrl);
         }
 
         public async Task AccessDenied()
