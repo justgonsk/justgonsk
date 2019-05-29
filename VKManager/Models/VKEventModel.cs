@@ -1,8 +1,6 @@
-﻿using System;
-namespace Models
+﻿namespace Models
 {
     public class VKEventModel
     {
-
     }
 }

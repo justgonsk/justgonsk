@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using JustGoUtilities.Exceptions;
 using JustGoModels.Interfaces;
-using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
 using JustGoModels.Policies;
@@ -216,7 +214,6 @@ namespace JustGo.Controllers
             {
                 return Forbid();
             }
-
 
             @event = await eventsRepository.UpdateAsync(id, editViewModel);
 

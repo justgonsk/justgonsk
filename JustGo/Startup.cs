@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
-using System.Security.Claims;
 using JustGoModels;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Auth;
 using JustGoModels.Policies;
 using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,8 +16,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MySql.Data.EntityFrameworkCore.Extensions;
-using Newtonsoft.Json;
 using NLog.Extensions.Logging;
 using NLog.Web;
 

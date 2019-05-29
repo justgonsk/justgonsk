@@ -9,7 +9,6 @@ using JustGoUtilities;
 using JustGoUtilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 
 namespace JustGo.Controllers
 {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using JustGoModels.Interfaces;
 using JustGoModels.Models;
@@ -9,7 +7,6 @@ using JustGoModels.Models.View;
 using JustGoModels.Policies;
 using JustGoUtilities;
 using JustGoUtilities.Exceptions;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

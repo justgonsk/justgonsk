@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JustGoModels.Interfaces;
+﻿using JustGoModels.Interfaces;
 using JustGoModels.Models.View;
 using Microsoft.AspNetCore.Identity;
 

@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 
 namespace KudagoDaemon
@@ -10,6 +9,7 @@ namespace KudagoDaemon
         private const string DefaultEventPollUrlPattern =
             "https://kudago.com/public-api/v1.4/events/?location=nsk&expand=dates&" +
             "fields=id,dates,title,short_title,place,description,categories,images,tags,body_text&actual_since={0}&actual_until={1}";
+
         private const string DefaultEventDetailsUrl = "https://kudago.com/public-api/v1.4/events/";
         private const int DefaultDateTimeRangeLengthInDays = 30;
 
@@ -52,7 +52,7 @@ namespace KudagoDaemon
                     Timespan = int.Parse(daemonSettingsRoot.Element("Timespan").Value);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Exception " + e.ToString() + " when read config file");
                 UseDefaults();

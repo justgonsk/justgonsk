@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace JustGoModels.Models.View
+﻿namespace JustGoModels.Models.View
 {
     public class JustGoUserViewModel
     {
