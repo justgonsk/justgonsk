@@ -51,7 +51,6 @@ namespace JustGoUtilities.Repositories
             var newEvent = new Event();
 
             await AssignProperties(newEvent, viewModel);
-
             context.Events.Add(newEvent);
 
             await context.SaveChangesAsync();
@@ -152,10 +151,11 @@ namespace JustGoUtilities.Repositories
                 @event.ShortTitle = editModel.ShortTitle;
             }
 
-            if (editModel.Source != null)
+            //source shouldnt be updated
+            /*if (editModel.Source != null)
             {
                 @event.Source = editModel.Source;
-            }
+            }*/
 
             if (editModel.Description != null)
             {

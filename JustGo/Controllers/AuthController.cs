@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JustGo.Policies;
+using JustGoModels.Interfaces;
+using JustGoModels.Models;
 using JustGoModels.Models.Auth;
+using JustGoModels.Models.View;
+using JustGoModels.Policies;
+using JustGoUtilities;
 using JustGoUtilities.Exceptions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace JustGo.Controllers
 {
@@ -33,28 +38,30 @@ namespace JustGo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newUser = new JustGoUser { UserName = data.Name, Email = data.Email };
+                var newUser = new JustGoUser
+                {
+                    UserName = data.Name,
+                    Email = data.Email
+                };
 
                 var result = await userManager.CreateAsync(newUser, data.Password);
 
-                if (result.Succeeded)
+                if (!result.Succeeded)
+                    return Forbid();
+
+                var loginAsAdmin = false;
+
+                if (HttpContext.Request.Headers["answer"] == "42")
                 {
-                    var loginAsAdmin = false;
-
-                    if (HttpContext.Request.Headers["answer"] == "42")
-                    {
-                        await userManager.AddToRoleAsync(newUser, nameof(Admins));
-                        loginAsAdmin = true;
-                    }
-
-                    await userManager.AddToRoleAsync(newUser, nameof(Users));
-
-                    await signInManager.SignInAsync(newUser, isPersistent: true);
-
-                    return Ok(loginAsAdmin ? "Admin permissions granted!" : "Basic user account created");
+                    await userManager.AddToRoleAsync(newUser, nameof(Admins));
+                    loginAsAdmin = true;
                 }
 
-                return Forbid();
+                await userManager.AddToRoleAsync(newUser, nameof(Users));
+
+                await signInManager.SignInAsync(newUser, isPersistent: true);
+
+                return Ok($"Registered account {User.Identity.Name}" + (loginAsAdmin ? " WITH ADMIN PRIVILEGES!" : "."));
             }
 
             return BadRequest(ModelState);
@@ -63,36 +70,42 @@ namespace JustGo.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginData data)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await signInManager
-                    .PasswordSignInAsync(data.Name, data.Password, isPersistent: true, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    return Ok();
-                }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                return Unauthorized();
+            await signInManager.SignOutAsync();
+
+            var result = await signInManager
+                .PasswordSignInAsync(data.Name, data.Password, isPersistent: true, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                return Ok($"Signed in as {data.Name}. Is admin account: {this.IsAdmin()}");
             }
 
-            return BadRequest(ModelState);
+            return Unauthorized();
         }
 
         [HttpGet]
-        [Authorize(Roles = "Users")]
+        [Authorize(Roles = nameof(Users))]
         public async Task<IActionResult> Info()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var eventsRepository = HttpContext.RequestServices.GetService<IEventsRepository>();
+            var username = User.Identity.Name;
 
-            var b = await userManager.IsInRoleAsync(currentUser, "Users");
-            return Ok(currentUser.ToViewModel());
+            var userInfo = currentUser.ToViewModel();
+            userInfo.IsAdmin = this.IsAdmin();
+            userInfo.AddedEvents = eventsRepository.EnumerateAll()
+                .Where(ev => ev.Source == username).ToPoll<Event, EventViewModel>();
+            return Ok(userInfo);
         }
 
         [HttpGet]
-        public async Task<RedirectResult> Logout(string returnUrl)
+        [Authorize]
+        public async Task<OkObjectResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return Redirect(returnUrl);
+            return Ok($"Logout from {User.Identity.Name}");
         }
 
         public async Task AccessDenied()

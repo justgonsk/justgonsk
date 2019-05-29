@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Security.Claims;
-using JustGo.Policies;
 using JustGoModels;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Auth;
+using JustGoModels.Policies;
 using JustGoUtilities.Data;
 using JustGoUtilities.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySql.Data.EntityFrameworkCore.Extensions;
+using Newtonsoft.Json;
 using NLog.Extensions.Logging;
 using NLog.Web;
 
@@ -90,7 +91,7 @@ namespace JustGo
                     opts.ApplicationCookie.Configure(options =>
                     {
                         options.AccessDeniedPath = "/api/auth/AccessDenied";
-                        options.LoginPath = "/api/auth/Login";
+                        options.LoginPath = "/api/auth/login";
                     });
                 });
 
@@ -115,7 +116,8 @@ namespace JustGo
                 options.AddPolicy(nameof(Users), opts => opts.RequireRole(nameof(Users)));
             });
 
-            services.AddAuthorization();
+            services.AddScoped<IUserClaimsPrincipalFactory<JustGoUser>,
+                UserClaimsPrincipalFactory<JustGoUser, IdentityRole>>();
 
             services.AddScoped<IEventsRepository, DbEventsRepository>();
             services.AddScoped<IPlacesRepository, DbPlacesRepository>();

@@ -7,5 +7,6 @@ install:
   - dotnet restore
 
 script:
+ - dotnet restore 
  - dotnet build
  - dotnet test JustGoTests/JustGoTests.csproj

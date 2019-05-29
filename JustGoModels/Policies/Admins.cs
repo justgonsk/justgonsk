@@ -1,4 +1,4 @@
-﻿namespace JustGo.Policies
+﻿namespace JustGoModels.Policies
 {
     public class Admins
     {

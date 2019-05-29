@@ -6,12 +6,7 @@ namespace JustGoModels.Models
 {
     public class ScheduledDate : IValidatableObject
     {
-        [Range(typeof(DateTime), "01/01/2019", "01/01/2021",
-            ErrorMessage = "Дата должна быть от 01.01.2019 до 01.01.2021")]
         public DateTime ScheduleStart { get; }
-
-        [Range(typeof(DateTime), "01/01/2019", "01/01/2021",
-            ErrorMessage = "Дата должна быть от 01.01.2019 до 01.01.2021")]
         public DateTime ScheduleEnd { get; }
 
         public List<Schedule> Schedules { get; }

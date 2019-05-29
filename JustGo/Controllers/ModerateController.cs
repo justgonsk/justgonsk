@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using JustGo.Policies;
 using JustGoModels.Interfaces;
 using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
+using JustGoModels.Policies;
 using JustGoUtilities;
 using JustGoUtilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -33,8 +33,8 @@ namespace JustGo.Controllers
                 .Where(e => !e.IsModerated).ToPoll<Event, EventViewModel>();
         }
 
-        // PUT: api/Moderate/Accept/2903
-        [HttpPut("[action]/{id}")]
+        // PUT: api/Moderate/2903
+        [HttpPut("{id}")]
         public async Task<IActionResult> Accept([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -52,8 +52,8 @@ namespace JustGo.Controllers
             return Ok(@event.ToViewModel());
         }
 
-        // PUT: api/Moderate/Decline/2903
-        [HttpPut("[action]/{id}")]
+        // DELETE: api/Moderate/2903
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Decline([FromRoute] int id)
         {
             return await new EventsController(eventsRepository).DeleteEventAsync(id);

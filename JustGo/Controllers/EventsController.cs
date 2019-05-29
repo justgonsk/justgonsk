@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using JustGo.Policies;
 using JustGoUtilities.Exceptions;
 using JustGoModels.Interfaces;
 using JustGoModels.Models;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
+using JustGoModels.Policies;
+using JustGoUtilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -83,17 +84,6 @@ namespace JustGo.Controllers
         /* POST: api/Events
     json:
 {
-        "dates": [
-                    {
-                        "start": "2016-07-01",
-                        "end": "2016-10-02"
-                    },
-                    {
-                        "start": "2019-02-12",
-                        "end": "2019-05-12"
-                    }
-
-            ],
             "title": "выставка «Шедевры импрессионизма. Том 1. Винсент Ван Гог и Эдуард Мане»",
             "place": {
                 "id": 32250
@@ -138,7 +128,44 @@ namespace JustGo.Controllers
                 "картины, живопись, графика",
                 "выставки",
                 "12+"
-            ]
+            ],
+            "single_dates": [
+            {
+                "start": "2019-06-03T09:00:00",
+                "end": "2019-06-14T14:30:00"
+            },
+            {
+                "start": "2019-06-17T09:00:00",
+                "end": "2019-06-28T14:30:00"
+            },
+            {
+                "start": "2019-07-01T09:00:00",
+                "end": "2019-07-12T14:30:00"
+            },
+            {
+                "start": "2019-08-01T09:00:00",
+                "end": "2019-08-14T14:30:00"
+            }
+        ],
+
+        "scheduled_dates": [
+            {
+                "schedule_start": "0001-01-03T03:30:00",
+                "schedule_end": "9999-01-01T04:00:00",
+                "schedules": [
+                    {
+                        "days_of_week": [
+                            1,
+                            2,
+                            3,
+                            5
+                        ],
+                        "start_time": "16:00:00",
+                        "end_time": "17:30:00"
+                    }
+                ]
+            }
+        ]
 }
 */
 
@@ -154,7 +181,7 @@ namespace JustGo.Controllers
             }
 
             eventViewModel.Source = User.Identity.Name;
-            eventViewModel.IsModerated = User.IsInRole(nameof(Admins));
+            eventViewModel.Moderated = this.IsAdmin();
 
             var @event = await eventsRepository.AddAsync(eventViewModel);
 
@@ -164,7 +191,7 @@ namespace JustGo.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Roles = nameof(Users))]
         public async Task<ActionResult<EventViewModel>> UpdateEventAsync([FromRoute] int id,
             [FromBody] EventEditModel editViewModel)
         {
@@ -178,7 +205,20 @@ namespace JustGo.Controllers
                 return NotFound();
             }
 
-            var @event = await eventsRepository.UpdateAsync(id, editViewModel);
+            var @event = await eventsRepository.FindAsync(id);
+
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            if (@event.Source != User.Identity.Name && !this.IsAdmin())
+            {
+                return Forbid();
+            }
+
+
+            @event = await eventsRepository.UpdateAsync(id, editViewModel);
 
             return @event.ToViewModel();
         }

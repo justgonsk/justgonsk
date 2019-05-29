@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using JustGo.Policies;
 using JustGoUtilities.Exceptions;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.Edit;
 using JustGoModels.Models.View;
+using JustGoModels.Policies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,7 +62,7 @@ namespace JustGo.Controllers
         */
 
         [HttpPost]
-        [Authorize(Roles = nameof(Admins))]
+        [Authorize(Roles = nameof(Users))]
         public async Task<ActionResult<PlaceViewModel>> AddPlaceAsync([FromBody] PlaceViewModel eventViewModel)
         {
             if (!ModelState.IsValid)

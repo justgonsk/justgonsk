@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using JustGoModels.Interfaces;
 using JustGoModels.Models.View;
+using JustGoModels.Policies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace JustGoUtilities
 {
@@ -41,5 +43,7 @@ namespace JustGoUtilities
         {
             return new DateTimeOffset(dateTime).ToUnixTimeSeconds();
         }
+
+        public static bool IsAdmin(this Controller controller) => controller.User.IsInRole(nameof(Admins));
     }
 }

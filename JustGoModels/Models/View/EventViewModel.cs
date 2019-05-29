@@ -8,7 +8,7 @@ namespace JustGoModels.Models.View
     {
         public int? Id { get; set; }
 
-        public bool IsModerated { get; set; }
+        public bool Moderated { get; set; }
 
         [Required, MinLength(3), MaxLength(300)]
         public string Title { get; set; }

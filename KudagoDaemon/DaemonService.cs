@@ -86,7 +86,7 @@ namespace KudagoDaemon
 
                     x.Place.Id = placeForEvent.Id;
                     x.Source = "kudago.com";
-                    x.IsModerated = true;
+                    x.Moderated = true;
 
                     await eventsRepository.AddAsync(x);
                 }

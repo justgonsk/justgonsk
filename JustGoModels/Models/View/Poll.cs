@@ -12,7 +12,10 @@ namespace JustGoModels.Models.View
     /// <typeparam name="T">Класс, элементы которого образуют список</typeparam>
     public class Poll<T>
     {
+        [JsonIgnore]
         public string Next { get; }
+
+        [JsonIgnore]
         public string Previous { get; }
 
         public Poll(IEnumerable<T> results)

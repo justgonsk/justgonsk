@@ -208,7 +208,7 @@ namespace JustGoModels.Models
             return new EventViewModel
             {
                 Id = Id,
-                IsModerated = IsModerated,
+                Moderated = IsModerated,
                 Title = Title,
                 ShortTitle = ShortTitle,
                 Description = Description,

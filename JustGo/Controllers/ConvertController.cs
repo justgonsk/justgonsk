@@ -25,7 +25,7 @@ namespace JustGo.Controllers
 
             if (serialized == null)
             {
-                return new JsonResult("Place of this event is not set on Kudago");
+                return Json("Place of this event is not set on Kudago");
             }
 
             var viewModel = serialized.ToObject<EventViewModel>(Utilities.SnakeCaseSerializer);
